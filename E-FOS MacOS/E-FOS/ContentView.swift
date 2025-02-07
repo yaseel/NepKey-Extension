@@ -67,7 +67,7 @@ struct ContentView: View {
                             showInfoSheet = true
                         } label: {
                             HStack {
-                                Image("tms_icon")
+                                Image("tms_focus_icon")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 24, height: 24)
@@ -90,7 +90,7 @@ struct ContentView: View {
                                 .font(.footnote)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
-                                .background(hoverFocusModeCopy ? Color.blue.opacity(0.2) : Color.clear)
+                                .background(hoverFocusModeCopy ? Color.blue.opacity(0.5) : Color.blue)
                                 .cornerRadius(4)
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -105,7 +105,7 @@ struct ContentView: View {
                             Image(systemName: "info.circle")
                                 .foregroundColor(.primary)
                                 .padding(4)
-                                .background(hoverFocusModeInfo ? Color.blue.opacity(0.2) : Color.clear)
+                                .background(hoverFocusModeInfo ? Color.blue.opacity(0.5) : Color.clear)
                                 .cornerRadius(4)
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -176,7 +176,7 @@ struct ContentView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text("1. Open TMS in your browser.")
                                 Text("2. Open the **task** you want to focus on.")
-                                Text("3. Click the address bar.")
+                                Text("3. Click the search bar of your browser.")
                                 Text("4. Paste the copied JavaScript (`Cmd + V`).")
                                 Text("5. Press Enter to apply Focus Mode.")
                                 Text("To undo this feature refresh the page.")
