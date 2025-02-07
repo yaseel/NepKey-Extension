@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "e-fos-icon.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
