@@ -74,7 +74,6 @@ struct ContentView: View {
                                 
                                 Text("TMS Focus Mode")
                                     .font(.body)
-                                    .bold()
                                 
                                 Spacer()
                             }
