@@ -1,56 +1,89 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isHovered: [Bool] = [false, false, false, false] // Tracks hover states for all buttons
+
     var body: some View {
-        VStack(spacing: 20) {
-            Text("E-FOS")
-                .font(.largeTitle)
-                .bold()
-                .padding()
+        ZStack {
+            Color(nsColor: NSColor.controlBackgroundColor)
+                .edgesIgnoringSafeArea(.all)
 
-            HStack(spacing: 40) {
-                VStack {
-                    Link(destination: URL(string: "https://neptun.elte.hu")!) {
-                        VStack {
-                            Image("neptun_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                            Text("Neptun")
-                                .font(.headline)
-                        }
-                    }
+            VStack(spacing: 0) {
+                // Title and Description
+                Text("E-FOS")
+                    .font(.largeTitle)
+                    .bold()
+                    .padding(.vertical, 8)
+
+                Text("ELTE Felhasználóbarát Offline Segéd")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 16)
+
+                // Menu Buttons
+                VStack(spacing: 0) {
+                    menuButton(title: "Neptun", shortcut: "", iconName: "neptun_icon", link: "https://neptun.elte.hu", index: 0)
+                    menuButton(title: "Canvas", shortcut: "", iconName: "canvas_icon", link: "https://canvas.elte.hu", index: 1)
+                    menuButton(title: "TMS", shortcut: "", iconName: "tms_icon", link: "https://tms.inf.elte.hu", index: 2)
                 }
+                .background(Color(.controlBackgroundColor)) // macOS menu background
 
-                VStack {
-                    Link(destination: URL(string: "https://canvas.elte.hu")!) {
-                        VStack {
-                            Image("canvas_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                            Text("Canvas")
-                                .font(.headline)
-                        }
+                // Quit Button Styled Like macOS
+                Button(action: {
+                    NSApplication.shared.terminate(nil)
+                }) {
+                    HStack {
+                        Text("Quit E-FOS")
+                        Spacer()
+                        Text("⌘Q")
+                            .foregroundColor(.gray)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 12)
+                    .contentShape(Rectangle()) // Makes entire row clickable
                 }
-
-                VStack {
-                    Link(destination: URL(string: "https://tms.inf.elte.hu")!) {
-                        VStack {
-                            Image("tms_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                            Text("TMS")
-                                .font(.headline)
-                        }
-                    }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.vertical, 8)
+                .background(isHovered[3] ? Color.blue.opacity(0.2) : Color.clear) // Hover effect
+                .cornerRadius(4)
+                .onHover { hovering in
+                    isHovered[3] = hovering
                 }
             }
             .padding()
+            .frame(width: 300, height: 400)
         }
-        .padding()
+    }
+
+    // Menu Button Helper
+    private func menuButton(title: String, shortcut: String, iconName: String, link: String, index: Int) -> some View {
+        Button(action: {
+            if let url = URL(string: link) {
+                NSWorkspace.shared.open(url)
+            }
+        }) {
+            HStack {
+                Image(iconName) // Your PNG icon
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
+                Text(title)
+                Spacer()
+                Text(shortcut)
+                    .foregroundColor(.gray)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 12)
+            .contentShape(Rectangle()) // Makes entire row clickable
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding(.vertical, 8)
+        .background(isHovered[index] ? Color.blue.opacity(0.2) : Color.clear) // Hover effect
+        .cornerRadius(4)
+        .onHover { hovering in
+            isHovered[index] = hovering
+        }
     }
 }
 

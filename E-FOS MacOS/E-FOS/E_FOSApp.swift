@@ -16,14 +16,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var popover: NSPopover!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        print("App launched") // Debug log
-
+        // Create the popover
         popover = NSPopover()
         popover.contentSize = NSSize(width: 300, height: 400)
-        popover.behavior = .transient
+        popover.behavior = .transient // Automatically close when clicking outside
         popover.contentViewController = NSHostingController(rootView: ContentView())
-        print("Popover created") // Debug log
 
+        // Create the menubar item
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem.button {
             button.image = NSImage(systemSymbolName: "star", accessibilityDescription: "E-FOS")
@@ -31,14 +30,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-
     @objc func togglePopover(_ sender: AnyObject?) {
         if let button = statusItem.button {
             if popover.isShown {
                 popover.performClose(sender)
             } else {
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+                // Close popover when clicking outside
+                DispatchQueue.main.async {
+                    self.addEventMonitor()
+                }
             }
         }
     }
+
+    func addEventMonitor() {
+        NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+            self?.popover.performClose(nil)
+        }
+    }
 }
+
