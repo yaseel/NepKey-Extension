@@ -12,7 +12,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log("Login fields found. Inserting credentials.");
         userInput.value = request.code;
         passInput.value = request.password;
-        // Dispatch an "input" event so that any attached listeners are notified.
         userInput.dispatchEvent(new Event("input", { bubbles: true }));
         passInput.dispatchEvent(new Event("input", { bubbles: true }));
         console.log("Credentials inserted.");

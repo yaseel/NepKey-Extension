@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const settings = JSON.parse(settingsStr);
       if (settings.enabled) {
         console.log("[Popup] Auto-login enabled. Sending message to background.");
-        // Delegate tab opening and credential filling to the background.
+        // Delegate the task to the background script.
         browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
         return;
       } else {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     openNewTab(urls.neptun);
   });
 
-  // Other buttons
+  // Other button listeners
   document.getElementById("canvasButton").addEventListener("click", () => {
     openNewTab(urls.canvas);
   });

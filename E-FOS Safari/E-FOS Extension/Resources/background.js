@@ -8,6 +8,8 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Open a new tab with the Neptun login page.
     browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login" }).then((tab) => {
       console.log("[Background] New tab created. Tab ID:", tab.id);
+      // Force the new tab to be active.
+      browser.tabs.update(tab.id, { active: true });
       // Listen for the tab to finish loading.
       browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
         if (tabId === tab.id && changeInfo.status === "complete") {
@@ -22,7 +24,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
             console.log("[Background] Received response from content script:", response);
           }).catch((error) => {
             console.error("[Background] sendMessage error:", error);
-            // Fallback: direct injection via scripting.
+            // Fallback: direct injection.
             browser.scripting.executeScript({
               target: { tabId: tab.id },
               func: function(code, password) {
