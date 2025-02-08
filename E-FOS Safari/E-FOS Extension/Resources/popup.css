@@ -71,10 +71,11 @@ h1 {
   flex-direction: column;
   gap: 8px;
 }
+
+/* Base styling for all menu buttons */
 .menu-button {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   padding: 8px 12px;
   border: none;
   background: none;
@@ -83,23 +84,38 @@ h1 {
   transition: background-color 0.2s, transform 0.1s ease-in-out;
   font-size: 14px;
   color: black;
+  position: relative;
 }
-.menu-button:active {
-  transform: scale(0.96);
+
+/* For the Neptun button, use space-between so the cooldown timer goes to the right */
+#neptunButton {
+  justify-content: space-between;
 }
-.menu-button:hover {
-  background-color: #CFCFCF;
+
+/* For all other menu buttons, align items to the left */
+.menu-button:not(#neptunButton) {
+  justify-content: flex-start;
 }
-.menu-button img {
+
+/* Group for icon and text on the left side */
+.btn-label-group {
+  display: flex;
+  align-items: center;
+}
+.btn-label-group img {
   width: 24px;
   height: 24px;
   margin-right: 8px;
+}
+.button-text {
+  text-align: left;
 }
 
 /* ---------- TMS Focus Mode Row ---------- */
 .focus-mode-row {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 .focus-mode-buttons {
   margin-left: auto;
@@ -215,7 +231,7 @@ h1 {
   color: #999;
 }
 
-/* ---------- Save Button Animations ---------- */
+/* ---------- Save Button ---------- */
 .save-button {
   background-color: #007AFF;
   color: white;

@@ -19,23 +19,31 @@
       <div class="menu-buttons">
         <!-- Neptun Button -->
         <button id="neptunButton" class="menu-button">
-          <img src="images/neptun_icon.png" alt="Neptun Icon">
-          <span>Neptun</span>
+          <div class="btn-label-group">
+            <img src="images/neptun_icon.png" alt="Neptun Icon">
+            <span class="button-text">Neptun</span>
+          </div>
         </button>
         <!-- Canvas Button -->
         <button id="canvasButton" class="menu-button">
-          <img src="images/canvas_icon.png" alt="Canvas Icon">
-          <span>Canvas</span>
+          <div class="btn-label-group">
+            <img src="images/canvas_icon.png" alt="Canvas Icon">
+            <span class="button-text">Canvas</span>
+          </div>
         </button>
         <!-- TMS Button -->
         <button id="tmsButton" class="menu-button">
-          <img src="images/tms_icon.png" alt="TMS Icon">
-          <span>TMS</span>
+          <div class="btn-label-group">
+            <img src="images/tms_icon.png" alt="TMS Icon">
+            <span class="button-text">TMS</span>
+          </div>
         </button>
         <!-- TMS Focus Mode Row -->
         <div id="tmsFocusRow" class="menu-button focus-mode-row">
-          <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
-          <span>TMS Focus Mode</span>
+          <div class="btn-label-group">
+            <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
+            <span class="button-text">TMS Focus Mode</span>
+          </div>
           <div class="focus-mode-buttons">
             <button id="activateFocusButton" class="sub-button">Activate</button>
             <button id="infoFocusButton" class="sub-button info-button">ⓘ</button>
@@ -47,10 +55,15 @@
     <!-- Settings view (initially hidden) -->
     <div id="settingsView" class="view hidden">
       <h2>Settings</h2>
-      <label style="font-size: 12px;">
+      <label style="font-size: 12px; display: block; margin-bottom: 4px;">
         <input type="checkbox" id="neptunAutoLoginCheckbox">
         Enable Neptun Auto‑Log In
       </label>
+      <label style="font-size: 12px; display: block; margin-bottom: 4px;">
+        <input type="checkbox" id="directStudentWebCheckbox">
+        Go Direct to Student Web
+      </label>
+      
       <div class="neptun-credentials">
         <label for="neptunCode">Neptun Code:</label>
         <input type="text" id="neptunCode" disabled>
