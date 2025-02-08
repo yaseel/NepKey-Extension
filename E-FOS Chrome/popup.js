@@ -1,3 +1,4 @@
+// popup.js
 document.addEventListener("DOMContentLoaded", () => {
   console.log("[Popup] popup.js loaded");
 
@@ -54,12 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("[Popup] Auto-login is enabled. Opening direct login page...");
         chrome.tabs.create({ url: "https://neptun.elte.hu/Account/Login" }, (tab) => {
           console.log("[Popup] New tab created. Tab ID:", tab.id);
-          // Listen for the tab finishing loading.
+          // Listen for the new tab finishing loading.
           chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
             if (tabId === tab.id && changeInfo.status === "complete") {
               console.log("[Popup] New tab finished loading. URL:", updatedTab.url);
               chrome.tabs.onUpdated.removeListener(listener);
-              // Send the message with error checking.
               chrome.tabs.sendMessage(tab.id, {
                 action: "fillCredentials",
                 code: settings.code,
@@ -210,7 +210,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const code = document.getElementById("neptunCode").value;
     const password = document.getElementById("neptunPassword").value;
     const settings = { enabled, code, password };
+    // Save settings to localStorage (for the popup)…
     localStorage.setItem("neptunAutoLoginSettings", JSON.stringify(settings));
+    // …and to chrome.storage.local (for the background script)
+    chrome.storage.local.set({ neptunAutoLoginSettings: settings }, () => {
+      console.log("[Popup] Settings saved to chrome.storage.local.");
+    });
     openSavedModal();
   });
 
