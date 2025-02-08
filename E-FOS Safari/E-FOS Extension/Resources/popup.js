@@ -1,13 +1,10 @@
-// popup.js
 document.addEventListener("DOMContentLoaded", () => {
   console.log("[Popup] popup.js loaded");
 
-  // Helper functions for settings view and gear image
   function isSettingsVisible() {
     const settingsView = document.getElementById("settingsView");
     return settingsView && settingsView.classList.contains("visible");
   }
-
   function updateGearImage(isSettings) {
     const settingsButton = document.getElementById("settingsButton");
     if (settingsButton) {
@@ -19,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Dark mode detection
+  // Dark mode detection.
   const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
   const isDark = darkModeQuery.matches;
   console.log("[Popup] Dark mode (on load):", isDark);
@@ -30,41 +27,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateGearImage(isSettingsVisible());
 
-  // Main URLs
   const urls = {
     neptun: "https://neptun.elte.hu",
     canvas: "https://canvas.elte.hu",
     tms: "https://tms.inf.elte.hu"
   };
 
-  // Open new tab using browser.tabs.create
   function openNewTab(url) {
     browser.tabs.create({ url });
   }
 
-  // Neptun button listener
   document.getElementById("neptunButton").addEventListener("click", () => {
     console.log("[Popup] Neptun button clicked.");
-    const settingsStr = localStorage.getItem("neptunAutoLoginSettings");
-    console.log("[Popup] Retrieved settings:", settingsStr);
-    if (settingsStr) {
-      const settings = JSON.parse(settingsStr);
-      if (settings.enabled) {
-        console.log("[Popup] Auto-login enabled. Sending message to background.");
-        // Delegate the task to the background script.
-        browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
-        return;
+    browser.storage.local.get("neptunAutoLoginSettings").then((result) => {
+      console.log("[Popup] Retrieved settings:", result);
+      if (result && result.neptunAutoLoginSettings) {
+        const settings = result.neptunAutoLoginSettings;
+        if (settings.enabled) {
+          console.log("[Popup] Auto-login enabled. Sending message to background.");
+          browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
+          return;
+        } else {
+          console.log("[Popup] Auto-login not enabled.");
+        }
       } else {
-        console.log("[Popup] Auto-login not enabled.");
+        console.log("[Popup] No auto-login settings found.");
       }
-    } else {
-      console.log("[Popup] No auto-login settings found.");
-    }
-    console.log("[Popup] Opening default Neptun homepage.");
-    openNewTab(urls.neptun);
+      console.log("[Popup] Opening default Neptun homepage.");
+      openNewTab(urls.neptun);
+    });
   });
 
-  // Other button listeners
   document.getElementById("canvasButton").addEventListener("click", () => {
     openNewTab(urls.canvas);
   });
@@ -72,13 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
     openNewTab(urls.tms);
   });
 
-  // Focus mode injection (send message to background)
   document.getElementById("activateFocusButton").addEventListener("click", () => {
     browser.runtime.sendMessage({ action: "activateFocusMode" });
     alert("Focus Mode Activated – implement content script handling as needed.");
   });
 
-  // Info modal
+  // Info modal functionality.
   document.getElementById("infoFocusButton").addEventListener("click", () => {
     openModal();
   });
@@ -105,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Saved modal functionality
+  // Saved modal functionality.
   function closeSavedModal() {
     const savedModal = document.getElementById("savedModal");
     savedModal.classList.remove("show");
@@ -130,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Settings view toggle
   document.getElementById("settingsButton").addEventListener("click", () => {
     const mainView = document.getElementById("mainView");
     const settingsView = document.getElementById("settingsView");
@@ -150,29 +141,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Neptun auto‑login settings
+  // Neptun auto-login settings (including OTP secret).
   document.getElementById("neptunAutoLoginCheckbox").addEventListener("change", function() {
     const enabled = this.checked;
     document.getElementById("neptunCode").disabled = !enabled;
     document.getElementById("neptunPassword").disabled = !enabled;
+    document.getElementById("otpSecret").disabled = !enabled;
   });
   document.getElementById("saveNeptunSettings").addEventListener("click", () => {
     const enabled = document.getElementById("neptunAutoLoginCheckbox").checked;
     const code = document.getElementById("neptunCode").value;
     const password = document.getElementById("neptunPassword").value;
-    const settings = { enabled, code, password };
-    localStorage.setItem("neptunAutoLoginSettings", JSON.stringify(settings));
-    openSavedModal();
+    const otpSecret = document.getElementById("otpSecret").value;
+    const settings = { enabled, code, password, otpSecret };
+    browser.storage.local.set({ neptunAutoLoginSettings: settings }).then(() => {
+      console.log("[Popup] Settings saved to storage.");
+      openSavedModal();
+    });
   });
   function loadNeptunSettings() {
-    const settingsStr = localStorage.getItem("neptunAutoLoginSettings");
-    if (settingsStr) {
-      const settings = JSON.parse(settingsStr);
-      document.getElementById("neptunAutoLoginCheckbox").checked = settings.enabled;
-      document.getElementById("neptunCode").value = settings.code;
-      document.getElementById("neptunPassword").value = settings.password;
-      document.getElementById("neptunCode").disabled = !settings.enabled;
-      document.getElementById("neptunPassword").disabled = !settings.enabled;
-    }
+    browser.storage.local.get("neptunAutoLoginSettings").then((result) => {
+      if (result && result.neptunAutoLoginSettings) {
+        const settings = result.neptunAutoLoginSettings;
+        document.getElementById("neptunAutoLoginCheckbox").checked = settings.enabled;
+        document.getElementById("neptunCode").value = settings.code;
+        document.getElementById("neptunPassword").value = settings.password;
+        document.getElementById("otpSecret").value = settings.otpSecret || "";
+        document.getElementById("neptunCode").disabled = !settings.enabled;
+        document.getElementById("neptunPassword").disabled = !settings.enabled;
+        document.getElementById("otpSecret").disabled = !settings.enabled;
+      }
+    });
   }
 });

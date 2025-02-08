@@ -27,7 +27,9 @@
   "content_scripts": [
     {
       "matches": ["https://neptun.elte.hu/*"],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ]

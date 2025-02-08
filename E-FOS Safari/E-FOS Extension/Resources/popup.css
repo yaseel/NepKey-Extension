@@ -241,14 +241,12 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* A small box */
   width: 150px;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1000;
   border-radius: 8px;
   transition: background-color 0.3s ease;
 }
-
 #savedModal .modal-content {
   margin: 0 auto;
   padding: 10px;
@@ -261,12 +259,10 @@ h1 {
   transform: scale(0.8);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
 #savedModal.show .modal-content {
   opacity: 1;
   transform: scale(1);
 }
-
 #savedModal.closing .modal-content {
   opacity: 0;
   transform: scale(0.8);
