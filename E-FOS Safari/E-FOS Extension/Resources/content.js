@@ -15,6 +15,14 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         userInput.dispatchEvent(new Event("input", { bubbles: true }));
         passInput.dispatchEvent(new Event("input", { bubbles: true }));
         console.log("Credentials inserted.");
+        // Now attempt to click the login button.
+        const loginButton = document.querySelector('input[type="submit"].btn.btn-primary');
+        if (loginButton) {
+          console.log("Found login button. Clicking it automatically.");
+          loginButton.click();
+        } else {
+          console.log("Login button not found.");
+        }
         sendResponse({ success: true });
       } else {
         console.log("Fields not found. Retrying in 100ms...");
@@ -22,6 +30,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     }
     fillCredentials();
-    return true;
+    return true; // Keep the message channel open for asynchronous response.
   }
 });
