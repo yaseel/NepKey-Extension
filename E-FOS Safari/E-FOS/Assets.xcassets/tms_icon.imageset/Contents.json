@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "tms-icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

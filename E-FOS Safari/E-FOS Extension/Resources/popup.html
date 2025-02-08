@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="popup.css">
-    <script type="module" src="popup.js"></script>
+  <meta charset="utf-8">
+  <title>E-FOS</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
-<body>
-    <strong>Hello World!</strong>
+<body style="background: rgba(229, 229, 229, 0.5); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
+  <div class="container">
+    <h1>E-FOS</h1>
+    <p class="subtitle">ELTE Felhasználóbarát Offline Segéd</p>
+    <div class="menu-buttons">
+      <!-- Neptun Button -->
+      <button id="neptunButton" class="menu-button">
+        <img src="images/neptun_icon.png" alt="Neptun Icon">
+        <span>Neptun</span>
+      </button>
+      <!-- Canvas Button -->
+      <button id="canvasButton" class="menu-button">
+        <img src="images/canvas_icon.png" alt="Canvas Icon">
+        <span>Canvas</span>
+      </button>
+      <!-- TMS Button -->
+      <button id="tmsButton" class="menu-button">
+        <img src="images/tms_icon.png" alt="TMS Icon">
+        <span>TMS</span>
+      </button>
+      <!-- TMS Focus Mode Row -->
+      <div id="tmsFocusRow" class="menu-button focus-mode-row">
+        <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
+        <span>TMS Focus Mode</span>
+        <div class="focus-mode-buttons">
+          <button id="activateFocusButton" class="sub-button">Activate</button>
+          <button id="infoFocusButton" class="sub-button info-button">ⓘ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Info (inside container to center it) -->
+    <div id="infoModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <p class="guide-text" style="font-size: 12px; margin-top: 16px;">
+          First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect refresh the page.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
 </body>
 </html>
