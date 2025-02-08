@@ -1,21 +1,28 @@
+// popup.js
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Helper functions for settings view and gear image ---
+  console.log("[Popup] popup.js loaded");
+
+  // Helper functions for settings view and gear image
   function isSettingsVisible() {
-    return document.getElementById("settingsView").classList.contains("visible");
+    const settingsView = document.getElementById("settingsView");
+    return settingsView && settingsView.classList.contains("visible");
   }
 
   function updateGearImage(isSettings) {
-    const gearImg = document.getElementById("settingsButton").querySelector("img");
-    const isDark = document.body.classList.contains("dark-mode");
-    gearImg.src = isSettings
-      ? (isDark ? "images/back_dark.png" : "images/back_light.png")
-      : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
+    const settingsButton = document.getElementById("settingsButton");
+    if (settingsButton) {
+      const gearImg = settingsButton.querySelector("img");
+      const isDark = document.body.classList.contains("dark-mode");
+      gearImg.src = isSettings
+        ? (isDark ? "images/back_dark.png" : "images/back_light.png")
+        : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
+    }
   }
 
-  // --- Dark Mode Detection (initial check only) ---
+  // Dark mode detection
   const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
   const isDark = darkModeQuery.matches;
-  console.log("Dark mode (on load):", isDark);
+  console.log("[Popup] Dark mode (on load):", isDark);
   if (isDark) {
     document.body.classList.add("dark-mode");
   } else {
@@ -23,82 +30,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateGearImage(isSettingsVisible());
 
-  // --- Main Button URLs and actions ---
+  // Main URLs
   const urls = {
     neptun: "https://neptun.elte.hu",
     canvas: "https://canvas.elte.hu",
     tms: "https://tms.inf.elte.hu"
   };
 
-  // For opening new tabs, use a fallback:
+  // Open new tab using browser.tabs.create
   function openNewTab(url) {
-    if (typeof safari !== "undefined" &&
-        safari.application &&
-        safari.application.activeBrowserWindow) {
-      let newTab = safari.application.activeBrowserWindow.openTab();
-      newTab.url = url;
-    } else if (typeof chrome !== "undefined") {
-      chrome.tabs.create({ url: url });
-    } else {
-      console.error("No supported API to open a new tab.");
-    }
+    browser.tabs.create({ url });
   }
 
-  // --- Neptun Button Listener using fallback for Safari/Chrome ---
+  // Neptun button listener
   document.getElementById("neptunButton").addEventListener("click", () => {
-    console.log("Neptun button clicked.");
+    console.log("[Popup] Neptun button clicked.");
     const settingsStr = localStorage.getItem("neptunAutoLoginSettings");
-    console.log("Retrieved settings from storage:", settingsStr);
-    
+    console.log("[Popup] Retrieved settings:", settingsStr);
     if (settingsStr) {
       const settings = JSON.parse(settingsStr);
-      console.log("Parsed settings:", settings);
       if (settings.enabled) {
-        console.log("Auto-login is enabled. Opening direct login page...");
-        
-        // Chrome branch
-        if (typeof chrome !== "undefined") {
-          chrome.tabs.create({ url: "https://neptun.elte.hu/Account/Login" }, (tab) => {
-            // Wait for the new tab to finish loading.
-            chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
-              if (tabId === tab.id && changeInfo.status === "complete") {
-                chrome.tabs.onUpdated.removeListener(listener);
-                console.log("New tab finished loading. Sending credentials...");
-                chrome.tabs.sendMessage(tab.id, {
-                  action: "fillCredentials",
-                  code: settings.code,
-                  password: settings.password
-                }, (response) => {
-                  console.log("Response from content script:", response);
-                });
-              }
-            });
-          });
-          return;
-        }
-        
-        // Safari branch: Instead of handling the tab here, delegate to background.
-        if (typeof safari !== "undefined" &&
-            safari.application &&
-            safari.application.activeBrowserWindow) {
-          console.log("Safari detected. Sending message to background to open Neptun login.");
-          safari.extension.dispatchMessage("openNeptunLogin", { settings: settings });
-          return;
-        } else {
-          console.error("No supported API to open a new tab.");
-        }
+        console.log("[Popup] Auto-login enabled. Sending message to background.");
+        // Delegate tab opening and credential filling to the background.
+        browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
+        return;
       } else {
-        console.log("Auto-login not enabled in settings.");
+        console.log("[Popup] Auto-login not enabled.");
       }
     } else {
-      console.log("No auto-login settings found.");
+      console.log("[Popup] No auto-login settings found.");
     }
-    
-    console.log("Opening default Neptun homepage.");
+    console.log("[Popup] Opening default Neptun homepage.");
     openNewTab(urls.neptun);
   });
 
-  // --- Other Button Listeners ---
+  // Other buttons
   document.getElementById("canvasButton").addEventListener("click", () => {
     openNewTab(urls.canvas);
   });
@@ -106,53 +72,24 @@ document.addEventListener("DOMContentLoaded", () => {
     openNewTab(urls.tms);
   });
 
-  // --- Focus Mode Injection ---
-  function injectFocusMode() {
-    const code = `
-      (function(){
-        document.documentElement.style.width = "100vw";
-        document.documentElement.style.overflowX = "hidden";
-        document.body.style.width = "100vw";
-        document.body.style.overflowX = "hidden";
-        document.querySelectorAll(".row").forEach(el => el.style.display = "inline");
-        document.querySelectorAll(".col-md-3, .col-md-4, .navbar, .content-title, 
-          .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pb-2.mb-2.border-bottom")
-               .forEach(el => el.remove());
-        document.querySelectorAll(".col-xl-10, .col-md-9").forEach(el => el.style.maxWidth = "97%");
-      })();
-    `;
-    if (typeof chrome !== "undefined") {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs.length > 0) {
-          chrome.tabs.executeScript(tabs[0].id, { code: code }, () => {
-            alert("Focus Mode Activated");
-          });
-        }
-      });
-    } else {
-      alert("Focus Mode injection not supported in this environment.");
-    }
-  }
-
+  // Focus mode injection (send message to background)
   document.getElementById("activateFocusButton").addEventListener("click", () => {
-    injectFocusMode();
+    browser.runtime.sendMessage({ action: "activateFocusMode" });
+    alert("Focus Mode Activated – implement content script handling as needed.");
   });
 
+  // Info modal
   document.getElementById("infoFocusButton").addEventListener("click", () => {
     openModal();
   });
-
-  // --- Modal Functionality (Info Modal) ---
   const modalEl = document.getElementById("infoModal");
   const closeModalBtn = document.getElementById("closeModal");
-
   function openModal() {
     modalEl.style.display = "block";
     setTimeout(() => {
       modalEl.classList.add("show");
     }, 10);
   }
-
   function closeModal() {
     modalEl.classList.remove("show");
     modalEl.classList.add("closing");
@@ -161,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modalEl.classList.remove("closing");
     }, 300);
   }
-
   closeModalBtn.addEventListener("click", closeModal);
   window.addEventListener("click", (event) => {
     if (event.target === modalEl) {
@@ -169,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- Saved Modal Functionality ---
+  // Saved modal functionality
   function closeSavedModal() {
     const savedModal = document.getElementById("savedModal");
     savedModal.classList.remove("show");
@@ -179,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
       savedModal.classList.remove("closing");
     }, 300);
   }
-
   function openSavedModal() {
     const savedModal = document.getElementById("savedModal");
     savedModal.style.display = "block";
@@ -195,11 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // --- Settings View Toggle (Fade Transition) ---
+  // Settings view toggle
   document.getElementById("settingsButton").addEventListener("click", () => {
     const mainView = document.getElementById("mainView");
     const settingsView = document.getElementById("settingsView");
-
     if (isSettingsVisible()) {
       settingsView.classList.remove("visible");
       settingsView.classList.add("hidden");
@@ -216,13 +150,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- Neptun Auto-Login Settings ---
-  document.getElementById("neptunAutoLoginCheckbox").addEventListener("change", function () {
+  // Neptun auto‑login settings
+  document.getElementById("neptunAutoLoginCheckbox").addEventListener("change", function() {
     const enabled = this.checked;
     document.getElementById("neptunCode").disabled = !enabled;
     document.getElementById("neptunPassword").disabled = !enabled;
   });
-
   document.getElementById("saveNeptunSettings").addEventListener("click", () => {
     const enabled = document.getElementById("neptunAutoLoginCheckbox").checked;
     const code = document.getElementById("neptunCode").value;
@@ -231,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("neptunAutoLoginSettings", JSON.stringify(settings));
     openSavedModal();
   });
-
   function loadNeptunSettings() {
     const settingsStr = localStorage.getItem("neptunAutoLoginSettings");
     if (settingsStr) {

@@ -1,32 +1,31 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "E-FOS",
   "version": "1.0",
   "description": "ELTE Felhasználóbarát Offline Segéd",
   "icons": {
-    "48": "assets/icon.png"
+    "48": "images/icon.png"
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
-    "default_title": "E-FOS",
-    "theme_icons": [{
-      "light": "assets/icon_light.png",
-      "dark": "assets/icon_dark.png"
-    }]
+    "default_title": "E-FOS"
   },
   "permissions": [
     "tabs",
-    "activeTab",
     "storage",
-    "https://neptun.elte.hu/*"
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://neptun.elte.hu/*",
+    "https://canvas.elte.hu/*",
+    "https://tms.inf.elte.hu/*"
   ],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://neptun.elte.hu/Account/Login*"],
+      "matches": ["https://neptun.elte.hu/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }
