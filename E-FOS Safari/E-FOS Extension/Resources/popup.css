@@ -203,7 +203,7 @@ h1 {
   text-decoration: none;
 }
 
-/* ---------- Settings (Neptun Auto-Login) View ---------- */
+/* ---------- Settings View ---------- */
 #settingsView h2 {
   margin-top: 40px;
   text-align: center;
@@ -230,6 +230,8 @@ h1 {
   border-color: #777777;
   color: #999;
 }
+
+
 
 /* ---------- Save Button ---------- */
 .save-button {
