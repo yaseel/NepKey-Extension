@@ -175,9 +175,11 @@ async function fillMFA() {
 // ---------------------------------------------------------------------
 // Stage C: Auto-click Student Web Link on Neptun Homepage
 // ---------------------------------------------------------------------
+// This block will run only on Neptun pages that are not the login pages.
 if (
   window.location.href.startsWith("https://neptun.elte.hu/") &&
-  !window.location.href.includes("Account/Login")
+  !window.location.href.includes("Account/Login") &&
+  sessionStorage.getItem("studentWebClicked") !== "true"
 ) {
   console.log("[Content] Checking storage for Student Web preference...");
   browser.storage.local.get("neptunAutoLoginSettings").then((result) => {
@@ -188,11 +190,13 @@ if (
       result.neptunAutoLoginSettings.studentWeb
     ) {
       console.log("[Content] Student Web auto‑click enabled.");
-      // Use polling so that if the nav links load with a delay, we still find them.
-      let attempts = 0;
-      const maxAttempts = 10;
-      function pollStudentWeb() {
-        attempts++;
+      
+      // Flag to ensure we click the link only once within this injection.
+      let studentWebClicked = false;
+
+      // Helper function to find and click the Student Web link.
+      function clickStudentWebLink() {
+        if (studentWebClicked) return true;
         const links = Array.from(document.querySelectorAll("a.nav-link"));
         console.log("[Content] Found nav links:", links.map(link => link.textContent.trim()));
         const targetLink = links.find((link) => {
@@ -202,16 +206,27 @@ if (
         if (targetLink) {
           console.log("[Content] Student web link found. Clicking it.");
           targetLink.click();
-        } else if (attempts < maxAttempts) {
-          setTimeout(pollStudentWeb, 500);
-        } else {
-          console.error("[Content] Student web link not found after polling.");
+          studentWebClicked = true;
+          // Set a flag in sessionStorage so that future injections won’t click again.
+          sessionStorage.setItem("studentWebClicked", "true");
+          return true;
         }
+        return false;
       }
-      // Start polling after a short delay.
-      setTimeout(pollStudentWeb, 2000);
+
+      // Try clicking the link immediately.
+      if (!clickStudentWebLink()) {
+        console.log("[Content] Student web link not found immediately. Starting MutationObserver...");
+        const observer = new MutationObserver((mutations, obs) => {
+          if (clickStudentWebLink()) {
+            obs.disconnect();
+            console.log("[Content] MutationObserver disconnected after clicking Student web link.");
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
     } else {
-      console.log("[Content] Student Web auto‑click is disabled or not set.");
+      console.log("[Content] Student Web auto‑click is disabled or setting not found.");
     }
   }).catch((error) => {
     console.error("[Content] Error retrieving Student Web setting:", error);
