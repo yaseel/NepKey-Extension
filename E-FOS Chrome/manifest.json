@@ -3,6 +3,9 @@
   "name": "E-FOS",
   "version": "1.0",
   "description": "ELTE Felhasználóbarát Offline Segéd",
+  "icons": {
+    "48": "images/icon.png"
+  },
   "permissions": [
     "tabs",
     "storage",
