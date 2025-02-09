@@ -4,55 +4,71 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "openNeptunLogin") {
     console.log("[Background] Received openNeptunLogin message:", request);
     const settings = request.settings;
-    browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login" })
-      .then((tab) => {
-        console.log("[Background] New tab created. Tab ID:", tab.id);
-        browser.tabs.update(tab.id, { active: true });
-        browser.windows.update(tab.windowId, { focused: true });
-        browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
-          if (tabId === tab.id && changeInfo.status === "complete") {
-            console.log("[Background] Tab finished loading. URL:", updatedTab.url);
-            browser.tabs.onUpdated.removeListener(listener);
-            browser.tabs.sendMessage(tab.id, {
-              action: "fillCredentials",
-              code: settings.code,
-              password: settings.password
-            })
-              .then((response) => {
-                console.log("[Background] Received response from content script:", response);
-              })
-              .catch((error) => {
-                console.error("[Background] sendMessage error:", error);
-                browser.scripting.executeScript({
-                  target: { tabId: tab.id },
-                  func: function(code, password) {
-                    const userInput = document.getElementById("LoginName");
-                    const passInput = document.getElementById("Password");
-                    if (userInput && passInput) {
-                      userInput.value = code;
-                      passInput.value = password;
-                      userInput.dispatchEvent(new Event("input", { bubbles: true }));
-                      passInput.dispatchEvent(new Event("input", { bubbles: true }));
-                      console.log("Credentials inserted via direct injection.");
-                    } else {
-                      console.log("Direct injection: Login fields not found.");
-                    }
-                  },
-                  args: [settings.code, settings.password]
-                })
-                  .then((injectionResults) => {
-                    console.log("[Background] Direct injection results:", injectionResults);
-                  })
-                  .catch((injectError) => {
-                    console.error("[Background] Direct injection error:", injectError);
-                  });
-              });
-          }
+    
+    if (request.site && request.site === "canvas") {
+      // Canvas auto-login branch
+      browser.tabs.create({ url: "https://canvas.elte.hu" })
+        .then((tab) => {
+          console.log("[Background] New Canvas tab created. Tab ID:", tab.id);
+          browser.tabs.update(tab.id, { active: true });
+          browser.windows.update(tab.windowId, { focused: true });
+          // Let the Canvas content script handle auto-login on the Canvas page.
+        })
+        .catch((err) => {
+          console.error("[Background] Canvas tabs.create error:", err);
         });
-      })
-      .catch((err) => {
-        console.error("[Background] tabs.create error:", err);
-      });
+    } else {
+      // Neptun auto-login branch (default)
+      browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login" })
+        .then((tab) => {
+          console.log("[Background] New tab created. Tab ID:", tab.id);
+          browser.tabs.update(tab.id, { active: true });
+          browser.windows.update(tab.windowId, { focused: true });
+          browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
+            if (tabId === tab.id && changeInfo.status === "complete") {
+              console.log("[Background] Tab finished loading. URL:", updatedTab.url);
+              browser.tabs.onUpdated.removeListener(listener);
+              browser.tabs.sendMessage(tab.id, {
+                action: "fillCredentials",
+                code: settings.code,
+                password: settings.password
+              })
+                .then((response) => {
+                  console.log("[Background] Received response from content script:", response);
+                })
+                .catch((error) => {
+                  console.error("[Background] sendMessage error:", error);
+                  browser.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    func: function(code, password) {
+                      const userInput = document.getElementById("LoginName");
+                      const passInput = document.getElementById("Password");
+                      if (userInput && passInput) {
+                        userInput.value = code;
+                        passInput.value = password;
+                        userInput.dispatchEvent(new Event("input", { bubbles: true }));
+                        passInput.dispatchEvent(new Event("input", { bubbles: true }));
+                        console.log("Credentials inserted via direct injection.");
+                      } else {
+                        console.log("Direct injection: Login fields not found.");
+                      }
+                    },
+                    args: [settings.code, settings.password]
+                  })
+                    .then((injectionResults) => {
+                      console.log("[Background] Direct injection results:", injectionResults);
+                    })
+                    .catch((injectError) => {
+                      console.error("[Background] Direct injection error:", injectError);
+                    });
+                });
+            }
+          });
+        })
+        .catch((err) => {
+          console.error("[Background] tabs.create error:", err);
+        });
+    }
   } else if (request.action === "openTMSLogin") {
     console.log("[Background] Received openTMSLogin message:", request);
     const settings = request.settings;

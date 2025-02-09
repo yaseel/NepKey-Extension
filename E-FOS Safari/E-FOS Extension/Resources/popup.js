@@ -171,10 +171,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.closest(".toggle-container")) return;
     browser.storage.local.get("neptunAutoLoginSettings").then(result => {
       const settings = (result && result.neptunAutoLoginSettings) || {};
-      if (settings.canvasEnabled) {
+      console.log("[Popup] Canvas settings:", settings);
+      if (settings.canvasEnabled === true) {
         console.log("[Popup] Canvas auto‑login enabled. Sending message to background.");
         browser.runtime.sendMessage({ action: "openNeptunLogin", settings, site: "canvas" });
       } else {
+        console.log("[Popup] Canvas auto‑login disabled. Opening Canvas homepage.");
         openNewTab(urls.canvas);
       }
     });
