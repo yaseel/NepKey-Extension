@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>E-FOS</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Settings toggle button (gear/back) in top-right -->
+    <button id="settingsButton" class="settings-button">
+      <img src="images/gear_light.png" alt="Settings">
+    </button>
+
+    <!-- Main view (initially visible) -->
+    <div id="mainView" class="view visible">
+      <h1>E-FOS</h1>
+      <p class="subtitle">ELTE Felhasználóbarát Offline Segéd</p>
+      <div class="menu-buttons">
+        <!-- Neptun Button -->
+        <button id="neptunButton" class="menu-button">
+          <img src="images/neptun_icon.png" alt="Neptun Icon">
+          <span>Neptun</span>
+        </button>
+        <!-- Canvas Button -->
+        <button id="canvasButton" class="menu-button">
+          <img src="images/canvas_icon.png" alt="Canvas Icon">
+          <span>Canvas</span>
+        </button>
+        <!-- TMS Button -->
+        <button id="tmsButton" class="menu-button">
+          <img src="images/tms_icon.png" alt="TMS Icon">
+          <span>TMS</span>
+        </button>
+        <!-- TMS Focus Mode Row -->
+        <div id="tmsFocusRow" class="menu-button focus-mode-row">
+          <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
+          <span>TMS Focus Mode</span>
+          <div class="focus-mode-buttons">
+            <button id="activateFocusButton" class="sub-button">Activate</button>
+            <button id="infoFocusButton" class="sub-button info-button">ⓘ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings view (initially hidden) -->
+    <div id="settingsView" class="view hidden">
+      <h2>Settings</h2>
+      <label style="font-size: 12px;">
+        <input type="checkbox" id="neptunAutoLoginCheckbox">
+        Enable Neptun Auto‑Log In
+      </label>
+      <div class="neptun-credentials">
+        <label for="neptunCode">Neptun Code:</label>
+        <input type="text" id="neptunCode" disabled>
+        <label for="neptunPassword">Password:</label>
+        <input type="password" id="neptunPassword" disabled>
+      </div>
+      <button id="saveNeptunSettings" class="save-button">Save Settings</button>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <p class="guide-text" style="font-size: 12px; margin-top: 16px;">
+          First, open TMS in your browser, then open your task, and finally click Activate.
+        </p>
+      </div>
+    </div>
+
+    <!-- Saved Modal Popup -->
+    <div id="savedModal" class="modal">
+      <div class="modal-content">
+        <p class="guide-text" style="font-size: 12px; margin-top: 16px; text-align: center;">Saved!</p>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
