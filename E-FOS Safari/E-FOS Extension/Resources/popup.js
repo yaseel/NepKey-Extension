@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Settings Storage Functions ---
   function loadSettings() {
-    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
+    browser.storage.local.get("autoLoginSettings").then(result => {
       let settings = {};
-      if (result && result.neptunAutoLoginSettings) {
-        settings = result.neptunAutoLoginSettings;
+      if (result && result.autoLoginSettings) {
+        settings = result.autoLoginSettings;
       }
       // Update main view toggles (default false if not set)
       document.getElementById("neptunToggle").checked = !!settings.enabled;
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       password: document.getElementById("neptunPassword").value,
       otpSecret: document.getElementById("otpSecret").value
     };
-    browser.storage.local.set({ neptunAutoLoginSettings: settings }).then(() => {
+    browser.storage.local.set({ autoLoginSettings: settings }).then(() => {
       console.log("[Popup] Settings saved:", settings);
       if (!silent) openSavedModal();
       if (callback) callback();
@@ -155,8 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Main View Button Handlers ---
   document.getElementById("neptunButton").addEventListener("click", (e) => {
     if (e.target.closest(".toggle-container")) return;
-    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
-      const settings = (result && result.neptunAutoLoginSettings) || {};
+    browser.storage.local.get("autoLoginSettings").then(result => {
+      const settings = (result && result.autoLoginSettings) || {};
       if (settings.enabled) {
         console.log("[Popup] Neptun auto‑login enabled. Sending message to background.");
         browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
@@ -169,8 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("canvasButton").addEventListener("click", (e) => {
     if (e.target.closest(".toggle-container")) return;
-    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
-      const settings = (result && result.neptunAutoLoginSettings) || {};
+    browser.storage.local.get("autoLoginSettings").then(result => {
+      const settings = (result && result.autoLoginSettings) || {};
       console.log("[Popup] Canvas settings:", settings);
       if (settings.canvasEnabled === true) {
         console.log("[Popup] Canvas auto‑login enabled. Sending message to background.");
@@ -184,8 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("tmsButton").addEventListener("click", (e) => {
     if (e.target.closest(".toggle-container")) return;
-    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
-      const settings = (result && result.neptunAutoLoginSettings) || {};
+    browser.storage.local.get("autoLoginSettings").then(result => {
+      const settings = (result && result.autoLoginSettings) || {};
       if (settings.tmsEnabled) {
         console.log("[Popup] TMS auto‑login enabled. Sending message to background.");
         browser.runtime.sendMessage({ action: "openTMSLogin", settings });

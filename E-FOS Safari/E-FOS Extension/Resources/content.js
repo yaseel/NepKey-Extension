@@ -57,9 +57,9 @@
        console.log("[Content] Detected Login page. Attempting auto-fill.");
        (async function autoFillLogin() {
          try {
-           const result = await browser.storage.local.get("neptunAutoLoginSettings");
-           if (result && result.neptunAutoLoginSettings && result.neptunAutoLoginSettings.enabled) {
-             const settings = result.neptunAutoLoginSettings;
+           const result = await browser.storage.local.get("autoLoginSettings");
+           if (result && result.autoLoginSettings && result.autoLoginSettings.enabled) {
+             const settings = result.autoLoginSettings;
              function fillLogin() {
                if (window.neptunLoginAttempted) {
                  console.log("[Content] Neptun auto-login already attempted (local flag). Skipping further attempts.");
@@ -140,8 +140,8 @@
      }
      console.log("[Content] Detected OTP field (id='TOTPCode').");
      try {
-       const settingsResult = await browser.storage.local.get("neptunAutoLoginSettings");
-       const settings = settingsResult ? settingsResult.neptunAutoLoginSettings : null;
+       const settingsResult = await browser.storage.local.get("autoLoginSettings");
+       const settings = settingsResult ? settingsResult.autoLoginSettings : null;
        if (!settings || !settings.otpSecret) {
          console.error("[Content] No OTP secret stored in settings.");
          stopPolling();
@@ -191,13 +191,13 @@
      sessionStorage.getItem("studentWebClicked") !== "true"
    ) {
      console.log("[Content] Checking storage for Student Web preference...");
-     browser.storage.local.get("neptunAutoLoginSettings").then((result) => {
+     browser.storage.local.get("autoLoginSettings").then((result) => {
        console.log("[Content] Retrieved settings:", result);
        if (
          result &&
-         result.neptunAutoLoginSettings &&
-         result.neptunAutoLoginSettings.studentWeb &&
-         result.neptunAutoLoginSettings.enabled
+         result.autoLoginSettings &&
+         result.autoLoginSettings.studentWeb &&
+         result.autoLoginSettings.enabled
        ) {
          console.log("[Content] Student Web auto‑click enabled.");
          let studentWebClicked = false;
@@ -239,8 +239,8 @@
    // ----------------- Canvas Auto‑Login -----------------
    if (window.location.host.includes("canvas.elte.hu")) {
      console.log("[Canvas] Canvas page detected.");
-     browser.storage.local.get("neptunAutoLoginSettings").then(result => {
-       const settings = result && result.neptunAutoLoginSettings;
+     browser.storage.local.get("autoLoginSettings").then(result => {
+       const settings = result && result.autoLoginSettings;
        if (settings && settings.canvasEnabled === true) {
          if (window.canvasLoginAttempted) {
            console.log("[Canvas] Canvas auto-login already attempted. Skipping.");
@@ -299,8 +299,8 @@
      console.log("[Content] Detected IdP login page for Canvas auto-fill.");
      (async function autoFillIdPLogin() {
        try {
-         const result = await browser.storage.local.get("neptunAutoLoginSettings");
-         const settings = result && result.neptunAutoLoginSettings;
+         const result = await browser.storage.local.get("autoLoginSettings");
+         const settings = result && result.autoLoginSettings;
          if (settings && settings.canvasEnabled === true) {
            if (window.idpLoginAttempted) {
              console.log("[Content] IdP auto-login already attempted. Skipping further attempts.");
