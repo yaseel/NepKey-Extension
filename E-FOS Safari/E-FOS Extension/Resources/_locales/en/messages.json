@@ -1,10 +1,10 @@
 {
     "extension_name": {
-        "message": "E-FOS Extension",
-        "description": "The display name for the extension."
+        "message": "EFOS Extension",
+        "description": "EFOS"
     },
     "extension_description": {
-        "message": "This is E-FOS Extension. You should tell us what your extension does here.",
-        "description": "Description of what the extension does."
+        "message": "EFOS is a user-friendly offline assistant for ELTE students, enabling quick access to Neptun, Canvas, and TMS with auto-login features.",
+        "description": "Brief description of EFOS and its functionality."
     }
 }

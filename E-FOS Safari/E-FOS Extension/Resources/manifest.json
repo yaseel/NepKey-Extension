@@ -3,6 +3,7 @@
   "name": "EFOS",
   "version": "1.0",
   "description": "ELTE Felhasználóbarát Offline Segéd",
+  "default_locale": "en",
   "icons": {
     "48": "images/icon.png"
   },
