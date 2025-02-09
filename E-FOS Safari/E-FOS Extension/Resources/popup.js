@@ -118,8 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
       mainView.classList.remove("hidden");
       mainView.classList.add("visible");
       updateGearImage(false);
-      // …then save the settings (which will also trigger the Saved modal)
-      saveSettings();
+      // …then save the settings without Saved! modal
+      saveSettings(true);
     } else {
       // Switch to settings view
       mainView.classList.remove("visible");

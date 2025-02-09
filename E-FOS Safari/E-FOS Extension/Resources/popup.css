@@ -64,6 +64,14 @@ h1 {
   margin-bottom: 16px;
 }
 
+.auto-login-label {
+  text-align: right;
+  font-size: 10px;
+  color: gray;
+  margin: 0;
+  margin-right: 4px;
+}
+
 /* ---------- Menu Buttons ---------- */
 .menu-buttons {
   display: flex;
