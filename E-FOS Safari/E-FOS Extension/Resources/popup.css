@@ -7,7 +7,6 @@ body {
   color: black;
 }
 
-/* ---------- Container ---------- */
 .container {
   position: relative;
   padding: 16px;
@@ -29,11 +28,12 @@ body {
   display: none;
 }
 
-/* ---------- Settings Button ---------- */
+/* ---------- Settings Button (Gear/Back) ---------- */
 .settings-button {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 1001;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -56,7 +56,6 @@ h1 {
   font-size: 20px;
   margin: 0;
   text-align: center;
-  color: black;
 }
 .subtitle {
   font-size: 12px;
@@ -71,8 +70,6 @@ h1 {
   flex-direction: column;
   gap: 8px;
 }
-
-/* Base styling for all menu buttons */
 .menu-button {
   display: flex;
   align-items: center;
@@ -85,19 +82,11 @@ h1 {
   font-size: 14px;
   color: black;
   position: relative;
-}
-
-/* For the Neptun button, use space-between so the cooldown timer goes to the right */
-#neptunButton {
   justify-content: space-between;
 }
-
-/* For all other menu buttons, align items to the left */
-.menu-button:not(#neptunButton) {
-  justify-content: flex-start;
+.menu-button:hover {
+  background-color: #CFCFCF;
 }
-
-/* Group for icon and text on the left side */
 .btn-label-group {
   display: flex;
   align-items: center;
@@ -111,49 +100,83 @@ h1 {
   text-align: left;
 }
 
-/* ---------- TMS Focus Mode Row ---------- */
-.focus-mode-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+/* ---------- iOS‑Style Toggle Switches ---------- */
+.toggle-container {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  flex-shrink: 0;
 }
-.focus-mode-buttons {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
-.focus-mode-row .sub-button {
-  font-size: 12px;
-  padding: 2px 6px;
-  border: none;
-  border-radius: 4px;
+.toggle-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
   cursor: pointer;
-  background-color: #007AFF;
-  color: white;
-  transition: background-color 0.2s, transform 0.1s ease-in-out;
+  transition: background 0.4s;
 }
-.focus-mode-row .sub-button:active {
-  transform: scale(0.95);
-}
-.focus-mode-row .sub-button:hover {
-  background-color: rgba(0, 122, 255, 0.7);
-}
-.info-button {
-  font-size: 12px;
-  padding: 4px;
-  border: none;
+.toggle-label:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
   border-radius: 50%;
-  cursor: pointer;
-  background-color: transparent;
-  color: black;
-  transition: background-color 0.2s, transform 0.1s ease-in-out;
+  transition: transform 0.4s;
 }
-.info-button:active {
+/* Main view toggles: when checked, use a moving gradient animation */
+.main-toggle:checked + .toggle-label {
+  background: linear-gradient(45deg, #ff4081, #7c4dff);
+  background-size: 200% 200%;
+  animation: gradientAnimation 3s ease infinite;
+}
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.main-toggle:checked + .toggle-label:before {
+  transform: translateX(16px);
+}
+/* Settings view toggle (Direct Student Web) uses a static green */
+.settings-toggle:checked + .toggle-label {
+  background-color: #66bb6a;
+}
+.settings-toggle:checked + .toggle-label:before {
+  transform: translateX(16px);
+}
+
+/* ---------- TMS Focus Mode Row Sub-Buttons ---------- */
+.focus-mode-buttons {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+.focus-sub-button {
+  font-size: 12px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background-color: #8e24aa;
+  color: white;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.focus-sub-button:active {
   transform: scale(0.95);
 }
-.info-button:hover {
-  background-color: #CFCFCF;
+.focus-sub-button:hover {
+  background-color: #6a1b9a;
 }
 
 /* ---------- Modal Styles ---------- */
@@ -164,7 +187,7 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  max-width: 280px;
+  max-width: 240px;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1000;
   border-radius: 8px;
@@ -177,12 +200,13 @@ h1 {
   position: relative;
   opacity: 0;
   transform: scale(0.8);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s, transform 0.3s;
   background-color: #E5E5E5;
-  padding: 20px;
+  padding: 16px;
   border: 1px solid #AAAAAA;
-  color: black;
   border-radius: 8px;
+  text-align: center;
+  font-size: 10px;
 }
 .modal.show .modal-content {
   opacity: 1;
@@ -192,22 +216,31 @@ h1 {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   cursor: pointer;
   color: #777;
 }
-.close:hover,
-.close:focus {
+.close:hover {
   color: black;
-  text-decoration: none;
 }
 
 /* ---------- Settings View ---------- */
 #settingsView h2 {
-  margin-top: 40px;
+  margin-top: 3px;
+  margin-bottom: 30px;
   text-align: center;
   font-size: 16px;
+}
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.setting-label {
+  font-size: 12px;
+  margin-right: 8px;
 }
 .neptun-credentials {
   margin-top: 20px;
@@ -225,13 +258,6 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.neptun-credentials input:disabled {
-  background-color: #777777;
-  border-color: #777777;
-  color: #999;
-}
-
-
 
 /* ---------- Save Button ---------- */
 .save-button {
@@ -243,7 +269,7 @@ h1 {
   cursor: pointer;
   margin-top: 20px;
   width: 100%;
-  transition: background-color 0.2s ease, transform 0.1s ease-in-out;
+  transition: background-color 0.2s, transform 0.1s;
 }
 .save-button:hover {
   background-color: #0063d1;
@@ -252,7 +278,7 @@ h1 {
   transform: scale(0.95);
 }
 
-/* ---------- Saved Modal Styles ---------- */
+/* ---------- Saved Modal ---------- */
 #savedModal {
   display: none;
   position: absolute;
@@ -263,7 +289,7 @@ h1 {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1000;
   border-radius: 8px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 #savedModal .modal-content {
   margin: 0 auto;
@@ -275,7 +301,7 @@ h1 {
   border-radius: 8px;
   opacity: 0;
   transform: scale(0.8);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s, transform 0.3s;
 }
 #savedModal.show .modal-content {
   opacity: 1;
@@ -308,16 +334,10 @@ h1 {
   color: white !important;
 }
 .dark-mode .focus-mode-row .sub-button {
-  background-color: #0A84FF !important;
+  background-color: #8e24aa !important;
 }
 .dark-mode .focus-mode-row .sub-button:hover {
-  background-color: rgba(10, 132, 255, 0.7) !important;
-}
-.dark-mode .info-button {
-  color: white !important;
-}
-.dark-mode .info-button:hover {
-  background-color: #333 !important;
+  background-color: #6a1b9a !important;
 }
 .dark-mode .modal-content {
   background-color: #2C2C2C !important;

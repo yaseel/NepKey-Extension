@@ -7,10 +7,8 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login" })
       .then((tab) => {
         console.log("[Background] New tab created. Tab ID:", tab.id);
-        // Force the new tab active and focus its window.
         browser.tabs.update(tab.id, { active: true });
         browser.windows.update(tab.windowId, { focused: true });
-        // Listen for the tab to finish loading.
         browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
           if (tabId === tab.id && changeInfo.status === "complete") {
             console.log("[Background] Tab finished loading. URL:", updatedTab.url);
@@ -25,7 +23,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
               })
               .catch((error) => {
                 console.error("[Background] sendMessage error:", error);
-                // Fallback: direct injection via scripting.
                 browser.scripting.executeScript({
                   target: { tabId: tab.id },
                   func: function(code, password) {
@@ -55,6 +52,29 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       })
       .catch((err) => {
         console.error("[Background] tabs.create error:", err);
+      });
+  } else if (request.action === "openTMSLogin") {
+    console.log("[Background] Received openTMSLogin message:", request);
+    const settings = request.settings;
+    browser.tabs.create({ url: "https://tms.inf.elte.hu/Account/Login" })
+      .then((tab) => {
+        console.log("[Background] New TMS tab created. Tab ID:", tab.id);
+        browser.tabs.update(tab.id, { active: true });
+        browser.windows.update(tab.windowId, { focused: true });
+        browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
+          if (tabId === tab.id && changeInfo.status === "complete") {
+            console.log("[Background] TMS Tab finished loading. URL:", updatedTab.url);
+            browser.tabs.onUpdated.removeListener(listener);
+            browser.tabs.sendMessage(tab.id, {
+              action: "fillCredentials",
+              code: settings.code,
+              password: settings.password
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        console.error("[Background] TMS tabs.create error:", err);
       });
   } else if (request.action === "activateFocusMode") {
     console.log("[Background] Received activateFocusMode message.");

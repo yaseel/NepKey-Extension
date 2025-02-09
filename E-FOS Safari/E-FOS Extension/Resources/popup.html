@@ -1,97 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>E-FOS</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <div class="container">
-    <!-- Settings toggle button (gear/back) in top-right -->
-    <button id="settingsButton" class="settings-button">
-      <img src="images/gear_light.png" alt="Settings">
-    </button>
+  <head>
+    <meta charset="utf-8">
+    <title>E-FOS</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Gear button (acts as gear to open settings and as back button to close settings) -->
+      <button id="settingsButton" class="settings-button">
+        <img src="images/gear_light.png" alt="Settings">
+      </button>
 
-    <!-- Main view (initially visible) -->
-    <div id="mainView" class="view visible">
-      <h1>E-FOS</h1>
-      <p class="subtitle">ELTE Felhasználóbarát Offline Segéd</p>
-      <div class="menu-buttons">
-        <!-- Neptun Button -->
-        <button id="neptunButton" class="menu-button">
-          <div class="btn-label-group">
-            <img src="images/neptun_icon.png" alt="Neptun Icon">
-            <span class="button-text">Neptun</span>
-          </div>
-        </button>
-        <!-- Canvas Button -->
-        <button id="canvasButton" class="menu-button">
-          <div class="btn-label-group">
-            <img src="images/canvas_icon.png" alt="Canvas Icon">
-            <span class="button-text">Canvas</span>
-          </div>
-        </button>
-        <!-- TMS Button -->
-        <button id="tmsButton" class="menu-button">
-          <div class="btn-label-group">
-            <img src="images/tms_icon.png" alt="TMS Icon">
-            <span class="button-text">TMS</span>
-          </div>
-        </button>
-        <!-- TMS Focus Mode Row -->
-        <div id="tmsFocusRow" class="menu-button focus-mode-row">
-          <div class="btn-label-group">
-            <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
-            <span class="button-text">TMS Focus Mode</span>
-          </div>
-          <div class="focus-mode-buttons">
-            <button id="activateFocusButton" class="sub-button">Activate</button>
-            <button id="infoFocusButton" class="sub-button info-button">ⓘ</button>
+      <!-- Main View -->
+      <div id="mainView" class="view visible">
+        <h1>E-FOS</h1>
+        <p class="subtitle">ELTE Felhasználóbarát Offline Segéd</p>
+        <div class="menu-buttons">
+          <!-- Neptun Button with toggle on right -->
+          <button id="neptunButton" class="menu-button">
+            <div class="btn-label-group">
+              <img src="images/neptun_icon.png" alt="Neptun Icon">
+              <span class="button-text">Neptun</span>
+            </div>
+            <div class="toggle-container main-toggle-container">
+              <input type="checkbox" id="neptunToggle" class="toggle-input main-toggle">
+              <label for="neptunToggle" class="toggle-label"></label>
+            </div>
+          </button>
+          <!-- Canvas Button with toggle on right -->
+          <button id="canvasButton" class="menu-button">
+            <div class="btn-label-group">
+              <img src="images/canvas_icon.png" alt="Canvas Icon">
+              <span class="button-text">Canvas</span>
+            </div>
+            <div class="toggle-container main-toggle-container">
+              <input type="checkbox" id="canvasToggle" class="toggle-input main-toggle">
+              <label for="canvasToggle" class="toggle-label"></label>
+            </div>
+          </button>
+          <!-- TMS Button with toggle on right -->
+          <button id="tmsButton" class="menu-button">
+            <div class="btn-label-group">
+              <img src="images/tms_icon.png" alt="TMS Icon">
+              <span class="button-text">TMS</span>
+            </div>
+            <div class="toggle-container main-toggle-container">
+              <input type="checkbox" id="tmsToggle" class="toggle-input main-toggle">
+              <label for="tmsToggle" class="toggle-label"></label>
+            </div>
+          </button>
+          <!-- TMS Focus Mode Row -->
+          <div id="tmsFocusRow" class="menu-button focus-mode-row">
+            <div class="btn-label-group">
+              <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
+              <span class="button-text">TMS Focus Mode</span>
+            </div>
+            <div class="focus-mode-buttons">
+              <button id="activateFocusButton" class="focus-sub-button">Activate</button>
+              <button id="infoFocusButton" class="focus-sub-button info-button">ⓘ</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Settings view (initially hidden) -->
-    <div id="settingsView" class="view hidden">
-      <h2>Settings</h2>
-      <label style="font-size: 12px; display: block; margin-bottom: 4px;">
-        <input type="checkbox" id="neptunAutoLoginCheckbox">
-        Enable Neptun Auto‑Log In
-      </label>
-      <label style="font-size: 12px; display: block; margin-bottom: 4px;">
-        <input type="checkbox" id="directStudentWebCheckbox">
-        Go Direct to Student Web
-      </label>
-      
-      <div class="neptun-credentials">
-        <label for="neptunCode">Neptun Code:</label>
-        <input type="text" id="neptunCode" disabled>
-        <label for="neptunPassword">Password:</label>
-        <input type="password" id="neptunPassword" disabled>
-        <label for="otpSecret">OTP Secret:</label>
-        <input type="text" id="otpSecret" placeholder="Enter OTP secret" disabled>
+      <!-- Settings View (only contains the Direct Student Web toggle and credentials) -->
+      <div id="settingsView" class="view hidden">
+        <h2>Settings</h2>
+        <div class="setting-item">
+          <span class="setting-label">Go Direct to Student Web</span>
+          <div class="toggle-container settings-toggle-container">
+            <input type="checkbox" id="directStudentWebToggle" class="toggle-input settings-toggle">
+            <label for="directStudentWebToggle" class="toggle-label"></label>
+          </div>
+        </div>
+        <div class="neptun-credentials">
+          <label for="neptunCode">Neptun Code:</label>
+          <input type="text" id="neptunCode">
+          <label for="neptunPassword">Password:</label>
+          <input type="password" id="neptunPassword">
+          <label for="otpSecret">OTP Secret:</label>
+          <input type="text" id="otpSecret" placeholder="Enter OTP secret">
+        </div>
+        <button id="saveSettingsButton" class="save-button">Save Settings</button>
       </div>
-      <button id="saveNeptunSettings" class="save-button">Save Settings</button>
-    </div>
 
-    <!-- Info Modal -->
-    <div id="infoModal" class="modal">
-      <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
-        <p class="guide-text" style="font-size: 12px; margin-top: 16px;">
-          First, open TMS in your browser, then open your task, and finally click Activate.
-        </p>
+      <!-- Info Modal (for TMS Focus Mode Info) -->
+      <div id="infoModal" class="modal">
+        <div class="modal-content">
+          <span id="closeModal" class="close">&times;</span>
+          <p class="guide-text">First, open TMS in your browser, then open your task, and finally click Activate.</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Saved Modal Popup -->
-    <div id="savedModal" class="modal">
-      <div class="modal-content">
-        <p class="guide-text" style="font-size: 12px; margin-top: 16px; text-align: center;">Saved!</p>
+      <!-- Saved Modal Popup (appears only when settings are saved from settings view) -->
+      <div id="savedModal" class="modal">
+        <div class="modal-content">
+          <p class="guide-text">Saved!</p>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="popup.js"></script>
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>

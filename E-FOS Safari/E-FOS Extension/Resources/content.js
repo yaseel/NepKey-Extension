@@ -1,15 +1,9 @@
 console.log("Content script loaded on: " + window.location.href);
 
-// ---------------------------------------------------------------------
-// Global flags & helper variables
-// ---------------------------------------------------------------------
 let otpFilled = false;
 let otpSubmitted = false;
-let pollingActive = true; // Controls whether further polling occurs
+let pollingActive = true;
 
-// ---------------------------------------------------------------------
-// POLLING FUNCTION
-// ---------------------------------------------------------------------
 function pollForElement(selector, delayMs, maxAttempts, onFound, onFailure) {
   let attempts = 0;
   function poll() {
@@ -33,17 +27,10 @@ function stopPolling() {
   pollingActive = false;
 }
 
-// ---------------------------------------------------------------------
-// HELPER: Check if already logged in (by URL/path)
-// ---------------------------------------------------------------------
 function isAlreadyLoggedIn() {
-  // For example, if the URL is exactly the homepage ("/") or contains "mainpage"
   return window.location.pathname === "/" || window.location.href.includes("mainpage");
 }
 
-// ---------------------------------------------------------------------
-// Stage A: Auto-fill on Neptun Login Page
-// ---------------------------------------------------------------------
 if (window.location.href.includes("Account/Login")) {
   console.log("[Content] Detected Login page. Attempting auto-fill.");
   (async function autoFillLogin() {
@@ -88,11 +75,7 @@ if (window.location.href.includes("Account/Login")) {
   })();
 }
 
-// ---------------------------------------------------------------------
-// Stage B: MFA/TOTP Handling on Login2FA Page
-// ---------------------------------------------------------------------
 if (window.location.href.includes("Account/Login2FA")) {
-  // Only run MFA handling if not already logged in.
   if (!isAlreadyLoggedIn()) {
     pollForElement("#TOTPCode", 100, 50, (otpField) => {
       if (!pollingActive) return;
@@ -115,16 +98,13 @@ async function fillMFA() {
     stopPolling();
     return;
   }
-
   const otpField = document.getElementById("TOTPCode");
   if (!otpField) {
     console.error("[Content] OTP field (#TOTPCode) not found. Stopping retries.");
     stopPolling();
     return;
   }
-
   console.log("[Content] Detected OTP field (id='TOTPCode').");
-
   try {
     const settingsResult = await browser.storage.local.get("neptunAutoLoginSettings");
     const settings = settingsResult ? settingsResult.neptunAutoLoginSettings : null;
@@ -140,9 +120,7 @@ async function fillMFA() {
       console.log("[Content] Generated TOTP code:", otpCode);
       otpField.value = otpCode;
       otpField.dispatchEvent(new Event("input", { bubbles: true }));
-      otpFilled = true; // Mark that OTP has been filled
-
-      // Poll for MFA submit button (only click once)
+      otpFilled = true;
       pollForElement(
         'button[type="submit"].btn.btn-primary, input[type="submit"].btn.btn-primary',
         100,
@@ -172,10 +150,6 @@ async function fillMFA() {
   }
 }
 
-// ---------------------------------------------------------------------
-// Stage C: Auto-click Student Web Link on Neptun Homepage
-// ---------------------------------------------------------------------
-// This block will run only on Neptun pages that are not the login pages.
 if (
   window.location.href.startsWith("https://neptun.elte.hu/") &&
   !window.location.href.includes("Account/Login") &&
@@ -187,14 +161,11 @@ if (
     if (
       result &&
       result.neptunAutoLoginSettings &&
-      result.neptunAutoLoginSettings.studentWeb
+      result.neptunAutoLoginSettings.studentWeb &&
+      result.neptunAutoLoginSettings.enabled
     ) {
       console.log("[Content] Student Web auto‑click enabled.");
-      
-      // Flag to ensure we click the link only once within this injection.
       let studentWebClicked = false;
-
-      // Helper function to find and click the Student Web link.
       function clickStudentWebLink() {
         if (studentWebClicked) return true;
         const links = Array.from(document.querySelectorAll("a.nav-link"));
@@ -207,14 +178,11 @@ if (
           console.log("[Content] Student web link found. Clicking it.");
           targetLink.click();
           studentWebClicked = true;
-          // Set a flag in sessionStorage so that future injections won’t click again.
           sessionStorage.setItem("studentWebClicked", "true");
           return true;
         }
         return false;
       }
-
-      // Try clicking the link immediately.
       if (!clickStudentWebLink()) {
         console.log("[Content] Student web link not found immediately. Starting MutationObserver...");
         const observer = new MutationObserver((mutations, obs) => {
@@ -233,16 +201,8 @@ if (
   });
 }
 
-/* ---------------------------------------------------------------------
-// TOTP Generation Helper Functions
-// --------------------------------------------------------------------- */
-
 /**
  * Generates a TOTP code using the Web Crypto API.
- * @param {string} base32Secret - The secret key in Base32 format.
- * @param {number} [step=30] - Time step in seconds.
- * @param {number} [digits=6] - Number of digits in the OTP.
- * @returns {Promise<string>} - A promise that resolves to the TOTP code.
  */
 async function generateTOTP(base32Secret, step = 30, digits = 6) {
   const keyData = base32ToUint8Array(base32Secret);
@@ -275,8 +235,6 @@ async function generateTOTP(base32Secret, step = 30, digits = 6) {
 
 /**
  * Converts a Base32 string into a Uint8Array.
- * @param {string} base32 - The secret in Base32 format.
- * @returns {Uint8Array} - The corresponding byte array.
  */
 function base32ToUint8Array(base32) {
   const base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";

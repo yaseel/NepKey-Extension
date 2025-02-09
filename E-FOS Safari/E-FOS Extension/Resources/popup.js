@@ -3,25 +3,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- UI Helpers ---
   function isSettingsVisible() {
-    const settingsView = document.getElementById("settingsView");
-    return settingsView && settingsView.classList.contains("visible");
+    return document.getElementById("settingsView").classList.contains("visible");
   }
   function updateGearImage(isSettings) {
-    const settingsButton = document.getElementById("settingsButton");
-    if (settingsButton) {
-      const gearImg = settingsButton.querySelector("img");
-      const isDark = document.body.classList.contains("dark-mode");
-      gearImg.src = isSettings
-        ? (isDark ? "images/back_dark.png" : "images/back_light.png")
-        : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
-    }
+    const gearImg = document.getElementById("settingsButton").querySelector("img");
+    const isDark = document.body.classList.contains("dark-mode");
+    // Use the back icon when settings are visible; otherwise, use the gear icon.
+    gearImg.src = isSettings
+      ? (isDark ? "images/back_dark.png" : "images/back_light.png")
+      : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
   }
 
   // --- Dark Mode Detection ---
   const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  const isDark = darkModeQuery.matches;
-  console.log("[Popup] Dark mode (on load):", isDark);
-  if (isDark) {
+  if (darkModeQuery.matches) {
     document.body.classList.add("dark-mode");
   } else {
     document.body.classList.remove("dark-mode");
@@ -39,69 +34,55 @@ document.addEventListener("DOMContentLoaded", () => {
     browser.tabs.create({ url });
   }
 
-  // --- Neptun Button Click Handler ---
-  document.getElementById("neptunButton").addEventListener("click", () => {
-    console.log("[Popup] Neptun button clicked.");
+  // Prevent clicks on toggle containers from propagating to parent buttons.
+  document.querySelectorAll(".toggle-container").forEach(tc => {
+    tc.addEventListener("click", e => e.stopPropagation());
+  });
 
-    browser.storage.local.get("neptunAutoLoginSettings").then((result) => {
-      console.log("[Popup] Retrieved settings:", result);
+  // --- Settings Storage Functions ---
+  function loadSettings() {
+    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
+      let settings = {};
       if (result && result.neptunAutoLoginSettings) {
-        const settings = result.neptunAutoLoginSettings;
-        if (settings.enabled) {
-          console.log("[Popup] Auto-login enabled. Sending message to background.");
-          browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
-          return;
-        } else {
-          console.log("[Popup] Auto-login not enabled.");
-        }
-      } else {
-        console.log("[Popup] No auto-login settings found.");
+        settings = result.neptunAutoLoginSettings;
       }
-      console.log("[Popup] Opening default Neptun homepage.");
-      openNewTab(urls.neptun);
-    });
-  });
-
-  // --- Other Buttons ---
-  document.getElementById("canvasButton").addEventListener("click", () => {
-    openNewTab(urls.canvas);
-  });
-  document.getElementById("tmsButton").addEventListener("click", () => {
-    openNewTab(urls.tms);
-  });
-  document.getElementById("activateFocusButton").addEventListener("click", () => {
-    browser.runtime.sendMessage({ action: "activateFocusMode" });
-    alert("Focus Mode Activated – implement content script handling as needed.");
-  });
-
-  // --- Modal Functionality ---
-  document.getElementById("infoFocusButton").addEventListener("click", () => {
-    openModal();
-  });
-  const modalEl = document.getElementById("infoModal");
-  const closeModalBtn = document.getElementById("closeModal");
-  function openModal() {
-    modalEl.style.display = "block";
-    setTimeout(() => {
-      modalEl.classList.add("show");
-    }, 10);
+      // Update main view toggles (default false if not set)
+      document.getElementById("neptunToggle").checked = !!settings.enabled;
+      document.getElementById("canvasToggle").checked = !!settings.canvasEnabled;
+      document.getElementById("tmsToggle").checked = !!settings.tmsEnabled;
+      // Update settings view toggle (Direct Student Web)
+      document.getElementById("directStudentWebToggle").checked = !!settings.studentWeb;
+      // Load credential fields
+      document.getElementById("neptunCode").value = settings.code || "";
+      document.getElementById("neptunPassword").value = settings.password || "";
+      document.getElementById("otpSecret").value = settings.otpSecret || "";
+    }).catch(err => console.error("[Popup] loadSettings error:", err));
   }
-  function closeModal() {
-    modalEl.classList.remove("show");
-    modalEl.classList.add("closing");
-    setTimeout(() => {
-      modalEl.style.display = "none";
-      modalEl.classList.remove("closing");
-    }, 300);
-  }
-  closeModalBtn.addEventListener("click", closeModal);
-  window.addEventListener("click", (event) => {
-    if (event.target === modalEl) {
-      closeModal();
-    }
-  });
 
-  // --- Saved Modal Functionality ---
+  function saveSettings(silent = false, callback) {
+    const settings = {
+      enabled: document.getElementById("neptunToggle").checked,
+      canvasEnabled: document.getElementById("canvasToggle").checked,
+      tmsEnabled: document.getElementById("tmsToggle").checked,
+      studentWeb: document.getElementById("directStudentWebToggle").checked,
+      code: document.getElementById("neptunCode").value,
+      password: document.getElementById("neptunPassword").value,
+      otpSecret: document.getElementById("otpSecret").value
+    };
+    browser.storage.local.set({ neptunAutoLoginSettings: settings }).then(() => {
+      console.log("[Popup] Settings saved:", settings);
+      if (!silent) openSavedModal();
+      if (callback) callback();
+    }).catch(err => console.error("[Popup] saveSettings error:", err));
+  }
+
+  // Auto-save main view toggle changes silently.
+  document.getElementById("neptunToggle").addEventListener("change", () => { saveSettings(true); });
+  document.getElementById("canvasToggle").addEventListener("change", () => { saveSettings(true); });
+  document.getElementById("tmsToggle").addEventListener("change", () => { saveSettings(true); });
+  document.getElementById("directStudentWebToggle").addEventListener("change", () => { saveSettings(true); });
+
+  // --- Saved Modal Functions ---
   function closeSavedModal() {
     const savedModal = document.getElementById("savedModal");
     savedModal.classList.remove("show");
@@ -114,75 +95,119 @@ document.addEventListener("DOMContentLoaded", () => {
   function openSavedModal() {
     const savedModal = document.getElementById("savedModal");
     savedModal.style.display = "block";
-    setTimeout(() => {
-      savedModal.classList.add("show");
-    }, 10);
-    const autoCloseTimer = setTimeout(() => {
-      closeSavedModal();
-    }, 1500);
-    savedModal.onclick = () => {
-      clearTimeout(autoCloseTimer);
-      closeSavedModal();
-    };
+    setTimeout(() => savedModal.classList.add("show"), 10);
+    const autoCloseTimer = setTimeout(() => closeSavedModal(), 1500);
+    savedModal.onclick = () => { clearTimeout(autoCloseTimer); closeSavedModal(); };
   }
 
-  // --- Settings Toggle ---
-  document.getElementById("settingsButton").addEventListener("click", () => {
+  // --- Settings Toggle (Gear/Back Button) ---
+  document.getElementById("settingsButton").addEventListener("click", (e) => {
+    e.preventDefault();
     const mainView = document.getElementById("mainView");
     const settingsView = document.getElementById("settingsView");
-    if (isSettingsVisible()) {
+
+    if (settingsView.classList.contains("visible")) {
+      // Immediately switch back to main view…
       settingsView.classList.remove("visible");
       settingsView.classList.add("hidden");
       mainView.classList.remove("hidden");
       mainView.classList.add("visible");
       updateGearImage(false);
+      // …then save the settings (which will also trigger the Saved modal)
+      saveSettings();
     } else {
+      // Switch to settings view
       mainView.classList.remove("visible");
       mainView.classList.add("hidden");
       settingsView.classList.remove("hidden");
       settingsView.classList.add("visible");
-      loadNeptunSettings();
+      loadSettings();
       updateGearImage(true);
     }
   });
 
-  // --- Neptun Auto‑Login Settings (including OTP secret and Student Web option) ---
-  document.getElementById("neptunAutoLoginCheckbox").addEventListener("change", function() {
-    const enabled = this.checked;
-    document.getElementById("neptunCode").disabled = !enabled;
-    document.getElementById("neptunPassword").disabled = !enabled;
-    document.getElementById("otpSecret").disabled = !enabled;
-    document.getElementById("directStudentWebCheckbox").disabled = !enabled;
+  // --- Save Settings Button in Settings View ---
+  document.getElementById("saveSettingsButton").addEventListener("click", (e) => {
+    e.preventDefault();
+    saveSettings();
   });
-  document.getElementById("saveNeptunSettings").addEventListener("click", () => {
-    const enabled = document.getElementById("neptunAutoLoginCheckbox").checked;
-    const code = document.getElementById("neptunCode").value;
-    const password = document.getElementById("neptunPassword").value;
-    const otpSecret = document.getElementById("otpSecret").value;
-    const studentWeb = document.getElementById("directStudentWebCheckbox").checked;  // NEW!
-    
-    const settings = { enabled, code, password, otpSecret, studentWeb }; // Include studentWeb
-    
-    browser.storage.local.set({ neptunAutoLoginSettings: settings }).then(() => {
-      console.log("[Popup] Settings saved to storage.");
-      openSavedModal();
-    });
-  });
-  
-  function loadNeptunSettings() {
-    browser.storage.local.get("neptunAutoLoginSettings").then((result) => {
-      if (result && result.neptunAutoLoginSettings) {
-        const settings = result.neptunAutoLoginSettings;
-        document.getElementById("neptunAutoLoginCheckbox").checked = settings.enabled;
-        document.getElementById("neptunCode").value = settings.code;
-        document.getElementById("neptunPassword").value = settings.password;
-        document.getElementById("otpSecret").value = settings.otpSecret || "";
-        document.getElementById("directStudentWebCheckbox").checked = settings.studentWeb || false;
-        
-        document.getElementById("neptunCode").disabled = !settings.enabled;
-        document.getElementById("neptunPassword").disabled = !settings.enabled;
-        document.getElementById("otpSecret").disabled = !settings.enabled;
+
+  // --- Main View Button Handlers ---
+  document.getElementById("neptunButton").addEventListener("click", (e) => {
+    if (e.target.closest(".toggle-container")) return;
+    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
+      const settings = (result && result.neptunAutoLoginSettings) || {};
+      if (settings.enabled) {
+        console.log("[Popup] Neptun auto‑login enabled. Sending message to background.");
+        browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
+      } else {
+        console.log("[Popup] Neptun auto‑login disabled. Opening default homepage.");
+        openNewTab(urls.neptun);
       }
     });
+  });
+
+  document.getElementById("canvasButton").addEventListener("click", (e) => {
+    if (e.target.closest(".toggle-container")) return;
+    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
+      const settings = (result && result.neptunAutoLoginSettings) || {};
+      if (settings.canvasEnabled) {
+        console.log("[Popup] Canvas auto‑login enabled. Sending message to background.");
+        browser.runtime.sendMessage({ action: "openNeptunLogin", settings, site: "canvas" });
+      } else {
+        openNewTab(urls.canvas);
+      }
+    });
+  });
+
+  document.getElementById("tmsButton").addEventListener("click", (e) => {
+    if (e.target.closest(".toggle-container")) return;
+    browser.storage.local.get("neptunAutoLoginSettings").then(result => {
+      const settings = (result && result.neptunAutoLoginSettings) || {};
+      if (settings.tmsEnabled) {
+        console.log("[Popup] TMS auto‑login enabled. Sending message to background.");
+        browser.runtime.sendMessage({ action: "openTMSLogin", settings });
+      } else {
+        openNewTab(urls.tms);
+      }
+    });
+  });
+
+  // --- Focus Mode Buttons (TMS Focus Mode Row) ---
+  document.getElementById("activateFocusButton").addEventListener("click", (e) => {
+    e.stopPropagation();
+    console.log("[Popup] Activate Focus Mode clicked.");
+    browser.runtime.sendMessage({ action: "activateFocusMode" });
+    alert("Focus Mode Activated");
+  });
+  document.getElementById("infoFocusButton").addEventListener("click", (e) => {
+    e.stopPropagation();
+    openModal();
+  });
+
+  // --- Modal Functionality (for TMS Focus Mode Info) ---
+  const modalEl = document.getElementById("infoModal");
+  const closeModalBtn = document.getElementById("closeModal");
+  function openModal() {
+    modalEl.style.display = "block";
+    setTimeout(() => modalEl.classList.add("show"), 10);
   }
+  function closeModal() {
+    modalEl.classList.remove("show");
+    modalEl.classList.add("closing");
+    setTimeout(() => {
+      modalEl.style.display = "none";
+      modalEl.classList.remove("closing");
+    }, 300);
+  }
+  closeModalBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    closeModal();
+  });
+  window.addEventListener("click", (event) => {
+    if (event.target === modalEl) closeModal();
+  });
+
+  // --- Initial Load ---
+  loadSettings();
 });
