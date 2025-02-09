@@ -176,7 +176,7 @@ h1 {
   border: none;
   border-radius: 7px;
   cursor: pointer;
-  background-color: #8e24aa;
+  background-color: #d1a3e8;
   color: white;
   transition: background-color 0.2s, transform 0.1s;
 }
@@ -184,7 +184,7 @@ h1 {
   transform: scale(0.95);
 }
 .focus-sub-button:hover {
-  background-color: #6a1b9a;
+  background-color: #c18ee8;
 }
 
 /* ---------- Modal Styles ---------- */
@@ -308,7 +308,7 @@ h1 {
 
 /* ---------- Save Button ---------- */
 .save-button {
-  background-color: #8e24aa;
+  background-color: #d1a3e8;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -319,7 +319,7 @@ h1 {
   transition: background-color 0.2s, transform 0.1s;
 }
 .save-button:hover {
-  background-color: #6a1b9a;
+  background-color: #c18ee8;
 }
 .save-button:active {
   transform: scale(0.95);
@@ -380,17 +380,31 @@ h1 {
 .dark-mode .focus-mode-row {
   color: white !important;
 }
-.dark-mode .focus-mode-row .sub-button {
+
+.dark-mode .focus-sub-button {
   background-color: #8e24aa !important;
+  color: white !important;
 }
-.dark-mode .focus-mode-row .sub-button:hover {
+
+.dark-mode .focus-sub-button:hover {
   background-color: #6a1b9a !important;
 }
+
 .dark-mode .modal-content {
   background-color: #2C2C2C !important;
   color: white !important;
   border: 1px solid #555 !important;
 }
+
+.dark-mode .save-button {
+  background-color: #8e24aa !important;
+  color: white !important;
+}
+
+.dark-mode .save-button:hover {
+  background-color: #6a1b9a !important;
+}
+
 .dark-mode .close {
   color: #AAA !important;
 }
