@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "E-FOS",
+  "name": "EFOS",
   "version": "1.0",
   "description": "ELTE Felhasználóbarát Offline Segéd",
   "icons": {
@@ -8,10 +8,9 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "E-FOS"
+    "default_title": "EFOS"
   },
   "permissions": [
-    "tabs",
     "activeTab",
     "storage",
     "scripting"
