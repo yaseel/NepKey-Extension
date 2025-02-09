@@ -308,7 +308,7 @@ h1 {
 
 /* ---------- Save Button ---------- */
 .save-button {
-  background-color: #007AFF;
+  background-color: #8e24aa;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -319,7 +319,7 @@ h1 {
   transition: background-color 0.2s, transform 0.1s;
 }
 .save-button:hover {
-  background-color: #0063d1;
+  background-color: #6a1b9a;
 }
 .save-button:active {
   transform: scale(0.95);
