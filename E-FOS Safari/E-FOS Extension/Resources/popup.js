@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateGearImage(isSettings) {
     const gearImg = document.getElementById("settingsButton").querySelector("img");
     const isDark = document.body.classList.contains("dark-mode");
-    // Use the back icon when settings are visible; otherwise, use the gear icon.
     gearImg.src = isSettings
       ? (isDark ? "images/back_dark.png" : "images/back_light.png")
       : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
@@ -47,32 +46,46 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Settings Storage Functions ---
   function loadSettings() {
     browser.storage.local.get("autoLoginSettings").then(result => {
-      let settings = {};
+      // Provide defaults if no settings saved.
+      let settings = {
+        neptun: { enabled: false, studentWeb: false },
+        canvas: { enabled: false },
+        tms: { enabled: false },
+        credentials: { code: "", password: "", otpSecret: "" }
+      };
       if (result && result.autoLoginSettings) {
         settings = result.autoLoginSettings;
       }
-      // Update main view toggles (default false if not set)
-      document.getElementById("neptunToggle").checked = !!settings.enabled;
-      document.getElementById("canvasToggle").checked = !!settings.canvasEnabled;
-      document.getElementById("tmsToggle").checked = !!settings.tmsEnabled;
-      // Update settings view toggle (Direct Student Web)
-      document.getElementById("directStudentWebToggle").checked = !!settings.studentWeb;
-      // Load credential fields
-      document.getElementById("neptunCode").value = settings.code || "";
-      document.getElementById("neptunPassword").value = settings.password || "";
-      document.getElementById("otpSecret").value = settings.otpSecret || "";
+      // Update toggles.
+      document.getElementById("neptunToggle").checked = settings.neptun.enabled;
+      document.getElementById("canvasToggle").checked = settings.canvas.enabled;
+      document.getElementById("tmsToggle").checked = settings.tms.enabled;
+      document.getElementById("directStudentWebToggle").checked = settings.neptun.studentWeb;
+      // Update credential fields.
+      document.getElementById("neptunCode").value = settings.credentials.code || "";
+      document.getElementById("neptunPassword").value = settings.credentials.password || "";
+      document.getElementById("otpSecret").value = settings.credentials.otpSecret || "";
     }).catch(err => console.error("[Popup] loadSettings error:", err));
   }
 
   function saveSettings(silent = false, callback) {
+    // Build new settings object.
     const settings = {
-      enabled: document.getElementById("neptunToggle").checked,
-      canvasEnabled: document.getElementById("canvasToggle").checked,
-      tmsEnabled: document.getElementById("tmsToggle").checked,
-      studentWeb: document.getElementById("directStudentWebToggle").checked,
-      code: document.getElementById("neptunCode").value,
-      password: document.getElementById("neptunPassword").value,
-      otpSecret: document.getElementById("otpSecret").value
+      neptun: {
+        enabled: document.getElementById("neptunToggle").checked,
+        studentWeb: document.getElementById("directStudentWebToggle").checked
+      },
+      canvas: {
+        enabled: document.getElementById("canvasToggle").checked
+      },
+      tms: {
+        enabled: document.getElementById("tmsToggle").checked
+      },
+      credentials: {
+        code: document.getElementById("neptunCode").value,
+        password: document.getElementById("neptunPassword").value,
+        otpSecret: document.getElementById("otpSecret").value
+      }
     };
     browser.storage.local.set({ autoLoginSettings: settings }).then(() => {
       console.log("[Popup] Settings saved:", settings);
@@ -81,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).catch(err => console.error("[Popup] saveSettings error:", err));
   }
 
-  // Auto-save main view toggle changes silently.
+  // Auto-save toggles silently.
   document.getElementById("neptunToggle").addEventListener("change", () => { saveSettings(true); });
   document.getElementById("canvasToggle").addEventListener("change", () => { saveSettings(true); });
   document.getElementById("tmsToggle").addEventListener("change", () => { saveSettings(true); });
@@ -110,18 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const mainView = document.getElementById("mainView");
     const settingsView = document.getElementById("settingsView");
-
     if (settingsView.classList.contains("visible")) {
-      // Immediately switch back to main view…
       settingsView.classList.remove("visible");
       settingsView.classList.add("hidden");
       mainView.classList.remove("hidden");
       mainView.classList.add("visible");
       updateGearImage(false);
-      // …then save the settings without Saved! modal
       saveSettings(true);
     } else {
-      // Switch to settings view
       mainView.classList.remove("visible");
       mainView.classList.add("hidden");
       settingsView.classList.remove("hidden");
@@ -132,19 +141,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   // --- OTP Secret Eye Toggle ---
-    document.getElementById("toggleOtpSecret").addEventListener("click", function () {
-      const otpInput = document.getElementById("otpSecret");
-      const isDark = document.body.classList.contains("dark-mode");
-      if (otpInput.type === "password") {
-        otpInput.type = "text";
-        // Optionally update the icon (if you have a different image for visible state)
-        this.querySelector("img").src = isDark ? "images/eye_dark.png" : "images/eye_light.png";
-      } else {
-        otpInput.type = "password";
-        // Revert back to the original icon:
-        this.querySelector("img").src = isDark ? "images/hidden_dark.png" : "images/hidden_light.png";
-      }
-    });
+  document.getElementById("toggleOtpSecret").addEventListener("click", function () {
+    const otpInput = document.getElementById("otpSecret");
+    const isDark = document.body.classList.contains("dark-mode");
+    if (otpInput.type === "password") {
+      otpInput.type = "text";
+      this.querySelector("img").src = isDark ? "images/eye_dark.png" : "images/eye_light.png";
+    } else {
+      otpInput.type = "password";
+      this.querySelector("img").src = isDark ? "images/hidden_dark.png" : "images/hidden_light.png";
+    }
+  });
 
   // --- Save Settings Button in Settings View ---
   document.getElementById("saveSettingsButton").addEventListener("click", (e) => {
@@ -157,9 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.closest(".toggle-container")) return;
     browser.storage.local.get("autoLoginSettings").then(result => {
       const settings = (result && result.autoLoginSettings) || {};
-      if (settings.enabled) {
+      if (settings.neptun && settings.neptun.enabled) {
         console.log("[Popup] Neptun auto‑login enabled. Sending message to background.");
-        browser.runtime.sendMessage({ action: "openNeptunLogin", settings });
+        // Send only the credentials
+        browser.runtime.sendMessage({ action: "openNeptunLogin", settings: settings.credentials });
       } else {
         console.log("[Popup] Neptun auto‑login disabled. Opening default homepage.");
         openNewTab(urls.neptun);
@@ -172,9 +180,9 @@ document.addEventListener("DOMContentLoaded", () => {
     browser.storage.local.get("autoLoginSettings").then(result => {
       const settings = (result && result.autoLoginSettings) || {};
       console.log("[Popup] Canvas settings:", settings);
-      if (settings.canvasEnabled === true) {
+      if (settings.canvas && settings.canvas.enabled === true) {
         console.log("[Popup] Canvas auto‑login enabled. Sending message to background.");
-        browser.runtime.sendMessage({ action: "openNeptunLogin", settings, site: "canvas" });
+        browser.runtime.sendMessage({ action: "openNeptunLogin", settings: settings.credentials, site: "canvas" });
       } else {
         console.log("[Popup] Canvas auto‑login disabled. Opening Canvas homepage.");
         openNewTab(urls.canvas);
@@ -186,9 +194,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.closest(".toggle-container")) return;
     browser.storage.local.get("autoLoginSettings").then(result => {
       const settings = (result && result.autoLoginSettings) || {};
-      if (settings.tmsEnabled) {
+      if (settings.tms && settings.tms.enabled) {
         console.log("[Popup] TMS auto‑login enabled. Sending message to background.");
-        browser.runtime.sendMessage({ action: "openTMSLogin", settings });
+        browser.runtime.sendMessage({ action: "openTMSLogin", settings: settings.credentials });
       } else {
         openNewTab(urls.tms);
       }
@@ -229,18 +237,19 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("click", (event) => {
     if (event.target === modalEl) closeModal();
   });
-    
+
+  // --- Energy Surge Animation on Main Toggle Buttons ---
   document.querySelectorAll('.main-toggle').forEach((input) => {
-      input.addEventListener('change', function () {
-        const menuButton = this.closest('.menu-button');
-        if (this.checked && menuButton) {
-          menuButton.classList.add('energy-surge');
-          setTimeout(() => {
-            menuButton.classList.remove('energy-surge');
-          }, 1000);
-        }
-      });
+    input.addEventListener('change', function () {
+      const menuButton = this.closest('.menu-button');
+      if (this.checked && menuButton) {
+        menuButton.classList.add('energy-surge');
+        setTimeout(() => {
+          menuButton.classList.remove('energy-surge');
+        }, 1000);
+      }
     });
+  });
 
   // --- Initial Load ---
   loadSettings();

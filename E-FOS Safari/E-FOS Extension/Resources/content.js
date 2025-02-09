@@ -58,7 +58,8 @@
        (async function autoFillLogin() {
          try {
            const result = await browser.storage.local.get("autoLoginSettings");
-           if (result && result.autoLoginSettings && result.autoLoginSettings.enabled) {
+           // Check using the new nested structure:
+           if (result && result.autoLoginSettings && result.autoLoginSettings.neptun && result.autoLoginSettings.neptun.enabled) {
              const settings = result.autoLoginSettings;
              function fillLogin() {
                if (window.neptunLoginAttempted) {
@@ -70,8 +71,9 @@
                const passInput = document.getElementById("Password");
                if (userInput && passInput) {
                  console.log("[Content] Login fields found. Inserting credentials.");
-                 userInput.value = settings.code;
-                 passInput.value = settings.password;
+                 // Use the credentials sub-object:
+                 userInput.value = settings.credentials.code;
+                 passInput.value = settings.credentials.password;
                  userInput.dispatchEvent(new Event("input", { bubbles: true }));
                  passInput.dispatchEvent(new Event("input", { bubbles: true }));
                  console.log("[Content] Credentials filled. Polling for login button...");
@@ -142,13 +144,13 @@
      try {
        const settingsResult = await browser.storage.local.get("autoLoginSettings");
        const settings = settingsResult ? settingsResult.autoLoginSettings : null;
-       if (!settings || !settings.otpSecret) {
+       if (!settings || !settings.credentials.otpSecret) {
          console.error("[Content] No OTP secret stored in settings.");
          stopPolling();
          return;
        }
-       console.log("[Content] Stored OTP secret (raw):", settings.otpSecret);
-       const normalizedSecret = settings.otpSecret.trim();
+       console.log("[Content] Stored OTP secret (raw):", settings.credentials.otpSecret);
+       const normalizedSecret = settings.credentials.otpSecret.trim();
        try {
          const otpCode = await generateTOTP(normalizedSecret);
          console.log("[Content] Generated TOTP code:", otpCode);
@@ -184,7 +186,7 @@
      }
    }
    
-   // ----------------- Student Web Auto‑Click (unchanged) -----------------
+   // ----------------- Student Web Auto‑Click -----------------
    if (
      window.location.href.startsWith("https://neptun.elte.hu/") &&
      !window.location.href.includes("Account/Login") &&
@@ -196,8 +198,9 @@
        if (
          result &&
          result.autoLoginSettings &&
-         result.autoLoginSettings.studentWeb &&
-         result.autoLoginSettings.enabled
+         result.autoLoginSettings.neptun &&
+         result.autoLoginSettings.neptun.studentWeb &&
+         result.autoLoginSettings.neptun.enabled
        ) {
          console.log("[Content] Student Web auto‑click enabled.");
          let studentWebClicked = false;
@@ -241,12 +244,12 @@
      console.log("[Canvas] Canvas page detected.");
      browser.storage.local.get("autoLoginSettings").then(result => {
        const settings = result && result.autoLoginSettings;
-       if (settings && settings.canvasEnabled === true) {
+       if (settings && settings.canvas && settings.canvas.enabled === true) {
          if (window.canvasLoginAttempted) {
            console.log("[Canvas] Canvas auto-login already attempted. Skipping.");
            return;
          }
-         window.canvasLoginAttempted = true;  // Only try once
+         window.canvasLoginAttempted = true;
          console.log("[Canvas] Canvas auto-login enabled. Starting auto-login process for Canvas.");
          pollForElement("a.myButton", 100, 30, () => {
            const allButtons = document.querySelectorAll("a.myButton");
@@ -258,11 +261,11 @@
              console.log("[Canvas] Found Canvas login button. Clicking it.");
              targetButton.click();
              pollForElement("#username_neptun", 100, 30, (usernameField) => {
-               usernameField.value = settings.code || "";
+               usernameField.value = settings.credentials.code || "";
                usernameField.dispatchEvent(new Event("input", { bubbles: true }));
                console.log("[Canvas] Username field filled.");
                pollForElement("#password_neptun", 100, 30, (passwordField) => {
-                 passwordField.value = settings.password || "";
+                 passwordField.value = settings.credentials.password || "";
                  passwordField.dispatchEvent(new Event("input", { bubbles: true }));
                  console.log("[Canvas] Password field filled.");
                  pollForElement("input[type='submit'].submit-button", 100, 30, (submitBtn) => {
@@ -301,12 +304,12 @@
        try {
          const result = await browser.storage.local.get("autoLoginSettings");
          const settings = result && result.autoLoginSettings;
-         if (settings && settings.canvasEnabled === true) {
+         if (settings && settings.canvas && settings.canvas.enabled === true) {
            if (window.idpLoginAttempted) {
              console.log("[Content] IdP auto-login already attempted. Skipping further attempts.");
              return;
            }
-           window.idpLoginAttempted = true;  // Only try once
+           window.idpLoginAttempted = true;
            function fillLogin() {
              let userInput = document.getElementById("LoginName") ||
                              document.querySelector("input[name='username_neptun']") ||
@@ -316,8 +319,8 @@
                              document.querySelector("input[name='password']");
              if (userInput && passInput) {
                console.log("[Content] IdP login fields found. Inserting credentials.");
-               userInput.value = settings.code;
-               passInput.value = settings.password;
+               userInput.value = settings.credentials.code;
+               passInput.value = settings.credentials.password;
                userInput.dispatchEvent(new Event("input", { bubbles: true }));
                passInput.dispatchEvent(new Event("input", { bubbles: true }));
                console.log("[Content] Credentials filled. Polling for login button...");
