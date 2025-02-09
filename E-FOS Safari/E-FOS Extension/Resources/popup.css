@@ -95,6 +95,39 @@ h1 {
 .menu-button:hover {
   background-color: #CFCFCF;
 }
+
+/* Energy surge animation on menu buttons */
+@keyframes energy-surge {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.menu-button.energy-surge {
+  position: relative; /* Ensure positioning context */
+  overflow: hidden;   /* Hide the pseudo-element outside the button */
+}
+
+.menu-button.energy-surge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 40%,
+    rgba(124, 77, 255, 0.4) 50%,
+    transparent 60%
+  );
+  animation: energy-surge 1s forwards;
+  pointer-events: none;
+}
+
 .btn-label-group {
   display: flex;
   align-items: center;

@@ -227,6 +227,18 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("click", (event) => {
     if (event.target === modalEl) closeModal();
   });
+    
+  document.querySelectorAll('.main-toggle').forEach((input) => {
+      input.addEventListener('change', function () {
+        const menuButton = this.closest('.menu-button');
+        if (this.checked && menuButton) {
+          menuButton.classList.add('energy-surge');
+          setTimeout(() => {
+            menuButton.classList.remove('energy-surge');
+          }, 1000);
+        }
+      });
+    });
 
   // --- Initial Load ---
   loadSettings();
