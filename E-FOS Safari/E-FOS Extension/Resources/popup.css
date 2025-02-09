@@ -259,6 +259,45 @@ h1 {
   border-radius: 4px;
 }
 
+/* ---------- OTP Secret Container ---------- */
+
+.otp-secret-container {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-otp-secret {
+  position: absolute;
+  top: -15px;
+  right: 3px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-otp-secret img {
+  width: 15px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.toggle-otp-secret:hover img {
+  transform: scale(1.1);
+}
+
+.toggle-otp-secret:active img {
+  transform: scale(0.9);
+}
+
 /* ---------- Save Button ---------- */
 .save-button {
   background-color: #007AFF;

@@ -79,8 +79,17 @@
           <input type="text" id="neptunCode">
           <label for="neptunPassword">Password:</label>
           <input type="password" id="neptunPassword">
-          <label for="otpSecret">OTP Secret:</label>
-          <input type="text" id="otpSecret" placeholder="Enter OTP secret">
+          
+          <div class="otp-secret-container">
+            <label for="otpSecret">OTP Secret:</label>
+            <div class="input-wrapper">
+              <input type="password" id="otpSecret" placeholder="Enter OTP secret">
+              <span id="toggleOtpSecret" class="toggle-otp-secret">
+                <img src="images/eye_light.png" alt="Toggle Visibility">
+              </span>
+            </div>
+          </div>
+          
         </div>
         <button id="saveSettingsButton" class="save-button">Save Settings</button>
       </div>

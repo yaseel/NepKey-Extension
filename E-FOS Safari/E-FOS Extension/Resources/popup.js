@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.remove("dark-mode");
   }
   updateGearImage(isSettingsVisible());
+  
+  // Dark Mode for OTP Show/Hide Eye Icon
+  const isDark = document.body.classList.contains("dark-mode");
+  const otpToggleIcon = document.getElementById("toggleOtpSecret").querySelector("img");
+  otpToggleIcon.src = isDark ? "images/eye_dark.png" : "images/eye_light.png";
 
   // --- URL Configuration ---
   const urls = {
@@ -125,6 +130,21 @@ document.addEventListener("DOMContentLoaded", () => {
       updateGearImage(true);
     }
   });
+  
+  // --- OTP Secret Eye Toggle ---
+    document.getElementById("toggleOtpSecret").addEventListener("click", function () {
+      const otpInput = document.getElementById("otpSecret");
+      const isDark = document.body.classList.contains("dark-mode");
+      if (otpInput.type === "password") {
+        otpInput.type = "text";
+        // Optionally update the icon (if you have a different image for visible state)
+        this.querySelector("img").src = isDark ? "images/hidden_dark.png" : "images/hidden_light.png";
+      } else {
+        otpInput.type = "password";
+        // Revert back to the original icon:
+        this.querySelector("img").src = isDark ? "images/eye_dark.png" : "images/eye_light.png";
+      }
+    });
 
   // --- Save Settings Button in Settings View ---
   document.getElementById("saveSettingsButton").addEventListener("click", (e) => {
