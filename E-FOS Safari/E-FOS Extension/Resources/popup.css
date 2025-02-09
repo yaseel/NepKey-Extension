@@ -61,15 +61,40 @@ h1 {
   font-size: 12px;
   color: gray;
   text-align: center;
-  margin-bottom: 16px;
+  padding-bottom: 9px;
 }
 
+/* ---------- Auto Login Label ---------- */
+
 .auto-login-label {
-  text-align: right;
+  position: fixed; /* or 'absolute' if you have a positioned container */
+  top: 62px;       /* adjust as needed */
+  right: 21px;     /* adjust as needed */
+  display: inline-block; /* important so the ::after stays relative */
   font-size: 10px;
   color: gray;
-  margin: 0;
-  margin-right: 4px;
+  transition: color 1s ease;
+  /* remove margins if not needed */
+}
+
+/* Pseudo-element for animated gradient text */
+.auto-login-label::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  color: transparent;
+  background: linear-gradient(45deg, #ff4081, #7c4dff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: width 1s ease;
+}
+
+.auto-login-label.active::after {
+  width: 100%;
 }
 
 /* ---------- Menu Buttons ---------- */
@@ -189,6 +214,7 @@ h1 {
 .main-toggle:checked + .toggle-label:before {
   transform: translateX(16px);
 }
+
 /* Settings view toggle (Direct Student Web) uses a static green */
 .settings-toggle:checked + .toggle-label {
   background-color: #66bb6a;

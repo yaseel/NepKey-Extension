@@ -65,6 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("neptunCode").value = settings.credentials.code || "";
       document.getElementById("neptunPassword").value = settings.credentials.password || "";
       document.getElementById("otpSecret").value = settings.credentials.otpSecret || "";
+      // NEW: Update auto-login label based on toggle states.
+      updateAutoLoginLabel();
     }).catch(err => console.error("[Popup] loadSettings error:", err));
   }
 
@@ -91,6 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("[Popup] Settings saved:", settings);
       if (!silent) openSavedModal();
       if (callback) callback();
+      // NEW: Update auto-login label on save.
+      updateAutoLoginLabel();
     }).catch(err => console.error("[Popup] saveSettings error:", err));
   }
 
@@ -99,6 +103,25 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("canvasToggle").addEventListener("change", () => { saveSettings(true); });
   document.getElementById("tmsToggle").addEventListener("change", () => { saveSettings(true); });
   document.getElementById("directStudentWebToggle").addEventListener("change", () => { saveSettings(true); });
+  
+  // --- NEW: Auto-Login Label Update Function ---
+  function updateAutoLoginLabel() {
+    // Check if any of the main toggles (Neptun, Canvas, TMS) are on.
+    const neptunChecked = document.getElementById("neptunToggle").checked;
+    const canvasChecked = document.getElementById("canvasToggle").checked;
+    const tmsChecked = document.getElementById("tmsToggle").checked;
+    const label = document.querySelector(".auto-login-label");
+    if (neptunChecked || canvasChecked || tmsChecked) {
+      label.classList.add("active");
+    } else {
+      label.classList.remove("active");
+    }
+  }
+  
+  // Attach updateAutoLoginLabel to toggle changes.
+  document.getElementById("neptunToggle").addEventListener("change", updateAutoLoginLabel);
+  document.getElementById("canvasToggle").addEventListener("change", updateAutoLoginLabel);
+  document.getElementById("tmsToggle").addEventListener("change", updateAutoLoginLabel);
 
   // --- Saved Modal Functions ---
   function closeSavedModal() {
@@ -166,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const settings = (result && result.autoLoginSettings) || {};
       if (settings.neptun && settings.neptun.enabled) {
         console.log("[Popup] Neptun auto‑login enabled. Sending message to background.");
-        // Send only the credentials
+        // Send only the credentials.
         browser.runtime.sendMessage({ action: "openNeptunLogin", settings: settings.credentials });
       } else {
         console.log("[Popup] Neptun auto‑login disabled. Opening default homepage.");
