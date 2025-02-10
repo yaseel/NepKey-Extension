@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         neptun: { enabled: false, studentWeb: false },
         canvas: { enabled: false },
         tms: { enabled: false },
-        credentials: { code: "", password: "", otpSecret: "" }
+        credentials: { code: "", password: "", tmspassword: "", otpSecret: "" }
       };
       if (result && result.autoLoginSettings) {
         settings = result.autoLoginSettings;
@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Update credential fields.
       document.getElementById("neptunCode").value = settings.credentials.code || "";
       document.getElementById("neptunPassword").value = settings.credentials.password || "";
+      document.getElementById("TMSPassword").value = settings.credentials.tmspassword || "";
       document.getElementById("otpSecret").value = settings.credentials.otpSecret || "";
       // NEW: Update auto-login label based on toggle states.
       updateAutoLoginLabel();
@@ -86,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
       credentials: {
         code: document.getElementById("neptunCode").value,
         password: document.getElementById("neptunPassword").value,
+        tmspassword: document.getElementById("TMSPassword").value,
         otpSecret: document.getElementById("otpSecret").value
       }
     };
