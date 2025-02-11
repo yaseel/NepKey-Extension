@@ -1,4 +1,24 @@
  (function() {
+   // --- Determine if this tab was opened via the extension or is on the IdP domain ---
+   let autoLoginEnabled = false;
+   const urlParams = new URLSearchParams(window.location.search);
+
+   // If we're on the IdP domain, enable auto-login automatically.
+   if (window.location.hostname.includes("idp.elte.hu")) {
+     autoLoginEnabled = true;
+     window.name = "autoLoginFromExt";
+   } else if (window.name === "autoLoginFromExt") {
+     autoLoginEnabled = true;
+   } else if (urlParams.has("fromExt")) {
+     window.name = "autoLoginFromExt";
+     autoLoginEnabled = true;
+   }
+
+   if (!autoLoginEnabled) {
+     // Not opened via our extension shortcut – exit silently.
+     return;
+   }
+
    // Guard against duplicate injection.
    if (window.autoLoginInitialized) {
      console.log("Auto-login already initialized. Exiting duplicate injection.");
@@ -6,7 +26,7 @@
    }
    window.autoLoginInitialized = true;
 
-   // Global flags
+   // Global flags.
    window.neptunLoginAttempted = window.neptunLoginAttempted || false;
    window.totpAttempted = window.totpAttempted || false;
    window.canvasLoginAttempted = window.canvasLoginAttempted || false;
@@ -47,17 +67,22 @@
      return window.location.pathname === "/" || window.location.href.includes("mainpage");
    }
    
-   // ----------------- Neptun Login -----------------
-   if (window.location.href.includes("Account/Login")) {
+   // ----------------- Neptun Login (only on neptun.elte.hu) -----------------
+   if (window.location.hostname === "neptun.elte.hu" && window.location.href.includes("Account/Login")) {
      if (sessionStorage.getItem("neptunAutoLoginAttempted")) {
        console.log("[Content] Neptun auto-login already attempted. Not trying again.");
      } else {
        sessionStorage.setItem("neptunAutoLoginAttempted", "true");
-       console.log("[Content] Detected Login page. Attempting auto-fill for Neptun.");
+       console.log("[Content] Detected Neptun Login page. Attempting auto-fill for Neptun.");
        (async function autoFillLogin() {
          try {
            const result = await browser.storage.local.get("autoLoginSettings");
-           if (result && result.autoLoginSettings && result.autoLoginSettings.neptun && result.autoLoginSettings.neptun.enabled) {
+           if (
+             result &&
+             result.autoLoginSettings &&
+             result.autoLoginSettings.neptun &&
+             result.autoLoginSettings.neptun.enabled
+           ) {
              const settings = result.autoLoginSettings;
              function fillLogin() {
                if (window.neptunLoginAttempted) {
@@ -101,8 +126,8 @@
      }
    }
    
-   // ----------------- OTP (TOTP) Login -----------------
-   if (window.location.href.includes("Account/Login2FA")) {
+   // ----------------- Neptun OTP (2FA) Login (only on neptun.elte.hu) -----------------
+   if (window.location.hostname === "neptun.elte.hu" && window.location.href.includes("Account/Login2FA")) {
      if (isAlreadyLoggedIn()) {
        console.log("[Content] Already logged in. Skipping OTP polling.");
        stopPolling();
@@ -184,7 +209,7 @@
    
    // ----------------- Student Web Auto‑Click -----------------
    if (
-     window.location.href.startsWith("https://neptun.elte.hu/") &&
+     window.location.hostname === "neptun.elte.hu" &&
      !window.location.href.includes("Account/Login") &&
      sessionStorage.getItem("studentWebClicked") !== "true"
    ) {
@@ -236,7 +261,7 @@
    }
    
    // ----------------- Canvas Auto‑Login -----------------
-   if (window.location.host.includes("canvas.elte.hu")) {
+   if (window.location.hostname === "canvas.elte.hu") {
      console.log("[Canvas] Canvas page detected.");
      browser.storage.local.get("autoLoginSettings").then(result => {
        const settings = result && result.autoLoginSettings;
@@ -255,6 +280,8 @@
            });
            if (targetButton) {
              console.log("[Canvas] Found Canvas login button. Clicking it.");
+             // Set a flag to indicate that this click originated from auto-login.
+             browser.storage.local.set({ canvasAutoLoginInitiated: true });
              targetButton.click();
              pollForElement("#username_neptun", 100, 30, (usernameField) => {
                usernameField.value = settings.credentials.code || "";
@@ -301,7 +328,12 @@
        (async function autoFillTMS() {
          try {
            const result = await browser.storage.local.get("autoLoginSettings");
-           if (result && result.autoLoginSettings && result.autoLoginSettings.tms && result.autoLoginSettings.tms.enabled) {
+           if (
+             result &&
+             result.autoLoginSettings &&
+             result.autoLoginSettings.tms &&
+             result.autoLoginSettings.tms.enabled
+           ) {
              const settings = result.autoLoginSettings;
              function fillTMS() {
                if (window.tmsLoginAttempted) {
@@ -309,7 +341,7 @@
                  return;
                }
                window.tmsLoginAttempted = true;
-               // Log how many fields are found
+               // Log how many fields are found.
                const usernameFields = document.querySelectorAll("input[name='username']");
                const passwordFields = document.querySelectorAll("input[name='password']");
                console.log("[Content] Found " + usernameFields.length + " username field(s) and " + passwordFields.length + " password field(s).");
@@ -325,8 +357,8 @@
                  console.log("[Content] TMS credentials filled. Polling for login button...");
                  pollForElement(
                    'button[type="submit"].btn.btn-primary.btn-block',
-                   300,   // 300ms delay
-                   100,   // up to 100 attempts (~30 seconds)
+                   300,   // 300ms delay.
+                   100,   // up to 100 attempts (~30 seconds).
                    (loginBtn) => {
                      console.log("[Content] TMS login button found. Clicking it.");
                      loginBtn.click();
@@ -344,7 +376,7 @@
                    if (username && password) {
                      obs.disconnect();
                      console.log("[Content] TMS login fields found via MutationObserver. Re-attempting auto-login.");
-                     window.tmsLoginAttempted = false; // Reset flag to allow reattempt
+                     window.tmsLoginAttempted = false; // Reset flag to allow reattempt.
                      fillTMS();
                    }
                  });
@@ -364,53 +396,63 @@
    
    // ----------------- IdP Auto‑Fill for Canvas (Neptun) Login -----------------
    if (
+     window.location.hostname.includes("idp.elte.hu") &&
      window.location.href.includes("authpage.php") &&
      window.location.href.includes("LoginType=neptun")
    ) {
-     console.log("[Content] Detected IdP login page for Canvas auto-fill.");
-     (async function autoFillIdPLogin() {
-       try {
-         const result = await browser.storage.local.get("autoLoginSettings");
-         const settings = result && result.autoLoginSettings;
-         if (settings && settings.canvas && settings.canvas.enabled === true) {
-           if (window.idpLoginAttempted) {
-             console.log("[Content] IdP auto-login already attempted. Skipping further attempts.");
-             return;
-           }
-           window.idpLoginAttempted = true;
-           function fillLogin() {
-             let userInput = document.getElementById("LoginName") ||
-                             document.querySelector("input[name='username_neptun']") ||
-                             document.querySelector("input[name='username']");
-             let passInput = document.getElementById("Password") ||
-                             document.querySelector("input[name='password_neptun']") ||
-                             document.querySelector("input[name='password']");
-             if (userInput && passInput) {
-               console.log("[Content] IdP login fields found. Inserting credentials.");
-               userInput.value = settings.credentials.code;
-               passInput.value = settings.credentials.password;
-               userInput.dispatchEvent(new Event("input", { bubbles: true }));
-               passInput.dispatchEvent(new Event("input", { bubbles: true }));
-               console.log("[Content] Credentials filled. Polling for login button...");
-               pollForElement('button[type="submit"], input[type="submit"]', 100, 20, (loginBtn) => {
-                 console.log("[Content] IdP login button found. Clicking it.");
-                 loginBtn.click();
-               }, () => {
-                 console.error("[Content] IdP login button not found after polling.");
-               });
-             } else {
-               console.log("[Content] IdP login fields not found. Retrying in 100ms...");
-               setTimeout(fillLogin, 100);
-             }
-           }
-           fillLogin();
-         } else {
-           console.log("[Content] Canvas auto-login not enabled or settings not found.");
-         }
-       } catch (e) {
-         console.error("[Content] Error in auto‑fill IdP login:", e);
+     browser.storage.local.get("canvasAutoLoginInitiated").then(data => {
+       if (!data.canvasAutoLoginInitiated) {
+         console.log("[Content] IdP auto-fill not triggered because the canvas auto-login flag is missing.");
+         return;
        }
-     })();
+       // Remove the flag so it doesn't trigger on unrelated navigations.
+       browser.storage.local.remove("canvasAutoLoginInitiated").then(() => {
+         console.log("[Content] Detected IdP login page from canvas auto-login. Proceeding with auto-fill.");
+         (async function autoFillIdPLogin() {
+           try {
+             const result = await browser.storage.local.get("autoLoginSettings");
+             const settings = result && result.autoLoginSettings;
+             if (settings && settings.canvas && settings.canvas.enabled === true) {
+               if (window.idpLoginAttempted) {
+                 console.log("[Content] IdP auto-login already attempted. Skipping further attempts.");
+                 return;
+               }
+               window.idpLoginAttempted = true;
+               function fillLogin() {
+                 let userInput = document.getElementById("LoginName") ||
+                                 document.querySelector("input[name='username_neptun']") ||
+                                 document.querySelector("input[name='username']");
+                 let passInput = document.getElementById("Password") ||
+                                 document.querySelector("input[name='password_neptun']") ||
+                                 document.querySelector("input[name='password']");
+                 if (userInput && passInput) {
+                   console.log("[Content] IdP login fields found. Inserting credentials.");
+                   userInput.value = settings.credentials.code;
+                   passInput.value = settings.credentials.password;
+                   userInput.dispatchEvent(new Event("input", { bubbles: true }));
+                   passInput.dispatchEvent(new Event("input", { bubbles: true }));
+                   console.log("[Content] Credentials filled. Polling for login button...");
+                   pollForElement('button[type="submit"], input[type="submit"]', 100, 20, (loginBtn) => {
+                     console.log("[Content] IdP login button found. Clicking it.");
+                     loginBtn.click();
+                   }, () => {
+                     console.error("[Content] IdP login button not found after polling.");
+                   });
+                 } else {
+                   console.log("[Content] IdP login fields not found. Retrying in 100ms...");
+                   setTimeout(fillLogin, 100);
+                 }
+               }
+               fillLogin();
+             } else {
+               console.log("[Content] Canvas auto-login not enabled or settings not found.");
+             }
+           } catch (e) {
+             console.error("[Content] Error in auto‑fill IdP login:", e);
+           }
+         })();
+       });
+     });
    }
    
    /**
