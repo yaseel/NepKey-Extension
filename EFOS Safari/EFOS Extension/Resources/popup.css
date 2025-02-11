@@ -365,57 +365,29 @@ h1 {
   transform: scale(0.9);
 }
 
-/* ---------- Save Button ---------- */
-.save-button {
-  background-color: #d1a3e8;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
-  transition: background-color 0.2s, transform 0.1s;
-}
-.save-button:hover {
-  background-color: #c18ee8;
-}
-.save-button:active {
-  transform: scale(0.95);
+/* ---------- Footer Styles ---------- */
+#footer {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 10px;
+  color: gray;
+  margin-top: 16px; /* space above the footer */
+  border-top: 1px solid #ccc;
 }
 
-/* ---------- Saved Modal ---------- */
-#savedModal {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 150px;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+#footer a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
 }
-#savedModal .modal-content {
-  margin: 0 auto;
-  padding: 10px;
-  text-align: center;
-  font-size: 12px;
-  background-color: #E5E5E5;
-  border: 1px solid #AAAAAA;
-  border-radius: 8px;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity 0.3s, transform 0.3s;
+
+#footer a:hover {
+  text-decoration: underline;
 }
-#savedModal.show .modal-content {
-  opacity: 1;
-  transform: scale(1);
-}
-#savedModal.closing .modal-content {
-  opacity: 0;
-  transform: scale(0.8);
+
+.github-logo {
+  vertical-align: middle;
+  margin-right: 4px;
 }
 
 /* ---------- Dark Mode Overrides ---------- */
