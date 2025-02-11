@@ -1,2 +1,2 @@
-# E-FOS
+# EFOS
 ELTE Felhasználóbarát Offline Segéd
