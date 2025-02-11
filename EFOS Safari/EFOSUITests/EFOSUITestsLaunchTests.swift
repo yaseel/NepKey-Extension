@@ -1,13 +1,13 @@
 //
-//  E_FOSUITestsLaunchTests.swift
-//  E-FOSUITests
+//  EFOSUITestsLaunchTests.swift
+//  EFOSUITests
 //
 //  Created by Aseel Yousif on 2/7/25.
 //
 
 import XCTest
 
-final class E_FOSUITestsLaunchTests: XCTestCase {
+final class EFOSUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

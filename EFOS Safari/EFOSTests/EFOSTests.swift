@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import E_FOS
+@testable import EFOS
 
 struct E_FOSTests {
 

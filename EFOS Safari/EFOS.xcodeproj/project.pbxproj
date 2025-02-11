@@ -56,7 +56,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E02744CB2D56A66100171F86 /* Exceptions for "E-FOS Extension" folder in "EFOS Extension" target */ = {
+		E02744CB2D56A66100171F86 /* Exceptions for "EFOS Extension" folder in "EFOS Extension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -66,31 +66,31 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E02744812D56A65F00171F86 /* E-FOS */ = {
+		E02744812D56A65F00171F86 /* EFOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "E-FOS";
+			path = EFOS;
 			sourceTree = "<group>";
 		};
-		E027449E2D56A66100171F86 /* E-FOSTests */ = {
+		E027449E2D56A66100171F86 /* EFOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "E-FOSTests";
+			path = EFOSTests;
 			sourceTree = "<group>";
 		};
-		E02744A82D56A66100171F86 /* E-FOSUITests */ = {
+		E02744A82D56A66100171F86 /* EFOSUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "E-FOSUITests";
+			path = EFOSUITests;
 			sourceTree = "<group>";
 		};
-		E02744B52D56A66100171F86 /* E-FOS Extension */ = {
+		E02744B52D56A66100171F86 /* EFOS Extension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E02744CB2D56A66100171F86 /* Exceptions for "E-FOS Extension" folder in "EFOS Extension" target */,
+				E02744CB2D56A66100171F86 /* Exceptions for "EFOS Extension" folder in "EFOS Extension" target */,
 			);
 			explicitFolders = (
 				Resources/_locales,
 				Resources/images,
 			);
-			path = "E-FOS Extension";
+			path = "EFOS Extension";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -130,10 +130,10 @@
 		E02744762D56A65F00171F86 = {
 			isa = PBXGroup;
 			children = (
-				E02744812D56A65F00171F86 /* E-FOS */,
-				E027449E2D56A66100171F86 /* E-FOSTests */,
-				E02744A82D56A66100171F86 /* E-FOSUITests */,
-				E02744B52D56A66100171F86 /* E-FOS Extension */,
+				E02744812D56A65F00171F86 /* EFOS */,
+				E027449E2D56A66100171F86 /* EFOSTests */,
+				E02744A82D56A66100171F86 /* EFOSUITests */,
+				E02744B52D56A66100171F86 /* EFOS Extension */,
 				E02744802D56A65F00171F86 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -167,7 +167,7 @@
 				E02744B42D56A66100171F86 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E02744812D56A65F00171F86 /* E-FOS */,
+				E02744812D56A65F00171F86 /* EFOS */,
 			);
 			name = EFOS;
 			packageProductDependencies = (
@@ -190,7 +190,7 @@
 				E027449D2D56A66100171F86 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E027449E2D56A66100171F86 /* E-FOSTests */,
+				E027449E2D56A66100171F86 /* EFOSTests */,
 			);
 			name = EFOSTests;
 			packageProductDependencies = (
@@ -213,7 +213,7 @@
 				E02744A72D56A66100171F86 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E02744A82D56A66100171F86 /* E-FOSUITests */,
+				E02744A82D56A66100171F86 /* EFOSUITests */,
 			);
 			name = EFOSUITests;
 			packageProductDependencies = (
@@ -235,7 +235,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E02744B52D56A66100171F86 /* E-FOS Extension */,
+				E02744B52D56A66100171F86 /* EFOS Extension */,
 			);
 			name = "EFOS Extension";
 			packageProductDependencies = (
@@ -376,14 +376,14 @@
 		E02744CD2D56A66100171F86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "E-FOS Extension/E_FOS_Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "EFOS Extension/EFOS_Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = UM9K9Y7MSY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "E-FOS Extension/Info.plist";
+				INFOPLIST_FILE = "EFOS Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "E-FOS Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -408,14 +408,14 @@
 		E02744CE2D56A66100171F86 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "E-FOS Extension/E_FOS_Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "EFOS Extension/EFOS_Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = UM9K9Y7MSY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "E-FOS Extension/Info.plist";
+				INFOPLIST_FILE = "EFOS Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "E-FOS Extension";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -563,9 +563,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = "E-FOS/E-FOS.entitlements";
+				CODE_SIGN_ENTITLEMENTS = EFOS/EFOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -604,9 +603,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = "E-FOS/E-FOS.entitlements";
+				CODE_SIGN_ENTITLEMENTS = EFOS/EFOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

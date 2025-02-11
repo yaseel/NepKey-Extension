@@ -1,13 +1,13 @@
 //
-//  E_FOSUITests.swift
-//  E-FOSUITests
+//  EFOSUITests.swift
+//  EFOSUITests
 //
 //  Created by Aseel Yousif on 2/7/25.
 //
 
 import XCTest
 
-final class E_FOSUITests: XCTestCase {
+final class EFOSUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
