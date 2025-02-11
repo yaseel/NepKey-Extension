@@ -1,6 +1,6 @@
 //
 //  SafariWebExtensionHandler.swift
-//  E-FOS Extension
+//  EFOS Extension
 //
 //  Created by Aseel Yousif on 2/7/25.
 //

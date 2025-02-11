@@ -6,20 +6,20 @@
    }
    window.autoLoginInitialized = true;
 
-   // Use global flags on window so they persist.
+   // Global flags
    window.neptunLoginAttempted = window.neptunLoginAttempted || false;
    window.totpAttempted = window.totpAttempted || false;
    window.canvasLoginAttempted = window.canvasLoginAttempted || false;
    window.idpLoginAttempted = window.idpLoginAttempted || false;
+   window.tmsLoginAttempted = window.tmsLoginAttempted || false;
 
-   // Other global variables
    let otpFilled = false;
    let otpSubmitted = false;
    let pollingActive = true;
 
    function pollForElement(selector, delayMs, maxAttempts, onFound, onFailure) {
      let attempts = 0;
-     let found = false; // local flag: call onFound only once
+     let found = false;
      function poll() {
        if (!pollingActive || found) return;
        attempts++;
@@ -49,16 +49,14 @@
    
    // ----------------- Neptun Login -----------------
    if (window.location.href.includes("Account/Login")) {
-     // Check if we've already attempted auto-login this session.
      if (sessionStorage.getItem("neptunAutoLoginAttempted")) {
        console.log("[Content] Neptun auto-login already attempted. Not trying again.");
      } else {
        sessionStorage.setItem("neptunAutoLoginAttempted", "true");
-       console.log("[Content] Detected Login page. Attempting auto-fill.");
+       console.log("[Content] Detected Login page. Attempting auto-fill for Neptun.");
        (async function autoFillLogin() {
          try {
            const result = await browser.storage.local.get("autoLoginSettings");
-           // Check using the new nested structure:
            if (result && result.autoLoginSettings && result.autoLoginSettings.neptun && result.autoLoginSettings.neptun.enabled) {
              const settings = result.autoLoginSettings;
              function fillLogin() {
@@ -70,35 +68,34 @@
                const userInput = document.getElementById("LoginName");
                const passInput = document.getElementById("Password");
                if (userInput && passInput) {
-                 console.log("[Content] Login fields found. Inserting credentials.");
-                 // Use the credentials sub-object:
+                 console.log("[Content] Neptun login fields found. Inserting credentials.");
                  userInput.value = settings.credentials.code;
                  passInput.value = settings.credentials.password;
                  userInput.dispatchEvent(new Event("input", { bubbles: true }));
                  passInput.dispatchEvent(new Event("input", { bubbles: true }));
-                 console.log("[Content] Credentials filled. Polling for login button...");
+                 console.log("[Content] Credentials filled. Polling for Neptun login button...");
                  pollForElement(
                    'button[type="submit"].btn.btn-primary, input[type="submit"].btn.btn-primary',
                    100,
                    20,
                    (loginBtn) => {
-                     console.log("[Content] Login button found. Clicking it.");
+                     console.log("[Content] Neptun login button found. Clicking it.");
                      loginBtn.click();
                    },
                    () => {
-                     console.error("[Content] Login button not found after polling.");
+                     console.error("[Content] Neptun login button not found after polling.");
                    }
                  );
                } else {
-                 console.error("[Content] Login fields not found. Aborting auto-login.");
+                 console.error("[Content] Neptun login fields not found. Aborting auto-login.");
                }
              }
              fillLogin();
            } else {
-             console.log("[Content] Auto‑login not enabled or settings not found.");
+             console.log("[Content] Neptun auto-login not enabled or settings not found.");
            }
          } catch (e) {
-           console.error("[Content] Error in auto‑fill login:", e);
+           console.error("[Content] Error in Neptun auto-fill login:", e);
          }
        })();
      }
@@ -119,7 +116,6 @@
            window.totpAttempted = true;  // mark that we have attempted OTP once
            console.log("[Content] OTP field found via polling. Calling fillMFA() once.");
            fillMFA();
-           // Let fillMFA() handle stopping polling.
          }
        }, () => {
          console.error("[Content] OTP field (#TOTPCode) not found after polling. Stopping retries.");
@@ -292,6 +288,78 @@
      }).catch(err => {
        console.error("[Canvas] Error retrieving settings:", err);
      });
+   }
+   
+   // ----------------- TMS Auto‑Login -----------------
+   if (window.location.href.includes("tms.inf.elte.hu")) {
+     console.log("[Content] TMS page detected. URL: " + window.location.href);
+     if (sessionStorage.getItem("tmsAutoLoginAttempted")) {
+       console.log("[Content] TMS auto-login already attempted. Not trying again.");
+     } else {
+       sessionStorage.setItem("tmsAutoLoginAttempted", "true");
+       console.log("[Content] Detected TMS Login page. Attempting auto-fill for TMS.");
+       (async function autoFillTMS() {
+         try {
+           const result = await browser.storage.local.get("autoLoginSettings");
+           if (result && result.autoLoginSettings && result.autoLoginSettings.tms && result.autoLoginSettings.tms.enabled) {
+             const settings = result.autoLoginSettings;
+             function fillTMS() {
+               if (window.tmsLoginAttempted) {
+                 console.log("[Content] TMS auto-login already attempted (local flag). Skipping further attempts.");
+                 return;
+               }
+               window.tmsLoginAttempted = true;
+               // Log how many fields are found
+               const usernameFields = document.querySelectorAll("input[name='username']");
+               const passwordFields = document.querySelectorAll("input[name='password']");
+               console.log("[Content] Found " + usernameFields.length + " username field(s) and " + passwordFields.length + " password field(s).");
+               
+               const userInput = document.querySelector("input[name='username']");
+               const passInput = document.querySelector("input[name='password']");
+               if (userInput && passInput) {
+                 console.log("[Content] TMS login fields found. Inserting credentials.");
+                 userInput.value = settings.credentials.code;
+                 passInput.value = settings.credentials.tmspassword ? settings.credentials.tmspassword : settings.credentials.password;
+                 userInput.dispatchEvent(new Event("input", { bubbles: true }));
+                 passInput.dispatchEvent(new Event("input", { bubbles: true }));
+                 console.log("[Content] TMS credentials filled. Polling for login button...");
+                 pollForElement(
+                   'button[type="submit"].btn.btn-primary.btn-block',
+                   300,   // 300ms delay
+                   100,   // up to 100 attempts (~30 seconds)
+                   (loginBtn) => {
+                     console.log("[Content] TMS login button found. Clicking it.");
+                     loginBtn.click();
+                   },
+                   () => {
+                     console.error("[Content] TMS login button not found after polling.");
+                   }
+                 );
+               } else {
+                 console.error("[Content] TMS login fields not found via polling. Aborting TMS auto-login.");
+                 // Fallback: Use MutationObserver to wait for fields to be added.
+                 const observer = new MutationObserver((mutations, obs) => {
+                   const username = document.querySelector("input[name='username']");
+                   const password = document.querySelector("input[name='password']");
+                   if (username && password) {
+                     obs.disconnect();
+                     console.log("[Content] TMS login fields found via MutationObserver. Re-attempting auto-login.");
+                     window.tmsLoginAttempted = false; // Reset flag to allow reattempt
+                     fillTMS();
+                   }
+                 });
+                 observer.observe(document.body, { childList: true, subtree: true });
+               }
+             }
+             fillTMS();
+           } else {
+             console.log("[Content] TMS auto-login not enabled or settings not found.");
+           }
+         } catch (e) {
+           console.error("[Content] Error in TMS auto-fill login:", e);
+         }
+       })();
+     }
    }
    
    // ----------------- IdP Auto‑Fill for Canvas (Neptun) Login -----------------

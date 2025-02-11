@@ -3,35 +3,34 @@ console.log("[Background] Background script loaded");
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "openNeptunLogin") {
     console.log("[Background] Received openNeptunLogin message:", request);
-    const settings = request.settings;
-    
+    // For Neptun and Canvas branches, the popup sends the credentials object
+    const creds = request.settings;
     if (request.site && request.site === "canvas") {
-      // Canvas auto-login branch
+      // Canvas auto-login branch: open Canvas homepage; content script handles auto-login.
       browser.tabs.create({ url: "https://canvas.elte.hu" })
         .then((tab) => {
           console.log("[Background] New Canvas tab created. Tab ID:", tab.id);
           browser.tabs.update(tab.id, { active: true });
           browser.windows.update(tab.windowId, { focused: true });
-          // Let the Canvas content script handle auto-login on the Canvas page.
         })
         .catch((err) => {
           console.error("[Background] Canvas tabs.create error:", err);
         });
     } else {
-      // Neptun auto-login branch (default)
+      // Neptun auto-login branch
       browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login" })
         .then((tab) => {
-          console.log("[Background] New tab created. Tab ID:", tab.id);
+          console.log("[Background] New Neptun tab created. Tab ID:", tab.id);
           browser.tabs.update(tab.id, { active: true });
           browser.windows.update(tab.windowId, { focused: true });
           browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
             if (tabId === tab.id && changeInfo.status === "complete") {
-              console.log("[Background] Tab finished loading. URL:", updatedTab.url);
+              console.log("[Background] Neptun tab finished loading. URL:", updatedTab.url);
               browser.tabs.onUpdated.removeListener(listener);
               browser.tabs.sendMessage(tab.id, {
                 action: "fillCredentials",
-                code: settings.code,
-                password: settings.password
+                code: creds.code,
+                password: creds.password
               })
                 .then((response) => {
                   console.log("[Background] Received response from content script:", response);
@@ -53,7 +52,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         console.log("Direct injection: Login fields not found.");
                       }
                     },
-                    args: [settings.code, settings.password]
+                    args: [creds.code, creds.password]
                   })
                     .then((injectionResults) => {
                       console.log("[Background] Direct injection results:", injectionResults);
@@ -71,20 +70,23 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
   } else if (request.action === "openTMSLogin") {
     console.log("[Background] Received openTMSLogin message:", request);
-    const settings = request.settings;
-    browser.tabs.create({ url: "https://tms.inf.elte.hu/Account/Login" })
+    // For TMS auto-login, popup sends the credentials object
+    const creds = request.settings;
+    browser.tabs.create({ url: "https://tms.inf.elte.hu/" })
       .then((tab) => {
         console.log("[Background] New TMS tab created. Tab ID:", tab.id);
         browser.tabs.update(tab.id, { active: true });
         browser.windows.update(tab.windowId, { focused: true });
         browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
           if (tabId === tab.id && changeInfo.status === "complete") {
-            console.log("[Background] TMS Tab finished loading. URL:", updatedTab.url);
+            console.log("[Background] TMS tab finished loading. URL:", updatedTab.url);
             browser.tabs.onUpdated.removeListener(listener);
+            // For TMS, use creds.code for username and creds.tmspassword if provided, else creds.password.
+            const passwordToUse = creds.tmspassword ? creds.tmspassword : creds.password;
             browser.tabs.sendMessage(tab.id, {
               action: "fillCredentials",
-              code: settings.code,
-              password: settings.password
+              code: creds.code,
+              password: passwordToUse
             });
           }
         });

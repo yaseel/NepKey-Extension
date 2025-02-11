@@ -26,7 +26,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://neptun.elte.hu/*", "https://canvas.elte.hu/belepes/", "https://idp.elte.hu/auth/*"],
+      "matches": ["https://neptun.elte.hu/*", "https://canvas.elte.hu/belepes/", "https://idp.elte.hu/auth/*", "https://tms.inf.elte.hu/"],
       "js": [
         "content.js"
       ],
