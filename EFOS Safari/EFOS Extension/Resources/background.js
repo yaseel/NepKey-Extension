@@ -7,7 +7,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const creds = request.settings;
     if (request.site && request.site === "canvas") {
       // Canvas auto-login branch: open Canvas homepage; content script handles auto-login.
-      browser.tabs.create({ url: "https://canvas.elte.hu" })
+      browser.tabs.create({ url: "https://canvas.elte.hu/belepes?fromExt=1" })
         .then((tab) => {
           console.log("[Background] New Canvas tab created. Tab ID:", tab.id);
           browser.tabs.update(tab.id, { active: true });
@@ -18,7 +18,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
     } else {
       // Neptun auto-login branch
-      browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login" })
+      browser.tabs.create({ url: "https://neptun.elte.hu/Account/Login?fromExt=1" })
         .then((tab) => {
           console.log("[Background] New Neptun tab created. Tab ID:", tab.id);
           browser.tabs.update(tab.id, { active: true });
@@ -72,7 +72,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("[Background] Received openTMSLogin message:", request);
     // For TMS auto-login, popup sends the credentials object
     const creds = request.settings;
-    browser.tabs.create({ url: "https://tms.inf.elte.hu/" })
+    browser.tabs.create({ url: "https://tms.inf.elte.hu/?fromExt=1" })
       .then((tab) => {
         console.log("[Background] New TMS tab created. Tab ID:", tab.id);
         browser.tabs.update(tab.id, { active: true });
