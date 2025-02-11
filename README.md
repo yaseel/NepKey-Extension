@@ -1,2 +1,2 @@
 # EFOS
-ELTE Felhasználóbarát Offline Segéd
+ELTE Felhasználóbarát Open-Source Segéd
