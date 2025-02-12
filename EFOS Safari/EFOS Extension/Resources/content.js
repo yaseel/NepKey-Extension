@@ -1,9 +1,9 @@
  (function() {
-   // --- Determine if this tab was opened via the extension or is on the IdP domain ---
+   // Determine if this tab was opened via the extension or is on the IdP domain
    let autoLoginEnabled = false;
    const urlParams = new URLSearchParams(window.location.search);
 
-   // If we're on the IdP domain, enable auto-login automatically.
+   // If we're on the IdP domain, enable auto-login automatically
    if (window.location.hostname.includes("idp.elte.hu")) {
      autoLoginEnabled = true;
      window.name = "autoLoginFromExt";
@@ -15,18 +15,17 @@
    }
 
    if (!autoLoginEnabled) {
-     // Not opened via our extension shortcut – exit silently.
      return;
    }
 
-   // Guard against duplicate injection.
+   // Guard against duplicate injection
    if (window.autoLoginInitialized) {
      console.log("Auto-login already initialized. Exiting duplicate injection.");
      return;
    }
    window.autoLoginInitialized = true;
 
-   // Global flags.
+   // Global flags
    window.neptunLoginAttempted = window.neptunLoginAttempted || false;
    window.totpAttempted = window.totpAttempted || false;
    window.canvasLoginAttempted = window.canvasLoginAttempted || false;
@@ -37,6 +36,7 @@
    let otpSubmitted = false;
    let pollingActive = true;
 
+   // Polling
    function pollForElement(selector, delayMs, maxAttempts, onFound, onFailure) {
      let attempts = 0;
      let found = false;
@@ -67,7 +67,7 @@
      return window.location.pathname === "/" || window.location.href.includes("mainpage");
    }
    
-   // ----------------- Neptun Login (only on neptun.elte.hu) -----------------
+   // Neptun Login
    if (window.location.hostname === "neptun.elte.hu" && window.location.href.includes("Account/Login")) {
      if (sessionStorage.getItem("neptunAutoLoginAttempted")) {
        console.log("[Content] Neptun auto-login already attempted. Not trying again.");
@@ -126,7 +126,7 @@
      }
    }
    
-   // ----------------- Neptun OTP (2FA) Login (only on neptun.elte.hu) -----------------
+   // Neptun OTP Login
    if (window.location.hostname === "neptun.elte.hu" && window.location.href.includes("Account/Login2FA")) {
      if (isAlreadyLoggedIn()) {
        console.log("[Content] Already logged in. Skipping OTP polling.");
@@ -138,7 +138,7 @@
        sessionStorage.setItem("totpAutoLoginAttempted", "true");
        pollForElement("#TOTPCode", 100, 50, (otpField) => {
          if (!window.totpAttempted) {
-           window.totpAttempted = true;  // mark that we have attempted OTP once
+           window.totpAttempted = true;
            console.log("[Content] OTP field found via polling. Calling fillMFA() once.");
            fillMFA();
          }
@@ -207,7 +207,7 @@
      }
    }
    
-   // ----------------- Student Web Auto‑Click -----------------
+   // Student Web Auto‑Click
    if (
      window.location.hostname === "neptun.elte.hu" &&
      !window.location.href.includes("Account/Login") &&
@@ -260,7 +260,7 @@
      });
    }
    
-   // ----------------- Canvas Auto‑Login -----------------
+   // Canvas Auto‑Login
    if (window.location.hostname === "canvas.elte.hu") {
      console.log("[Canvas] Canvas page detected.");
      browser.storage.local.get("autoLoginSettings").then(result => {
@@ -280,7 +280,6 @@
            });
            if (targetButton) {
              console.log("[Canvas] Found Canvas login button. Clicking it.");
-             // Set a flag to indicate that this click originated from auto-login.
              browser.storage.local.set({ canvasAutoLoginInitiated: true });
              targetButton.click();
              pollForElement("#username_neptun", 100, 30, (usernameField) => {
@@ -317,7 +316,7 @@
      });
    }
    
-   // ----------------- TMS Auto‑Login -----------------
+   // TMS Auto‑Login
    if (window.location.href.includes("tms.inf.elte.hu")) {
      console.log("[Content] TMS page detected. URL: " + window.location.href);
      if (sessionStorage.getItem("tmsAutoLoginAttempted")) {
@@ -341,7 +340,6 @@
                  return;
                }
                window.tmsLoginAttempted = true;
-               // Log how many fields are found.
                const usernameFields = document.querySelectorAll("input[name='username']");
                const passwordFields = document.querySelectorAll("input[name='password']");
                console.log("[Content] Found " + usernameFields.length + " username field(s) and " + passwordFields.length + " password field(s).");
@@ -357,8 +355,8 @@
                  console.log("[Content] TMS credentials filled. Polling for login button...");
                  pollForElement(
                    'button[type="submit"].btn.btn-primary.btn-block',
-                   300,   // 300ms delay.
-                   100,   // up to 100 attempts (~30 seconds).
+                   300,
+                   100,
                    (loginBtn) => {
                      console.log("[Content] TMS login button found. Clicking it.");
                      loginBtn.click();
@@ -369,14 +367,14 @@
                  );
                } else {
                  console.error("[Content] TMS login fields not found via polling. Aborting TMS auto-login.");
-                 // Fallback: Use MutationObserver to wait for fields to be added.
+                 // MutationObserver fallback to wait for fields
                  const observer = new MutationObserver((mutations, obs) => {
                    const username = document.querySelector("input[name='username']");
                    const password = document.querySelector("input[name='password']");
                    if (username && password) {
                      obs.disconnect();
                      console.log("[Content] TMS login fields found via MutationObserver. Re-attempting auto-login.");
-                     window.tmsLoginAttempted = false; // Reset flag to allow reattempt.
+                     window.tmsLoginAttempted = false;
                      fillTMS();
                    }
                  });
@@ -394,7 +392,7 @@
      }
    }
    
-   // ----------------- IdP Auto‑Fill for Canvas (Neptun) Login -----------------
+   // IdP Auto‑Fill for Canvas Login
    if (
      window.location.hostname.includes("idp.elte.hu") &&
      window.location.href.includes("authpage.php") &&
@@ -405,7 +403,6 @@
          console.log("[Content] IdP auto-fill not triggered because the canvas auto-login flag is missing.");
          return;
        }
-       // Remove the flag so it doesn't trigger on unrelated navigations.
        browser.storage.local.remove("canvasAutoLoginInitiated").then(() => {
          console.log("[Content] Detected IdP login page from canvas auto-login. Proceeding with auto-fill.");
          (async function autoFillIdPLogin() {
@@ -455,9 +452,7 @@
      });
    }
    
-   /**
-    * Generates a TOTP code using the Web Crypto API.
-    */
+   // TOTP Generation
    async function generateTOTP(base32Secret, step = 30, digits = 6) {
      const keyData = base32ToUint8Array(base32Secret);
      const epoch = Math.floor(Date.now() / 1000);
@@ -487,9 +482,7 @@
      return otp.toString().padStart(digits, "0");
    }
    
-   /**
-    * Converts a Base32 string into a Uint8Array.
-    */
+   // Base32 to Uint8Array conversion
    function base32ToUint8Array(base32) {
      const base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
      base32 = base32.replace(/=+$/, "").replace(/\s+/g, "");

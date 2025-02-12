@@ -7,7 +7,6 @@
   </head>
   <body>
     <div class="container">
-      <!-- Gear button (acts as gear to open settings and as back button to close settings) -->
       <button id="settingsButton" class="settings-button">
         <img src="images/gear_light.png" alt="Settings">
       </button>
@@ -18,7 +17,7 @@
         <p class="subtitle">ELTE Felhasználóbarát Open-Source Segéd</p>
         <p class="auto-login-label" data-text="Auto Log In">Auto Log In</p>
         <div class="menu-buttons">
-          <!-- Neptun Button with toggle on right -->
+
           <button id="neptunButton" class="menu-button">
             <div class="btn-label-group">
               <img src="images/neptun_icon.png" alt="Neptun Icon">
@@ -29,7 +28,7 @@
               <label for="neptunToggle" class="toggle-label"></label>
             </div>
           </button>
-          <!-- Canvas Button with toggle on right -->
+
           <button id="canvasButton" class="menu-button">
             <div class="btn-label-group">
               <img src="images/canvas_icon.png" alt="Canvas Icon">
@@ -40,7 +39,7 @@
               <label for="canvasToggle" class="toggle-label"></label>
             </div>
           </button>
-          <!-- TMS Button with toggle on right -->
+
           <button id="tmsButton" class="menu-button">
             <div class="btn-label-group">
               <img src="images/tms_icon.png" alt="TMS Icon">
@@ -51,7 +50,7 @@
               <label for="tmsToggle" class="toggle-label"></label>
             </div>
           </button>
-          <!-- TMS Focus Mode Row -->
+
           <div id="tmsFocusRow" class="menu-button focus-mode-row">
             <div class="btn-label-group">
               <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
@@ -65,7 +64,7 @@
         </div>
       </div>
 
-      <!-- Settings View (only contains the Direct Student Web toggle and credentials) -->
+      <!-- Settings View -->
       <div id="settingsView" class="view hidden">
         <h2>Settings</h2>
         <div class="setting-item">
@@ -75,7 +74,8 @@
             <label for="directStudentWebToggle" class="toggle-label"></label>
           </div>
         </div>
-        <div class="neptun-credentials">
+
+        <div class="credentials">
           <label for="neptunCode">Neptun Code:</label>
           <input type="text" id="neptunCode">
           <label for="neptunPassword">Password:</label>
@@ -95,7 +95,7 @@
         </div>
       </div>
 
-      <!-- Info Modal (for TMS Focus Mode Info) -->
+      <!-- Info Modal -->
       <div id="infoModal" class="modal">
         <div class="modal-content">
           <span id="closeModal" class="close">&times;</span>
@@ -106,7 +106,6 @@
       <!-- Footer -->
       <footer id="footer">
         <a href="https://github.com/yaseel/EFOS" target="_blank">
-          <!-- GitHub logo as inline SVG -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="github-logo">
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 

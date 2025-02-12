@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("[Popup] popup.js loaded");
 
-  // --- UI Helpers ---
+  // UI Helpers
   function isSettingsVisible() {
     return document.getElementById("settingsView").classList.contains("visible");
   }
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
   }
 
-  // --- Dark Mode ---
+  // Dark Mode
   const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
   if (darkModeQuery.matches) {
     document.body.classList.add("dark-mode");
@@ -23,12 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateGearImage(isSettingsVisible());
 
-  // Update OTP toggle icon for dark mode
+  // Update OTP show/hide icon for dark mode
   const isDark = document.body.classList.contains("dark-mode");
   const otpToggleIcon = document.getElementById("toggleOtpSecret").querySelector("img");
   otpToggleIcon.src = isDark ? "images/hidden_dark.png" : "images/hidden_light.png";
 
-  // --- URL Configuration ---
+  // URL Configuration
   const urls = {
     neptun: "https://neptun.elte.hu",
     canvas: "https://canvas.elte.hu",
@@ -44,10 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tc.addEventListener("click", e => e.stopPropagation());
   });
 
-  // --- Settings Storage Functions ---
+  // Settings Storage Functions
   function loadSettings() {
     browser.storage.local.get("autoLoginSettings").then(result => {
-      // Default settings if none exist.
       let settings = {
         neptun: { enabled: false, studentWeb: false },
         canvas: { enabled: false },
@@ -72,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveSettings(silent = false, callback) {
-    // Build settings object from current inputs.
     const settings = {
       neptun: {
         enabled: document.getElementById("neptunToggle").checked,
@@ -105,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("tmsToggle").addEventListener("change", () => saveSettings(true));
   document.getElementById("directStudentWebToggle").addEventListener("change", () => saveSettings(true));
 
-  // --- Auto-Login Label Update ---
+  // Auto-Login Label Update
   function updateAutoLoginLabel() {
     const neptunChecked = document.getElementById("neptunToggle").checked;
     const canvasChecked = document.getElementById("canvasToggle").checked;
@@ -121,13 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("canvasToggle").addEventListener("change", updateAutoLoginLabel);
   document.getElementById("tmsToggle").addEventListener("change", updateAutoLoginLabel);
 
-  // --- Settings Toggle (Gear/Back Button) ---
+  // Settings Toggle (Gear/Back Button)
   document.getElementById("settingsButton").addEventListener("click", (e) => {
     e.preventDefault();
     const mainView = document.getElementById("mainView");
     const settingsView = document.getElementById("settingsView");
     if (settingsView.classList.contains("visible")) {
-      // Go back: show main view, hide settings, and save.
       settingsView.classList.remove("visible");
       settingsView.classList.add("hidden");
       mainView.classList.remove("hidden");
@@ -135,7 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
       updateGearImage(false);
       saveSettings(true);
     } else {
-      // Show settings view.
       mainView.classList.remove("visible");
       mainView.classList.add("hidden");
       settingsView.classList.remove("hidden");
@@ -145,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- OTP Secret Eye Toggle ---
+  // OTP Secret Eye Toggle
   document.getElementById("toggleOtpSecret").addEventListener("click", function () {
     const otpInput = document.getElementById("otpSecret");
     const isDark = document.body.classList.contains("dark-mode");
@@ -158,10 +154,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Ensure OTP secret is saved when its field loses focus.
+  // Save OTP Secret when clicking out
   document.getElementById("otpSecret").addEventListener("blur", () => saveSettings(true));
 
-  // --- Main View Button Handlers ---
+  // Main View Button Handlers
   document.getElementById("neptunButton").addEventListener("click", (e) => {
     if (e.target.closest(".toggle-container")) return;
     browser.storage.local.get("autoLoginSettings").then(result => {
@@ -203,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Focus Mode Buttons ---
+  // Focus Mode Buttons
   document.getElementById("activateFocusButton").addEventListener("click", (e) => {
     e.stopPropagation();
     console.log("[Popup] Activate Focus Mode clicked.");
@@ -216,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
     openModal();
   });
 
-  // --- Modal Functionality ---
+  // Modal Functionality
   const modalEl = document.getElementById("infoModal");
   const closeModalBtn = document.getElementById("closeModal");
 
@@ -243,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.target === modalEl) closeModal();
   });
 
-  // --- Energy Surge Animation on Main Toggle Buttons ---
+  // Energy Surge Animation
   document.querySelectorAll('.main-toggle').forEach((input) => {
     input.addEventListener('change', function () {
       const menuButton = this.closest('.menu-button');
@@ -254,13 +250,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Save Settings on Visibility Change ---
+  // Save settings when clicking out
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       saveSettings(true);
     }
   });
 
-  // --- Initial Load ---
+  // Initial Load
   loadSettings();
 });

@@ -193,23 +193,23 @@ h1 {
   text-align: center;
   font-size: 16px;
 }
-.neptun-credentials {
+.credentials {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
-.neptun-credentials label {
+.credentials label {
   margin-top: 10px;
   font-size: 12px;
 }
-.neptun-credentials input {
+.credentials input {
   font-size: 12px;
   padding: 4px;
   margin-top: 4px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.neptun-credentials input:disabled {
+.credentials input:disabled {
   background-color: #777777;
   border-color: #777777;
   color: #999;
