@@ -1,33 +1,38 @@
 {
   "manifest_version": 3,
-  "name": "E-FOS",
-  "version": "1.0",
-  "description": "ELTE Felhasználóbarát Offline Segéd",
-  "icons": {
-    "48": "images/icon.png"
+  "name": "EFOS",
+  "version": "1.1",
+  "description": "ELTE Felhasználóbarát Open-Source Segéd",
+  "default_locale": "en",
+  "action": {
+    "default_icon": {
+      "16": "images/icon16.png",
+      "128": "images/icon128.png"
+    },
+    "default_popup": "popup.html",
+    "default_title": "EFOS"
   },
   "permissions": [
-    "tabs",
+    "activeTab",
     "storage",
     "scripting"
   ],
   "host_permissions": [
     "https://neptun.elte.hu/*",
     "https://canvas.elte.hu/*",
-    "https://tms.inf.elte.hu/*"
+    "https://tms.inf.elte.hu/*",
+    "https://idp.elte.hu/*"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://neptun.elte.hu/*"],
-      "js": ["content.js"],
+      "matches": ["https://neptun.elte.hu/*", "https://canvas.elte.hu/belepes/*", "https://idp.elte.hu/auth/*", "https://tms.inf.elte.hu/*"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
-  ],
-  "action": {
-    "default_popup": "popup.html",
-    "default_title": "E-FOS"
-  }
+  ]
 }
