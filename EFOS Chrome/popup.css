@@ -84,20 +84,33 @@ h1 {
   white-space: nowrap;
   overflow: hidden;
   width: 0;
-  color: transparent;
   background: linear-gradient(45deg, #ff4081, #7c4dff);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   transition: width 1s ease;
 }
 
 .auto-login-label.active::after {
   width: 100%;
   animation: gradientFlow 3s linear infinite 1s;
+  -webkit-animation: gradientFlow 3s linear infinite 1s;
 }
 
 @keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@-webkit-keyframes gradientFlow {
   0% {
     background-position: 0% 50%;
   }
