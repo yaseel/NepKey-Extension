@@ -5,6 +5,44 @@ document.addEventListener("DOMContentLoaded", () => {
     var browser = chrome;
   }
 
+  // Language Selector
+
+  browser.storage.local.get("language").then(result => {
+    if (!result.language) {
+      // Hide main view and settings view, show language selector view.
+      const languageSelectorView = document.getElementById("languageSelectorView");
+      const mainView = document.getElementById("mainView");
+      const settingsView = document.getElementById("settingsView");
+
+      if (languageSelectorView) {
+        languageSelectorView.classList.remove("hidden");
+        languageSelectorView.classList.add("visible");
+      }
+      if (mainView) {
+        mainView.classList.remove("visible");
+        mainView.classList.add("hidden");
+      }
+      if (settingsView) {
+        settingsView.classList.remove("visible");
+        settingsView.classList.add("hidden");
+      }
+
+      // Attach event listeners to language buttons.
+      document.querySelectorAll(".lang-btn").forEach(button => {
+        button.addEventListener("click", (e) => {
+          const selectedLang = e.currentTarget.getAttribute("data-lang");
+          browser.storage.local.set({ language: selectedLang }).then(() => {
+            // After saving language, hide language selector and show main view.
+            languageSelectorView.classList.remove("visible");
+            languageSelectorView.classList.add("hidden");
+            mainView.classList.remove("hidden");
+            mainView.classList.add("visible");
+          });
+        });
+      });
+    }
+  });
+
   // UI Helpers
   function isSettingsVisible() {
     return document.getElementById("settingsView").classList.contains("visible");
