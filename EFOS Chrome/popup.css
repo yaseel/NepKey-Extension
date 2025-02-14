@@ -54,6 +54,10 @@ body {
   transform: scale(1.1);
 }
 
+#languageSelectorView.visible ~ #settingsButton {
+  display: none;
+}
+
 /* Settings Button (Gear/Back) */
 .settings-button {
   position: absolute;

@@ -117,13 +117,11 @@
       window.location.href.includes("Account/Login") &&
       !window.location.href.includes("Account/Login2FA")
   ) {
-    // Check if login fields exist; if not, assume already logged in.
     const userInput = document.getElementById("LoginName");
     const passInput = document.getElementById("Password");
     if (!userInput || !passInput) {
       console.log("[Content] Login fields not found. Likely already logged in.");
       if (isAlreadyLoggedIn()) {
-        // Only trigger Student Web auto‑click if the toggle is enabled
         browser.storage.local.get("autoLoginSettings").then(result => {
           if (
               result &&
@@ -271,16 +269,14 @@
     }
   }
 
-  // Student Web Auto‑Click (only if already logged in)
+  // Student Web Auto‑Click
   if (
       window.location.hostname === "neptun.elte.hu" &&
       !window.location.href.includes("Account/Login")
   ) {
-    // Retrieve the autoLoginSettings so we can check the Student Web toggle
     browser.storage.local.get("autoLoginSettings").then(result => {
       const settings = result && result.autoLoginSettings;
       if (settings && settings.neptun && settings.neptun.studentWeb) {
-        // Only trigger auto-click if a Student Web link is present
         if (isAlreadyLoggedIn() && sessionStorage.getItem("studentWebClicked") !== "true") {
           console.log("[Content] Student Web auto‑click enabled (toggle ON).");
           let studentWebClicked = false;
@@ -467,7 +463,6 @@
         console.log("[Content] IdP auto‑fill not triggered because the canvas auto‑login flag is missing.");
         return;
       }
-      // Remove flag to prevent further auto‑fill when not desired.
       browser.storage.local.remove("canvasAutoLoginInitiated").then(() => {
         console.log("[Content] Detected IdP login page from canvas auto‑login. Proceeding with auto‑fill.");
         (async function autoFillIdPLogin() {

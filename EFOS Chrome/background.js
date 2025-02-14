@@ -7,9 +7,7 @@ if (typeof browser === "undefined") {
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "openNeptunLogin") {
     console.log("[Background] Received openNeptunLogin message:", request);
-    // Expect full settings object now.
     const settings = request.settings;
-    // Ensure studentWebEnabled is a boolean.
     const studentWebEnabled = !!(settings.neptun && settings.neptun.studentWeb);
     console.log("[Background] Student Web toggle is", studentWebEnabled ? "ON" : "OFF");
 
@@ -31,12 +29,10 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
             console.log("[Background] New Neptun tab created. Tab ID:", tab.id);
             browser.tabs.update(tab.id, { active: true });
             browser.windows.update(tab.windowId, { focused: true });
-            // Wait for the tab to finish loading
             browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo, updatedTab) {
               if (tabId === tab.id && changeInfo.status === "complete") {
                 console.log("[Background] Neptun tab finished loading. URL:", updatedTab.url);
                 browser.tabs.onUpdated.removeListener(listener);
-                // Delay slightly to ensure content script is injected
                 setTimeout(() => {
                   browser.tabs.sendMessage(tab.id, {
                     action: "fillCredentials",
@@ -46,23 +42,19 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         console.log("[Background] Received response from content script:", response);
                       })
                       .catch((error) => {
-                        // If there's no receiver, log the error and proceed with fallback.
                         if (browser.runtime.lastError) {
                           console.warn("[Background] sendMessage error:", browser.runtime.lastError.message);
                         } else {
                           console.error("[Background] sendMessage error:", error);
                         }
-                        // Fallback injection only if Student Web toggle is ON.
                         if (!studentWebEnabled) {
                           console.log("[Background] Student Web auto‑click is disabled. Skipping fallback injection.");
                           return;
                         }
-                        // Fallback: immediately check for login fields and click Student Web if not found.
                         browser.scripting.executeScript({
                           target: { tabId: tab.id },
                           func: function injectCredentials(code, password, studentWebEnabled, attempt = 0) {
                             console.log("injectCredentials attempt:", attempt, "studentWebEnabled:", studentWebEnabled);
-                            // When Student Web is enabled, don't poll.
                             const maxAttempts = studentWebEnabled ? 0 : 20;
                             const userInput = document.getElementById("LoginName");
                             const passInput = document.getElementById("Password");
@@ -77,7 +69,6 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
                                 injectCredentials(code, password, studentWebEnabled, attempt + 1);
                               }, 100);
                             } else {
-                              // Only auto-click Student Web if toggle is ON.
                               if (studentWebEnabled) {
                                 const navLinks = Array.from(document.querySelectorAll("a.nav-link"));
                                 const studentWebLink = navLinks.find(link => {

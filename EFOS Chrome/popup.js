@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     var browser = chrome;
   }
 
-  // Translation Data
   const translations = {
     en: {
       title: "EFOS",
@@ -56,11 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Function to Apply Translations
   function applyTranslations(lang) {
     const texts = translations[lang] || translations.en;
 
-    // Main View
     const mainH1 = document.querySelector("#mainView h1");
     if (mainH1) mainH1.innerText = texts.title;
 
@@ -70,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const autoLoginLabel = document.querySelector("#mainView .auto-login-label");
     if (autoLoginLabel) autoLoginLabel.innerText = texts.autoLogin;
 
-    // Menu Buttons
     const neptunSpan = document.querySelector("#neptunButton .button-text");
     if (neptunSpan) neptunSpan.innerText = texts.neptunLabel;
 
@@ -83,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const focusSpan = document.querySelector("#tmsFocusRow .button-text");
     if (focusSpan) focusSpan.innerText = texts.focusModeLabel;
 
-    // Settings View
     const settingsTitle = document.querySelector("#settingsView h2");
     if (settingsTitle) settingsTitle.innerText = texts.settingsTitle;
 
@@ -99,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const otpSecretLabel = document.querySelector("#settingsView label[for='otpSecret']");
     if (otpSecretLabel) otpSecretLabel.innerText = texts.otpSecretLabel;
 
-    // Update Placeholders for Input Fields
     const neptunInput = document.getElementById("neptunCode");
     if (neptunInput) neptunInput.placeholder = texts.neptunPlaceholder;
 
@@ -112,27 +106,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const otpInput = document.getElementById("otpSecret");
     if (otpInput) otpInput.placeholder = texts.otpPlaceholder;
 
-    // Update "Go Direct to Student web" Label
     const goDirectLabel = document.querySelector("#settingsView .setting-label");
     if (goDirectLabel) goDirectLabel.innerText = texts.goDirectLabel;
 
-    // Update Activate Button Text
     const activateButton = document.getElementById("activateFocusButton");
     if (activateButton) activateButton.innerText = texts.activateButtonText;
 
-    // Language Selector Title (in initial view)
     const langTitle = document.querySelector("#languageSelectorView h1");
     if (langTitle) langTitle.innerText = texts.languageSelectorTitle;
 
-    // Info Modal Content
     const modalContent = document.querySelector("#infoModal .guide-text");
     if (modalContent) modalContent.innerText = texts.infoModalContent;
   }
 
-  // Global Language Selector (if language not set yet)
+  // Global Language Selector
   browser.storage.local.get("language").then(result => {
     if (!result.language) {
-      // Show language selector and hide other views if language is not set.
       const languageSelectorView = document.getElementById("languageSelectorView");
       const mainView = document.getElementById("mainView");
       const settingsView = document.getElementById("settingsView");
@@ -150,37 +139,31 @@ document.addEventListener("DOMContentLoaded", () => {
         settingsView.classList.add("hidden");
       }
 
-      // Attach event listeners for language buttons in the global selector.
       document.querySelectorAll("#languageSelectorView .lang-btn").forEach(button => {
         button.addEventListener("click", (e) => {
           const selectedLang = e.currentTarget.getAttribute("data-lang");
           browser.storage.local.set({ language: selectedLang }).then(() => {
-            // Hide global language selector and show main view.
             languageSelectorView.classList.remove("visible");
             languageSelectorView.classList.add("hidden");
             mainView.classList.remove("hidden");
             mainView.classList.add("visible");
 
-            // Apply translations based on the selected language.
             applyTranslations(selectedLang);
           });
         });
       });
     } else {
-      // Apply translations if language is already set.
       applyTranslations(result.language);
     }
   });
 
-  // Settings Language Selector (in settings view)
-  // This will allow changing language from within settings without switching views.
+  // Settings Language Selector
   const settingsLangSelector = document.getElementById("settingsLanguageSelector");
   if (settingsLangSelector) {
     settingsLangSelector.querySelectorAll(".lang-btn").forEach(button => {
       button.addEventListener("click", (e) => {
         const selectedLang = e.currentTarget.getAttribute("data-lang");
         browser.storage.local.set({ language: selectedLang }).then(() => {
-          // Apply translations based on the selected language.
           applyTranslations(selectedLang);
         });
       });
