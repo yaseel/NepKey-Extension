@@ -97,9 +97,9 @@ h1 {
 /* Auto Login Label */
 
 .auto-login-label {
-  position: fixed;
-  top: 68px;
-  right: 23px;
+  position: absolute;
+  top: 19%;
+  right: 6.5%;
   display: inline-block;
   font-size: 10px;
   color: gray;
