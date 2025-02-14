@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   browser.storage.local.get("language").then(result => {
     if (!result.language) {
-      // Hide main view and settings view, show language selector view.
       const languageSelectorView = document.getElementById("languageSelectorView");
       const mainView = document.getElementById("mainView");
       const settingsView = document.getElementById("settingsView");
@@ -27,12 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
         settingsView.classList.add("hidden");
       }
 
-      // Attach event listeners to language buttons.
       document.querySelectorAll(".lang-btn").forEach(button => {
         button.addEventListener("click", (e) => {
           const selectedLang = e.currentTarget.getAttribute("data-lang");
           browser.storage.local.set({ language: selectedLang }).then(() => {
-            // After saving language, hide language selector and show main view.
             languageSelectorView.classList.remove("visible");
             languageSelectorView.classList.add("hidden");
             mainView.classList.remove("hidden");
