@@ -68,43 +68,107 @@
     pollingActive = false;
   }
 
+  // Checks if already logged in Neptun (for Student Web click)
   function isAlreadyLoggedIn() {
-    return window.location.pathname === "/" || window.location.href.includes("mainpage");
+    const navLinks = Array.from(document.querySelectorAll("a.nav-link"));
+    return navLinks.some(link => {
+      const text = link.textContent.trim().toLowerCase();
+      return text === "student web" || text === "hallgatói web";
+    });
+  }
+
+  // Helper: Trigger Student Web Auto‑Click
+  function triggerStudentWebAutoClick() {
+    if (sessionStorage.getItem("studentWebClicked") === "true") return;
+    console.log("[Content] Triggering Student Web auto‑click.");
+    let studentWebClicked = false;
+    function clickStudentWebLink() {
+      if (studentWebClicked) return true;
+      const links = Array.from(document.querySelectorAll("a.nav-link"));
+      console.log("[Content] Found nav links:", links.map(link => link.textContent.trim()));
+      const targetLink = links.find((link) => {
+        const txt = link.textContent.trim().toLowerCase();
+        return txt === "student web" || txt === "hallgatói web";
+      });
+      if (targetLink) {
+        console.log("[Content] Student web link found. Clicking it.");
+        targetLink.click();
+        studentWebClicked = true;
+        sessionStorage.setItem("studentWebClicked", "true");
+        return true;
+      }
+      return false;
+    }
+    if (!clickStudentWebLink()) {
+      console.log("[Content] Student web link not found immediately. Starting MutationObserver...");
+      const observer = new MutationObserver((mutations, obs) => {
+        if (clickStudentWebLink()) {
+          obs.disconnect();
+          console.log("[Content] MutationObserver disconnected after clicking Student web link.");
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   }
 
   // Neptun Login
-  if (window.location.hostname === "neptun.elte.hu" && window.location.href.includes("Account/Login")) {
+  if (
+      window.location.hostname === "neptun.elte.hu" &&
+      window.location.href.includes("Account/Login") &&
+      !window.location.href.includes("Account/Login2FA")
+  ) {
+    // Check if login fields exist; if not, assume already logged in.
+    const userInput = document.getElementById("LoginName");
+    const passInput = document.getElementById("Password");
+    if (!userInput || !passInput) {
+      console.log("[Content] Login fields not found. Likely already logged in.");
+      if (isAlreadyLoggedIn()) {
+        // Only trigger Student Web auto‑click if the toggle is enabled
+        browser.storage.local.get("autoLoginSettings").then(result => {
+          if (
+              result &&
+              result.autoLoginSettings &&
+              result.autoLoginSettings.neptun &&
+              result.autoLoginSettings.neptun.studentWeb
+          ) {
+            console.log("[Content] Student Web toggle is ON. Triggering Student Web auto‑click.");
+            triggerStudentWebAutoClick();
+          } else {
+            console.log("[Content] Student Web toggle is OFF. Not triggering auto‑click.");
+          }
+        });
+      }
+      return;
+    }
+
     if (sessionStorage.getItem("neptunAutoLoginAttempted")) {
-      console.log("[Content] Neptun auto-login already attempted. Not trying again.");
+      console.log("[Content] Neptun auto‑login already attempted. Not trying again.");
     } else {
       sessionStorage.setItem("neptunAutoLoginAttempted", "true");
-      console.log("[Content] Detected Neptun Login page. Attempting auto-fill for Neptun.");
+      console.log("[Content] Detected Neptun Login page. Attempting auto‑fill for Neptun.");
       (async function autoFillLogin() {
         try {
           const result = await browser.storage.local.get("autoLoginSettings");
           if (
-            result &&
-            result.autoLoginSettings &&
-            result.autoLoginSettings.neptun &&
-            result.autoLoginSettings.neptun.enabled
+              result &&
+              result.autoLoginSettings &&
+              result.autoLoginSettings.neptun &&
+              result.autoLoginSettings.neptun.enabled
           ) {
             const settings = result.autoLoginSettings;
             function fillLogin() {
               if (window.neptunLoginAttempted) {
-                console.log("[Content] Neptun auto-login already attempted (local flag). Skipping further attempts.");
+                console.log("[Content] Neptun auto‑login already attempted (local flag). Skipping further attempts.");
                 return;
               }
               window.neptunLoginAttempted = true;
-              const userInput = document.getElementById("LoginName");
-              const passInput = document.getElementById("Password");
-              if (userInput && passInput) {
-                console.log("[Content] Neptun login fields found. Inserting credentials.");
-                userInput.value = settings.credentials.code;
-                passInput.value = settings.credentials.password;
-                userInput.dispatchEvent(new Event("input", { bubbles: true }));
-                passInput.dispatchEvent(new Event("input", { bubbles: true }));
-                console.log("[Content] Credentials filled. Polling for Neptun login button...");
-                pollForElement(
+              console.log("[Content] Neptun login fields found. Inserting credentials.");
+              userInput.value = settings.credentials.code;
+              passInput.value = settings.credentials.password;
+              userInput.dispatchEvent(new Event("input", { bubbles: true }));
+              passInput.dispatchEvent(new Event("input", { bubbles: true }));
+              console.log("[Content] Credentials filled. Polling for Neptun login button...");
+              pollForElement(
                   'button[type="submit"].btn.btn-primary, input[type="submit"].btn.btn-primary',
                   100,
                   20,
@@ -115,17 +179,14 @@
                   () => {
                     console.error("[Content] Neptun login button not found after polling.");
                   }
-                );
-              } else {
-                console.error("[Content] Neptun login fields not found. Aborting auto-login.");
-              }
+              );
             }
             fillLogin();
           } else {
-            console.log("[Content] Neptun auto-login not enabled or settings not found.");
+            console.log("[Content] Neptun auto‑login not enabled or settings not found.");
           }
         } catch (e) {
-          console.error("[Content] Error in Neptun auto-fill login:", e);
+          console.error("[Content] Error in Neptun auto‑fill login:", e);
         }
       })();
     }
@@ -133,10 +194,7 @@
 
   // Neptun OTP Login
   if (window.location.hostname === "neptun.elte.hu" && window.location.href.includes("Account/Login2FA")) {
-    if (isAlreadyLoggedIn()) {
-      console.log("[Content] Already logged in. Skipping OTP polling.");
-      stopPolling();
-    } else if (sessionStorage.getItem("totpAutoLoginAttempted")) {
+    if (sessionStorage.getItem("totpAutoLoginAttempted")) {
       console.log("[Content] TOTP auto-login already attempted. Not trying again.");
       stopPolling();
     } else {
@@ -153,6 +211,7 @@
       });
     }
   }
+
 
   async function fillMFA() {
     if (otpFilled || isAlreadyLoggedIn()) {
@@ -184,23 +243,23 @@
         otpField.dispatchEvent(new Event("input", { bubbles: true }));
         otpFilled = true;
         pollForElement(
-          'button[type="submit"].btn.btn-primary, input[type="submit"].btn.btn-primary',
-          100,
-          50,
-          (submitBtn) => {
-            if (otpSubmitted) {
-              console.log("[Content] OTP already submitted. Skipping button click.");
-              return;
+            'button[type="submit"].btn.btn-primary, input[type="submit"].btn.btn-primary',
+            100,
+            50,
+            (submitBtn) => {
+              if (otpSubmitted) {
+                console.log("[Content] OTP already submitted. Skipping button click.");
+                return;
+              }
+              console.log("[Content] MFA submit button found. Clicking it.");
+              submitBtn.click();
+              otpSubmitted = true;
+              stopPolling();
+            },
+            () => {
+              console.error("[Content] MFA submit button not found after polling. Stopping retries.");
+              stopPolling();
             }
-            console.log("[Content] MFA submit button found. Clicking it.");
-            submitBtn.click();
-            otpSubmitted = true;
-            stopPolling();
-          },
-          () => {
-            console.error("[Content] MFA submit button not found after polling. Stopping retries.");
-            stopPolling();
-          }
         );
       } catch (e) {
         console.error("[Content] Error generating TOTP:", e);
@@ -212,67 +271,66 @@
     }
   }
 
-  // Student Web Auto‑Click
+  // Student Web Auto‑Click (only if already logged in)
   if (
-    window.location.hostname === "neptun.elte.hu" &&
-    !window.location.href.includes("Account/Login") &&
-    sessionStorage.getItem("studentWebClicked") !== "true"
+      window.location.hostname === "neptun.elte.hu" &&
+      !window.location.href.includes("Account/Login")
   ) {
-    console.log("[Content] Checking storage for Student Web preference...");
-    browser.storage.local.get("autoLoginSettings").then((result) => {
-      console.log("[Content] Retrieved settings:", result);
-      if (
-        result &&
-        result.autoLoginSettings &&
-        result.autoLoginSettings.neptun &&
-        result.autoLoginSettings.neptun.studentWeb &&
-        result.autoLoginSettings.neptun.enabled
-      ) {
-        console.log("[Content] Student Web auto‑click enabled.");
-        let studentWebClicked = false;
-        function clickStudentWebLink() {
-          if (studentWebClicked) return true;
-          const links = Array.from(document.querySelectorAll("a.nav-link"));
-          console.log("[Content] Found nav links:", links.map(link => link.textContent.trim()));
-          const targetLink = links.find((link) => {
-            const txt = link.textContent.trim();
-            return txt === "Hallgatói web" || txt === "Student web";
-          });
-          if (targetLink) {
-            console.log("[Content] Student web link found. Clicking it.");
-            targetLink.click();
-            studentWebClicked = true;
-            sessionStorage.setItem("studentWebClicked", "true");
-            return true;
-          }
-          return false;
-        }
-        if (!clickStudentWebLink()) {
-          console.log("[Content] Student web link not found immediately. Starting MutationObserver...");
-          const observer = new MutationObserver((mutations, obs) => {
-            if (clickStudentWebLink()) {
-              obs.disconnect();
-              console.log("[Content] MutationObserver disconnected after clicking Student web link.");
+    // Retrieve the autoLoginSettings so we can check the Student Web toggle
+    browser.storage.local.get("autoLoginSettings").then(result => {
+      const settings = result && result.autoLoginSettings;
+      if (settings && settings.neptun && settings.neptun.studentWeb) {
+        // Only trigger auto-click if a Student Web link is present
+        if (isAlreadyLoggedIn() && sessionStorage.getItem("studentWebClicked") !== "true") {
+          console.log("[Content] Student Web auto‑click enabled (toggle ON).");
+          let studentWebClicked = false;
+          function clickStudentWebLink() {
+            if (studentWebClicked) return true;
+            const links = Array.from(document.querySelectorAll("a.nav-link"));
+            console.log("[Content] Found nav links:", links.map(link => link.textContent.trim()));
+            const targetLink = links.find((link) => {
+              const txt = link.textContent.trim().toLowerCase();
+              return txt === "student web" || txt === "hallgatói web";
+            });
+            if (targetLink) {
+              console.log("[Content] Student web link found. Clicking it.");
+              targetLink.click();
+              studentWebClicked = true;
+              sessionStorage.setItem("studentWebClicked", "true");
+              return true;
             }
-          });
-          observer.observe(document.body, { childList: true, subtree: true });
+            return false;
+          }
+          if (!clickStudentWebLink()) {
+            console.log("[Content] Student web link not found immediately. Starting MutationObserver...");
+            const observer = new MutationObserver((mutations, obs) => {
+              if (clickStudentWebLink()) {
+                obs.disconnect();
+                console.log("[Content] MutationObserver disconnected after clicking Student web link.");
+              }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+          }
         }
       } else {
-        console.log("[Content] Student Web auto‑click is disabled or setting not found.");
+        console.log("[Content] Student Web toggle is OFF. Not triggering auto‑click.");
       }
-    }).catch((error) => {
-      console.error("[Content] Error retrieving Student Web setting:", error);
+    }).catch(err => {
+      console.error("[Content] Error retrieving autoLoginSettings:", err);
     });
   }
 
   // Canvas Auto‑Login
-  if (window.location.hostname === "canvas.elte.hu") {
-    console.log("[Canvas] Canvas page detected.");
+  if (
+      window.location.hostname === "canvas.elte.hu" &&
+      window.location.search.includes("fromExt=1")
+  ) {
+    console.log("[Canvas] Canvas page detected with fromExt flag.");
     browser.storage.local.get("autoLoginSettings").then(result => {
       const settings = result && result.autoLoginSettings;
       if (settings && settings.canvas && settings.canvas.enabled === true) {
         if (window.canvasLoginAttempted) {
-          console.log("[Canvas] Canvas auto-login already attempted. Skipping.");
+          console.log("[Canvas] Canvas auto‑login already attempted. Skipping.");
           return;
         }
         window.canvasLoginAttempted = true;
@@ -314,7 +372,7 @@
           console.error("[Canvas] No a.myButton element found.");
         });
       } else {
-        console.log("[Canvas] Canvas auto-login disabled. Not triggering auto-login.");
+        console.log("[Canvas] Canvas auto‑login disabled. Not triggering auto-login.");
       }
     }).catch(err => {
       console.error("[Canvas] Error retrieving settings:", err);
@@ -333,10 +391,10 @@
         try {
           const result = await browser.storage.local.get("autoLoginSettings");
           if (
-            result &&
-            result.autoLoginSettings &&
-            result.autoLoginSettings.tms &&
-            result.autoLoginSettings.tms.enabled
+              result &&
+              result.autoLoginSettings &&
+              result.autoLoginSettings.tms &&
+              result.autoLoginSettings.tms.enabled
           ) {
             const settings = result.autoLoginSettings;
             function fillTMS() {
@@ -359,16 +417,16 @@
                 passInput.dispatchEvent(new Event("input", { bubbles: true }));
                 console.log("[Content] TMS credentials filled. Polling for login button...");
                 pollForElement(
-                  'button[type="submit"].btn.btn-primary.btn-block',
-                  300,
-                  100,
-                  (loginBtn) => {
-                    console.log("[Content] TMS login button found. Clicking it.");
-                    loginBtn.click();
-                  },
-                  () => {
-                    console.error("[Content] TMS login button not found after polling.");
-                  }
+                    'button[type="submit"].btn.btn-primary.btn-block',
+                    300,
+                    100,
+                    (loginBtn) => {
+                      console.log("[Content] TMS login button found. Clicking it.");
+                      loginBtn.click();
+                    },
+                    () => {
+                      console.error("[Content] TMS login button not found after polling.");
+                    }
                 );
               } else {
                 console.error("[Content] TMS login fields not found via polling. Aborting TMS auto-login.");
@@ -399,34 +457,36 @@
 
   // IdP Auto‑Fill for Canvas Login
   if (
-    window.location.hostname.includes("idp.elte.hu") &&
-    window.location.href.includes("authpage.php") &&
-    window.location.href.includes("LoginType=neptun")
+      window.location.hostname.includes("idp.elte.hu") &&
+      window.location.href.includes("authpage.php") &&
+      window.location.href.includes("LoginType=neptun")
   ) {
     browser.storage.local.get("canvasAutoLoginInitiated").then(data => {
+      console.log("[Content] canvasAutoLoginInitiated flag:", data.canvasAutoLoginInitiated);
       if (!data.canvasAutoLoginInitiated) {
-        console.log("[Content] IdP auto-fill not triggered because the canvas auto-login flag is missing.");
+        console.log("[Content] IdP auto‑fill not triggered because the canvas auto‑login flag is missing.");
         return;
       }
+      // Remove flag to prevent further auto‑fill when not desired.
       browser.storage.local.remove("canvasAutoLoginInitiated").then(() => {
-        console.log("[Content] Detected IdP login page from canvas auto-login. Proceeding with auto-fill.");
+        console.log("[Content] Detected IdP login page from canvas auto‑login. Proceeding with auto‑fill.");
         (async function autoFillIdPLogin() {
           try {
             const result = await browser.storage.local.get("autoLoginSettings");
             const settings = result && result.autoLoginSettings;
             if (settings && settings.canvas && settings.canvas.enabled === true) {
               if (window.idpLoginAttempted) {
-                console.log("[Content] IdP auto-login already attempted. Skipping further attempts.");
+                console.log("[Content] IdP auto‑login already attempted. Skipping further attempts.");
                 return;
               }
               window.idpLoginAttempted = true;
               function fillLogin() {
                 let userInput = document.getElementById("LoginName") ||
-                  document.querySelector("input[name='username_neptun']") ||
-                  document.querySelector("input[name='username']");
+                    document.querySelector("input[name='username_neptun']") ||
+                    document.querySelector("input[name='username']");
                 let passInput = document.getElementById("Password") ||
-                  document.querySelector("input[name='password_neptun']") ||
-                  document.querySelector("input[name='password']");
+                    document.querySelector("input[name='password_neptun']") ||
+                    document.querySelector("input[name='password']");
                 if (userInput && passInput) {
                   console.log("[Content] IdP login fields found. Inserting credentials.");
                   userInput.value = settings.credentials.code;
@@ -447,7 +507,7 @@
               }
               fillLogin();
             } else {
-              console.log("[Content] Canvas auto-login not enabled or settings not found.");
+              console.log("[Content] Canvas auto‑login not enabled or settings not found.");
             }
           } catch (e) {
             console.error("[Content] Error in auto‑fill IdP login:", e);
@@ -456,6 +516,7 @@
       });
     });
   }
+
 
   // TOTP Generation
   async function generateTOTP(base32Secret, step = 30, digits = 6) {
@@ -469,20 +530,20 @@
       counter = counter >> 8;
     }
     const cryptoKey = await crypto.subtle.importKey(
-      "raw",
-      keyData,
-      { name: "HMAC", hash: "SHA-1" },
-      false,
-      ["sign"]
+        "raw",
+        keyData,
+        { name: "HMAC", hash: "SHA-1" },
+        false,
+        ["sign"]
     );
     const hmacBuffer = await crypto.subtle.sign("HMAC", cryptoKey, counterBuffer);
     const hmac = new Uint8Array(hmacBuffer);
     const offset = hmac[hmac.length - 1] & 0x0f;
     const binary =
-      ((hmac[offset] & 0x7f) << 24) |
-      ((hmac[offset + 1] & 0xff) << 16) |
-      ((hmac[offset + 2] & 0xff) << 8) |
-      (hmac[offset + 3] & 0xff);
+        ((hmac[offset] & 0x7f) << 24) |
+        ((hmac[offset + 1] & 0xff) << 16) |
+        ((hmac[offset + 2] & 0xff) << 8) |
+        (hmac[offset + 3] & 0xff);
     const otp = binary % Math.pow(10, digits);
     return otp.toString().padStart(digits, "0");
   }

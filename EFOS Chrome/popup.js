@@ -348,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const settings = (result && result.autoLoginSettings) || {};
       if (settings.neptun && settings.neptun.enabled) {
         console.log("[Popup] Neptun auto‑login enabled. Sending message to background.");
-        browser.runtime.sendMessage({ action: "openNeptunLogin", settings: settings.credentials });
+        browser.runtime.sendMessage({ action: "openNeptunLogin", settings: settings });
       } else {
         console.log("[Popup] Neptun auto‑login disabled. Opening default homepage.");
         openNewTab(urls.neptun);
