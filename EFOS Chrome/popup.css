@@ -376,7 +376,6 @@ h1 {
   border-radius: 4px;
 }
 
-/* Center the language selector buttons in the settings view */
 #settingsLanguageSelector {
   display: flex;
   justify-content: center;
@@ -390,6 +389,7 @@ h1 {
   border: none;
   cursor: pointer;
   padding: 0;
+  transition: transform 0.1s ease-out;
 }
 
 #settingsLanguageSelector .lang-btn img {
@@ -402,6 +402,9 @@ h1 {
   transform: scale(1.1);
 }
 
+#settingsLanguageSelector .lang-btn:active {
+  transform: scale(0.95);
+}
 
 /* OTP Secret Container */
 
