@@ -388,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     console.log("[Popup] Activate Focus Mode clicked.");
     browser.runtime.sendMessage({ action: "activateFocusMode" });
-    alert("Focus Mode Activated");
   });
 
   document.getElementById("infoFocusButton").addEventListener("click", (e) => {
