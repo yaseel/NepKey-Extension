@@ -376,6 +376,33 @@ h1 {
   border-radius: 4px;
 }
 
+/* Center the language selector buttons in the settings view */
+#settingsLanguageSelector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+#settingsLanguageSelector .lang-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+#settingsLanguageSelector .lang-btn img {
+  display: block;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+#settingsLanguageSelector .lang-btn:hover img {
+  transform: scale(1.1);
+}
+
+
 /* OTP Secret Container */
 
 .otp-secret-container {

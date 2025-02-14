@@ -1,14 +1,138 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("[Popup] popup.js loaded");
 
+  // For cross-browser compatibility.
   if (typeof browser === "undefined") {
     var browser = chrome;
   }
 
-  // Language Selector
+  // Translation Data
+  const translations = {
+    en: {
+      title: "EFOS",
+      subtitle: "ELTE Friendly Open-Source Support",
+      autoLogin: "Auto Log In",
+      settingsTitle: "Settings",
+      neptunLabel: "Neptun",
+      canvasLabel: "Canvas",
+      tmsLabel: "TMS",
+      focusModeLabel: "TMS Focus Mode",
+      activateFocus: "Activate",
+      infoFocus: "ⓘ",
+      neptunCodeLabel: "Neptun Code:",
+      passwordLabel: "Password:",
+      tmsPasswordLabel: "TMS Password:",
+      otpSecretLabel: "OTP Secret:",
+      languageSelectorTitle: "Select Your Language",
+      otpPlaceholder: "Enter OTP secret",
+      neptunPlaceholder: "Enter Neptun code",
+      passwordPlaceholder: "Enter password",
+      goDirectLabel: "Go Direct to Student web",
+      activateButtonText: "Activate",
+      infoModalContent: "First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect, refresh the page."
+    },
+    hu: {
+      title: "EFOS",
+      subtitle: "ELTE Felhasználóbarát Open-Source Segéd",
+      autoLogin: "Auto Log In",
+      settingsTitle: "Beállítások",
+      neptunLabel: "Neptun",
+      canvasLabel: "Canvas",
+      tmsLabel: "TMS",
+      focusModeLabel: "TMS Fókusz Mód",
+      activateFocus: "Aktiválás",
+      infoFocus: "ⓘ",
+      neptunCodeLabel: "Neptun Kód:",
+      passwordLabel: "Jelszó:",
+      tmsPasswordLabel: "TMS Jelszó:",
+      otpSecretLabel: "OTP Titok:",
+      languageSelectorTitle: "Válaszd ki a nyelvet",
+      otpPlaceholder: "Írd be az OTP titkot",
+      neptunPlaceholder: "Írd be a Neptun kódot",
+      passwordPlaceholder: "Írd be a jelszót",
+      goDirectLabel: "Ugrás a Hallgatói webre",
+      activateButtonText: "Aktiválás",
+      infoModalContent: "Először nyisd meg a TMS-t a böngésződben, majd a feladatodat, végül kattints az Aktiválásra. A hatás visszavonásához frissítsd az oldalt."
+    }
+  };
 
+  // Function to Apply Translations
+  function applyTranslations(lang) {
+    const texts = translations[lang] || translations.en;
+
+    // Main View
+    const mainH1 = document.querySelector("#mainView h1");
+    if (mainH1) mainH1.innerText = texts.title;
+
+    const subtitle = document.querySelector("#mainView .subtitle");
+    if (subtitle) subtitle.innerText = texts.subtitle;
+
+    const autoLoginLabel = document.querySelector("#mainView .auto-login-label");
+    if (autoLoginLabel) autoLoginLabel.innerText = texts.autoLogin;
+
+    // Menu Buttons
+    const neptunSpan = document.querySelector("#neptunButton .button-text");
+    if (neptunSpan) neptunSpan.innerText = texts.neptunLabel;
+
+    const canvasSpan = document.querySelector("#canvasButton .button-text");
+    if (canvasSpan) canvasSpan.innerText = texts.canvasLabel;
+
+    const tmsSpan = document.querySelector("#tmsButton .button-text");
+    if (tmsSpan) tmsSpan.innerText = texts.tmsLabel;
+
+    const focusSpan = document.querySelector("#tmsFocusRow .button-text");
+    if (focusSpan) focusSpan.innerText = texts.focusModeLabel;
+
+    // Settings View
+    const settingsTitle = document.querySelector("#settingsView h2");
+    if (settingsTitle) settingsTitle.innerText = texts.settingsTitle;
+
+    const neptunCodeLabel = document.querySelector("#settingsView label[for='neptunCode']");
+    if (neptunCodeLabel) neptunCodeLabel.innerText = texts.neptunCodeLabel;
+
+    const neptunPasswordLabel = document.querySelector("#settingsView label[for='neptunPassword']");
+    if (neptunPasswordLabel) neptunPasswordLabel.innerText = texts.passwordLabel;
+
+    const tmsPasswordLabel = document.querySelector("#settingsView label[for='TMSPassword']");
+    if (tmsPasswordLabel) tmsPasswordLabel.innerText = texts.tmsPasswordLabel;
+
+    const otpSecretLabel = document.querySelector("#settingsView label[for='otpSecret']");
+    if (otpSecretLabel) otpSecretLabel.innerText = texts.otpSecretLabel;
+
+    // Update Placeholders for Input Fields
+    const neptunInput = document.getElementById("neptunCode");
+    if (neptunInput) neptunInput.placeholder = texts.neptunPlaceholder;
+
+    const neptunPasswordInput = document.getElementById("neptunPassword");
+    if (neptunPasswordInput) neptunPasswordInput.placeholder = texts.passwordPlaceholder;
+
+    const tmsPasswordInput = document.getElementById("TMSPassword");
+    if (tmsPasswordInput) tmsPasswordInput.placeholder = texts.passwordPlaceholder;
+
+    const otpInput = document.getElementById("otpSecret");
+    if (otpInput) otpInput.placeholder = texts.otpPlaceholder;
+
+    // Update "Go Direct to Student web" Label
+    const goDirectLabel = document.querySelector("#settingsView .setting-label");
+    if (goDirectLabel) goDirectLabel.innerText = texts.goDirectLabel;
+
+    // Update Activate Button Text
+    const activateButton = document.getElementById("activateFocusButton");
+    if (activateButton) activateButton.innerText = texts.activateButtonText;
+
+    // Language Selector Title (in initial view)
+    const langTitle = document.querySelector("#languageSelectorView h1");
+    if (langTitle) langTitle.innerText = texts.languageSelectorTitle;
+
+    // Info Modal Content
+    const modalContent = document.querySelector("#infoModal .guide-text");
+    if (modalContent) modalContent.innerText = texts.infoModalContent;
+  }
+
+  // Global Language Selector (if language not set yet)
   browser.storage.local.get("language").then(result => {
     if (!result.language) {
+      // Show language selector and hide other views if language is not set.
       const languageSelectorView = document.getElementById("languageSelectorView");
       const mainView = document.getElementById("mainView");
       const settingsView = document.getElementById("settingsView");
@@ -26,19 +150,42 @@ document.addEventListener("DOMContentLoaded", () => {
         settingsView.classList.add("hidden");
       }
 
-      document.querySelectorAll(".lang-btn").forEach(button => {
+      // Attach event listeners for language buttons in the global selector.
+      document.querySelectorAll("#languageSelectorView .lang-btn").forEach(button => {
         button.addEventListener("click", (e) => {
           const selectedLang = e.currentTarget.getAttribute("data-lang");
           browser.storage.local.set({ language: selectedLang }).then(() => {
+            // Hide global language selector and show main view.
             languageSelectorView.classList.remove("visible");
             languageSelectorView.classList.add("hidden");
             mainView.classList.remove("hidden");
             mainView.classList.add("visible");
+
+            // Apply translations based on the selected language.
+            applyTranslations(selectedLang);
           });
         });
       });
+    } else {
+      // Apply translations if language is already set.
+      applyTranslations(result.language);
     }
   });
+
+  // Settings Language Selector (in settings view)
+  // This will allow changing language from within settings without switching views.
+  const settingsLangSelector = document.getElementById("settingsLanguageSelector");
+  if (settingsLangSelector) {
+    settingsLangSelector.querySelectorAll(".lang-btn").forEach(button => {
+      button.addEventListener("click", (e) => {
+        const selectedLang = e.currentTarget.getAttribute("data-lang");
+        browser.storage.local.set({ language: selectedLang }).then(() => {
+          // Apply translations based on the selected language.
+          applyTranslations(selectedLang);
+        });
+      });
+    });
+  }
 
   // UI Helpers
   function isSettingsVisible() {
@@ -49,8 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const gearImg = document.getElementById("settingsButton").querySelector("img");
     const isDark = document.body.classList.contains("dark-mode");
     gearImg.src = isSettings
-      ? (isDark ? "images/back_dark.png" : "images/back_light.png")
-      : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
+        ? (isDark ? "images/back_dark.png" : "images/back_light.png")
+        : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
   }
 
   // Dark Mode
@@ -62,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateGearImage(isSettingsVisible());
 
-  // Update OTP show/hide icon for dark mode
+  // Update OTP show/hide icon for dark mode.
   const isDark = document.body.classList.contains("dark-mode");
   const otpToggleIcon = document.getElementById("toggleOtpSecret").querySelector("img");
   otpToggleIcon.src = isDark ? "images/hidden_dark.png" : "images/hidden_light.png";
@@ -78,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
     browser.tabs.create({ url });
   }
 
-  // Prevent clicks on toggle containers from propagating to parent buttons.
+  // Prevent clicks on toggle containers from propagating.
   document.querySelectorAll(".toggle-container").forEach(tc => {
     tc.addEventListener("click", e => e.stopPropagation());
   });
@@ -192,8 +339,6 @@ document.addEventListener("DOMContentLoaded", () => {
       this.querySelector("img").src = isDark ? "images/hidden_dark.png" : "images/hidden_light.png";
     }
   });
-
-  // Save OTP Secret when clicking out
   document.getElementById("otpSecret").addEventListener("blur", () => saveSettings(true));
 
   // Main View Button Handlers
@@ -273,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     closeModal();
   });
-
   window.addEventListener("click", (event) => {
     if (event.target === modalEl) closeModal();
   });
@@ -289,13 +433,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Save settings when clicking out
+  // Save Settings on Visibility Change
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       saveSettings(true);
     }
   });
 
-  // Initial Load
+  // Initial Load of Settings
   loadSettings();
 });
