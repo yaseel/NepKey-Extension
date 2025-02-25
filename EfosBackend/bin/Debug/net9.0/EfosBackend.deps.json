@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "EfosBackend/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": "9.0.2",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.2",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "9.0.2",
           "Microsoft.AspNetCore.Identity": "2.3.0",
@@ -61,6 +62,14 @@
           "Microsoft.AspNetCore.Authentication.Abstractions": "2.3.0",
           "Microsoft.AspNetCore.Http": "2.3.0",
           "Microsoft.AspNetCore.Http.Extensions": "2.3.0"
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/9.0.2": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "9.0.2.0",
+            "fileVersion": "9.0.225.6704"
+          }
         }
       },
       "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.2": {
@@ -1012,6 +1021,13 @@
       "sha512": "sha512-gnLnKGawBjqBnU9fEuel3VcYAARkjyONAliaGDfMc8o8HBtfh+HrOPEoR8Xx4b2RnMb7uxdBDOvEAC7sul79ig==",
       "path": "microsoft.aspnetcore.authentication.core/2.3.0",
       "hashPath": "microsoft.aspnetcore.authentication.core.2.3.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Google/9.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Qxu5/62zOGD2RERGjypDEnlFwYV0rYCBUCR+DVVQ1D6qMMLmqowcJ0bdA42fm0lql3fD0V/vVV6ysC8SjZCGBg==",
+      "path": "microsoft.aspnetcore.authentication.google/9.0.2",
+      "hashPath": "microsoft.aspnetcore.authentication.google.9.0.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.2": {
       "type": "package",

@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using System.Text;
 using EfosBackend.Data;
 using EfosBackend.Entity;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,9 @@ builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = "Cookies";
+        options.DefaultChallengeScheme = "Google";
+
     })
     .AddJwtBearer(options =>
     {
@@ -35,7 +40,15 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuer = false, 
             ValidateAudience = false
         };
+    }).AddCookie("Cookies")
+    .AddGoogle("Google", options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        options.CallbackPath = "/signin-google"; // Redirect URI registered in Google Console
     });
+
+//google
 
 builder.Services.AddAuthorization();
 
@@ -60,11 +73,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+GoogleSetup();
 
+
+void GoogleSetup()
+{
+    app.MapGet("/login", async context =>
+    {
+        await context.ChallengeAsync("Google", new AuthenticationProperties { RedirectUri = "/" });
+    });
+
+    app.MapGet("/", (ClaimsPrincipal user) => user.Identity.IsAuthenticated
+        ? $"Welcome, {user.Identity.Name}"
+        : "Not logged in.");
+}
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

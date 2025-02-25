@@ -146,3 +146,4 @@
 /Users/yousifmuhammed/Programs/Efos/EfosBackend/obj/Debug/net9.0/EfosBackend.pdb
 /Users/yousifmuhammed/Programs/Efos/EfosBackend/obj/Debug/net9.0/EfosBackend.genruntimeconfig.cache
 /Users/yousifmuhammed/Programs/Efos/EfosBackend/obj/Debug/net9.0/ref/EfosBackend.dll
+/Users/yousifmuhammed/Programs/Efos/EfosBackend/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.Google.dll

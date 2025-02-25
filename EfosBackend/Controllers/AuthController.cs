@@ -54,6 +54,28 @@ public class AuthController : ControllerBase
         var token = GenerateJwtToken(user);
         return Ok(new { token });
     }
+
+    public async Task<IActionResult> RequestPasswordReset([FromBody] ForgotPasswordDto model)
+    {
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if (user == null) return NotFound("User not found.");
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        // TODO: Send this token to the user's email.
+        // For testing, we can return it directly:
+        return Ok(new { token });
+    }
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
+    {
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if (user == null) return NotFound("User not found.");
+        var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+        if (!result.Succeeded) return BadRequest(result.Errors);
+
+        return Ok("Password has been reset successfully.");
+
+    }
     private string GenerateJwtToken(User user)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
