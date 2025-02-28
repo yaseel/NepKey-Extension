@@ -24,17 +24,15 @@
     "https://idp.elte.hu/*"
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["https://neptun.elte.hu/*", "https://canvas.elte.hu/belepes/*", "https://idp.elte.hu/auth/*", "https://tms.inf.elte.hu/*"],
       "js": [
-        "content/index.js"
+        "content.js"
       ],
-      "run_at": "document_idle",
-      "type": "module"
+      "run_at": "document_idle"
     }
   ]
 }
