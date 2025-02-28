@@ -34,15 +34,6 @@
     border: 1px solid #555 !important;
 }
 
-.dark-mode .save-button {
-    background-color: #8e24aa !important;
-    color: white !important;
-}
-
-.dark-mode .save-button:hover {
-    background-color: #6a1b9a !important;
-}
-
 .dark-mode .close {
     color: #AAA !important;
 }

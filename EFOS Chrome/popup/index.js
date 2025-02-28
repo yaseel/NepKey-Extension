@@ -2,6 +2,7 @@ import TranslationManager from "./TranslationManager.js";
 import SettingsManager from "./SettingsManager.js";
 import ModalManager from "./ModalManager.js";
 import UIManager from "./UIManager.js";
+import TutorialManager from "./TutorialManager.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("[Popup] index.js loaded");
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const settingsManager = new SettingsManager(browserAPI.storage.local);
   const modalManager = new ModalManager(document.getElementById("infoModal"));
   const uiManager = new UIManager(browserAPI);
+  const tutorialManager = new TutorialManager();
 
   // Language handling.
   const languageResult = await browserAPI.storage.local.get("language");
@@ -95,7 +97,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     settingsManager.saveSettings(newSettings);
   });
 
-  // Settings toggle (Gear/Back Button)
+  // Tutorial button
+
+  document.getElementById("tutorialButton").addEventListener("click", () => {
+    tutorialManager.open();
+  });
+
+  // Settings button (Gear/Back Button)
   document.getElementById("settingsButton").addEventListener("click", (e) => {
     e.preventDefault();
     const mainView = document.getElementById("mainView");
