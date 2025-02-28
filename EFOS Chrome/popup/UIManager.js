@@ -13,7 +13,8 @@ export default class UIManager {
             document.body.classList.remove("dark-mode");
         }
         this.updateGearImage(this.isSettingsVisible());
-        this.updateTutorialIcon(this.isTutorialVisible());
+        this.updateTutorialIcon();
+        this.updateTutorialBackIcon();
         this.updateOtpToggleIcon();
     }
 
@@ -27,14 +28,20 @@ export default class UIManager {
             : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
     }
 
-    updateTutorialIcon(isTutorial) {
+    updateTutorialIcon() {
         const tutorialButton = document.getElementById("tutorialButton");
         if (!tutorialButton) return;
         const isDark = document.body.classList.contains("dark-mode");
-        const img = tutorialButton.querySelector("img");
-        img.src = isTutorial
-            ? (isDark ? "images/back_dark.png" : "images/back_light.png")
-            : (isDark ? "images/question_dark.png" : "images/question_light.png");
+        const tutorialImg = tutorialButton.querySelector("img");
+        tutorialImg.src = isDark ? "images/question_dark.png" : "images/question_light.png";
+    }
+
+    updateTutorialBackIcon() {
+        const tutorialBack = document.getElementById("tutorialBack");
+        if (!tutorialBack) return;
+        const isDark = document.body.classList.contains("dark-mode");
+        const img = tutorialBack.querySelector("img");
+        img.src = isDark ? "images/back_dark.png" : "images/back_light.png";
     }
 
     updateOtpToggleIcon() {
@@ -48,11 +55,6 @@ export default class UIManager {
     isSettingsVisible() {
         const settingsView = document.getElementById("settingsView");
         return settingsView.classList.contains("visible");
-    }
-
-    isTutorialVisible() {
-        const tutorialView = document.getElementById("tutorialView");
-        return tutorialView.classList.contains("visible");
     }
 
     updateAutoLoginLabel() {
