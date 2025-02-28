@@ -1,0 +1,23 @@
+#footer {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 10px;
+    color: gray;
+    margin-top: 16px;
+    border-top: 1px solid #ccc;
+}
+
+#footer a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+}
+
+#footer a:hover {
+    text-decoration: underline;
+}
+
+.github-logo {
+    vertical-align: middle;
+    margin-right: 4px;
+}

@@ -3,7 +3,15 @@
 <head>
   <meta charset="utf-8">
   <title>EFOS</title>
-  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/dark-mode.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="styles/language-selector.css">
+  <link rel="stylesheet" href="styles/menu-buttons.css">
+  <link rel="stylesheet" href="styles/modal.css">
+  <link rel="stylesheet" href="styles/otp-secret.css">
+  <link rel="stylesheet" href="styles/settings.css">
+  <link rel="stylesheet" href="styles/toggles.css">
 </head>
 <body>
 <div class="container">
@@ -133,6 +141,14 @@
     <div class="modal-content">
       <span id="closeModal" class="close">&times;</span>
       <p class="guide-text">First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect refresh the page.</p>
+    </div>
+  </div>
+
+  <div id="tutorialView" class="view hidden">
+    <img id="tutorialGif" src="images/tutorial1.gif" alt="Tutorial Step"/>
+    <div class="tutorial-nav">
+      <button id="prev-btn" class="nav-btn">Previous</button>
+      <button id="next-btn" class="nav-btn">Next</button>
     </div>
   </div>
 

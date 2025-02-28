@@ -1,0 +1,51 @@
+.dark-mode {
+    background-color: #1E1E1E !important;
+    color: white !important;
+}
+.dark-mode .container {
+    background-color: #1E1E1E !important;
+    color: white !important;
+}
+.dark-mode h1 {
+    color: white !important;
+}
+.dark-mode .menu-button {
+    color: white !important;
+}
+.dark-mode .menu-button:hover {
+    background-color: #333 !important;
+}
+.dark-mode .focus-mode-row {
+    color: white !important;
+}
+
+.dark-mode .focus-sub-button {
+    background-color: #8e24aa !important;
+    color: white !important;
+}
+
+.dark-mode .focus-sub-button:hover {
+    background-color: #6a1b9a !important;
+}
+
+.dark-mode .modal-content {
+    background-color: #2C2C2C !important;
+    color: white !important;
+    border: 1px solid #555 !important;
+}
+
+.dark-mode .save-button {
+    background-color: #8e24aa !important;
+    color: white !important;
+}
+
+.dark-mode .save-button:hover {
+    background-color: #6a1b9a !important;
+}
+
+.dark-mode .close {
+    color: #AAA !important;
+}
+.dark-mode .close:hover {
+    color: white !important;
+}
