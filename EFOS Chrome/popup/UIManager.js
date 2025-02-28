@@ -13,6 +13,7 @@ export default class UIManager {
             document.body.classList.remove("dark-mode");
         }
         this.updateGearImage(this.isSettingsVisible());
+        this.updateTutorialIcon();
         this.updateOtpToggleIcon();
     }
 
@@ -24,6 +25,14 @@ export default class UIManager {
         gearImg.src = isSettings
             ? (isDark ? "images/back_dark.png" : "images/back_light.png")
             : (isDark ? "images/gear_dark.png" : "images/gear_light.png");
+    }
+
+    updateTutorialIcon() {
+        const tutorialButton = document.getElementById("tutorialButton");
+        if (!tutorialButton) return;
+        const isDark = document.body.classList.contains("dark-mode");
+        const img = tutorialButton.querySelector("img");
+        img.src = isDark ? "images/question_dark.png" : "images/question_light.png";
     }
 
     updateOtpToggleIcon() {
