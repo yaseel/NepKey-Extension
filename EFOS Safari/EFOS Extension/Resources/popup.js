@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("[Popup] popup.js loaded");
+  console.log("[Popup] index.js loaded");
 
   // UI Helpers
   function isSettingsVisible() {
