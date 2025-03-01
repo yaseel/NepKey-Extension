@@ -1,3 +1,8 @@
+#tutorialView {
+    height: 350px;
+}
+
+/* Tutorial Back Button */
 .tutorial-back {
     position: absolute;
     top: 10px;
@@ -9,7 +14,6 @@
     outline: none;
     transition: transform 0.2s ease;
 }
-
 .tutorial-back:hover {
     transform: scale(1.1);
 }
@@ -21,16 +25,88 @@
     height: 20px;
 }
 
+/* GIF container */
+#gifContainer {
+    width: 85%;
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 170px;
+    overflow: hidden;
+}
 #tutorialGif {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 75%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
+/* Tutorial text */
+#tutorialText {
+    text-align: center;
+    font-size: 13px;
+    padding: 2px;
+    margin-top: 10px;
+    min-height: 70px;
+}
+
+/* Navigation area */
 .tutorial-nav {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 8px;
-    margin-left: auto;
+    margin-top: 10px;
+    height: 40px; /* fixed height */
+}
+
+/* Arrow buttons */
+.tutorial-nav .nav-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: transform 0.2s ease;
+}
+.tutorial-nav .nav-btn:hover {
+    transform: scale(1.1);
+}
+.tutorial-nav .nav-btn:active {
+    transform: scale(0.9);
+}
+
+.tutorial-nav img {
+    height: 20px;
+}
+
+/* Disabled state: grey out */
+.tutorial-nav .nav-btn.disabled img {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Progress dots */
+.tutorial-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+}
+.tutorial-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dark-mode .tutorial-dots span {
+    background-color: #555 !important;
+}
+.tutorial-dots span.active {
+    background-color: #333;
+}
+.dark-mode .tutorial-dots span.active {
+    background-color: #eee !important;
 }
