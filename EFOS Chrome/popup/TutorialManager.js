@@ -1,6 +1,7 @@
 export default class TutorialManager {
-    constructor() {
-        // Get elements from the tutorial view.
+    constructor(translationManager) {
+        this.translationManager = translationManager;
+
         this.tutorialView = document.getElementById("tutorialView");
         this.tutorialGif = document.getElementById("tutorialGif");
         this.tutorialText = document.getElementById("tutorialText");
@@ -10,11 +11,11 @@ export default class TutorialManager {
         this.tutorialDots = document.getElementById("tutorialDots");
 
         this.steps = [
-            { gif: "images/tutorial1.gif", text: "Click the menu buttons to open the respective websites." },
-            { gif: "images/tutorial2.gif", text: "Before enabling auto log in, input your credentials in the settings." },
-            { gif: "images/tutorial3.gif", text: "Enable auto log in using the toggles." },
-            { gif: "images/tutorial4.gif", text: "To use full TOTP login for Neptun, you need an OTP secret. Log in to Neptun, select 'New TOTP pairing', and copy the secret key. Paste it in EFOS OTP settings and add it to your authenticator." },
-            { gif: "images/tutorial5.gif", text: "Auto log in only works when websites are opened from the extension—opening via URL or regular browsing won't activate auto log in." }
+            { gif: "images/tutorial1.gif", textKey: "tutorialStep1" },
+            { gif: "images/tutorial2.gif", textKey: "tutorialStep2" },
+            { gif: "images/tutorial3.gif", textKey: "tutorialStep3" },
+            { gif: "images/tutorial4.gif", textKey: "tutorialStep4" },
+            { gif: "images/tutorial5.gif", textKey: "tutorialStep5" }
         ];
         this.currentStep = 0;
 
@@ -65,7 +66,7 @@ export default class TutorialManager {
     updateContent() {
         const step = this.steps[this.currentStep];
         this.tutorialGif.src = step.gif;
-        this.tutorialText.innerText = step.text;
+        this.tutorialText.innerText = this.translationManager.translations[this.translationManager.currentLang][step.textKey];
 
         if (this.currentStep === 0) {
             this.prevButton.classList.add("disabled");

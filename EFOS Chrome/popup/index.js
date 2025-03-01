@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const settingsManager = new SettingsManager(browserAPI.storage.local);
   const modalManager = new ModalManager(document.getElementById("infoModal"));
   const uiManager = new UIManager(browserAPI);
-  const tutorialManager = new TutorialManager();
+  const tutorialManager = new TutorialManager(translationManager);
 
   // Language handling.
   const languageResult = await browserAPI.storage.local.get("language");
