@@ -17,6 +17,8 @@ EFOS is a **browser extension** designed to streamline access to ELTE-related we
 
 ### First Setup: Getting the OTP Secret for Auto-Login
 
+![](https://github.com/yaseel/EFOS/blob/main/EFOS%20Chrome/images/tutorial4.gif)
+
 EFOS uses TOTP (Time-based One-Time Password) authentication to log into Neptun automatically. To set it up:
 
 1. **Go to Neptun** and log in with your username and password.
@@ -58,6 +60,8 @@ Az EFOS egy **böngészőbővítmény**, amely egyszerűbbé teszi az ELTE-vel k
 2. **Rögzítsd az EFOS-t** a böngésző eszköztárán a gyors elérés érdekében.
 
 ### Első lépések: OTP titkos kulcs beszerzése az automatikus bejelentkezéshez
+
+![](https://github.com/yaseel/EFOS/blob/main/EFOS%20Chrome/images/tutorial4.gif)
 
 Az EFOS TOTP (időalapú egyszer használatos jelszó) hitelesítést használ a Neptun automatikus bejelentkezéséhez. Beállításához:
 
