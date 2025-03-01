@@ -2,14 +2,32 @@ export default class TutorialManager {
     constructor() {
         this.tutorialView = document.getElementById("tutorialView");
         this.tutorialGif = document.getElementById("tutorialGif");
+        this.tutorialText = document.getElementById("tutorialText");
         this.nextButton = document.getElementById("nextButton");
         this.prevButton = document.getElementById("prevButton");
         this.backButton = document.getElementById("tutorialBack");
 
         this.steps = [
-            "images/tutorial1.gif",
-            "images/tutorial2.gif",
-            "images/tutorial3.gif"
+            {
+                gif: "images/tutorial1.gif",
+                text: "Click the menu buttons to open the respective websites."
+            },
+            {
+                gif: "images/tutorial2.gif",
+                text: "Before enabling auto log in, input your credentials in the settings."
+            },
+            {
+                gif: "images/tutorial3.gif",
+                text: "Enable auto log in using the toggles."
+            },
+            {
+                gif: "images/tutorial4.gif",
+                text: "To use full TOTP login for Neptun, you need an OTP secret."
+            },
+            {
+                gif: "images/tutorial5.gif",
+                text: "Auto log in only works when websites are opened from the extension—opening via URL or regular browsing won't activate auto log in."
+            }
         ];
         this.currentStep = 0;
 
@@ -56,7 +74,9 @@ export default class TutorialManager {
     }
 
     updateContent() {
-        this.tutorialGif.src = this.steps[this.currentStep];
+        const step = this.steps[this.currentStep];
+        this.tutorialGif.src = step.gif;
+        this.tutorialText.innerText = step.text;
 
         if (this.currentStep === 0) {
             this.prevButton.style.display = "none";
