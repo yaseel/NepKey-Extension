@@ -25,7 +25,7 @@ EFOS uses TOTP (Time-based One-Time Password) authentication to log into Neptun 
    - When prompted for TOTP, click on **"New TOTP pairing"** (`Új TOTP párosítás`).
 2. Copy the **secret key** displayed below.
 3. Paste this secret key into EFOS under the **OTP Configuration** section.
-4. *(Optional, recommended)* Add the secret key to your preferred phone authenticator (e.g., Microsoft Authenticator, Google Authenticator) for backup.
+4. Add the secret key to your preferred phone authenticator (e.g., Microsoft Authenticator, Google Authenticator) for backup.
 
 Once set up, EFOS will generate the correct TOTP code automatically during login.
 
@@ -69,7 +69,7 @@ Az EFOS TOTP (időalapú egyszer használatos jelszó) hitelesítést használ a
    - Amikor a rendszer TOTP-t kér, kattints a **„Új TOTP párosítás”** gombra.
 2. Másold ki az alul megjelenő **titkos kulcsot**.
 3. Illeszd be ezt a kulcsot az EFOS **OTP konfigurációs** szakaszába.
-4. *(Opcionális, ajánlott)* Add hozzá a kulcsot egy általad preferált telefonos hitelesítő alkalmazásba (pl. Microsoft Authenticator, Google Authenticator) biztonsági másolatként.
+4. Add hozzá a kulcsot egy általad preferált telefonos hitelesítő alkalmazásba (pl. Microsoft Authenticator, Google Authenticator) biztonsági másolatként.
 
 A beállítás után az EFOS automatikusan generálja a megfelelő TOTP kódot bejelentkezéskor.
 
