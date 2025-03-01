@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "EFOS",
-  "version": "1.7",
+  "version": "2.0",
   "description": "ELTE Felhasználóbarát Open-Source Segéd",
   "default_locale": "en",
   "action": {

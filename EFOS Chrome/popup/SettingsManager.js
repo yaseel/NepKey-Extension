@@ -22,7 +22,6 @@ export default class SettingsManager {
     async saveSettings(settings) {
         try {
             await this.storage.set({ autoLoginSettings: settings });
-            console.log("[Popup] Settings saved:", settings);
         } catch (err) {
             console.error("[Popup] saveSettings error:", err);
         }

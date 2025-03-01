@@ -3,7 +3,16 @@
 <head>
   <meta charset="utf-8">
   <title>EFOS</title>
-  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/dark-mode.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="styles/language-selector.css">
+  <link rel="stylesheet" href="styles/menu-buttons.css">
+  <link rel="stylesheet" href="styles/modal.css">
+  <link rel="stylesheet" href="styles/otp-secret.css">
+  <link rel="stylesheet" href="styles/settings.css">
+  <link rel="stylesheet" href="styles/toggles.css">
+  <link rel="stylesheet" href="styles/tutorial.css">
 </head>
 <body>
 <div class="container">
@@ -28,6 +37,10 @@
 
   <!-- Main View -->
   <div id="mainView" class="view visible">
+    <button id="tutorialButton" class="tutorial-button">
+      <img src="images/question_light.png" alt="Tutorial">
+    </button>
+
     <h1>EFOS</h1>
     <p class="subtitle">ELTE Felhasználóbarát Open-Source Segéd</p>
     <p class="auto-login-label" data-text="Auto Log In">Auto Log In</p>
@@ -131,6 +144,27 @@
       <p class="guide-text">First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect refresh the page.</p>
     </div>
   </div>
+
+  <div id="tutorialView" class="view hidden">
+    <h2>Tutorial</h2>
+    <button id="tutorialBack" class="tutorial-back">
+      <img src="images/back_light.png" alt="Back">
+    </button>
+    <div id="gifContainer">
+      <img id="tutorialGif" src="images/tutorial1.gif" alt="Tutorial Step"/>
+    </div>
+    <p id="tutorialText"></p>
+    <div class="tutorial-nav">
+      <button id="prevButton" class="nav-btn">
+        <img src="images/prev_light.png" alt="Previous">
+      </button>
+      <div id="tutorialDots" class="tutorial-dots"></div>
+      <button id="nextButton" class="nav-btn">
+        <img src="images/next_light.png" alt="Next">
+      </button>
+    </div>
+  </div>
+
 
   <!-- Footer -->
   <footer id="footer">

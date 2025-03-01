@@ -22,7 +22,12 @@ export default class TranslationManager {
                 passwordPlaceholder: "Enter password",
                 goDirectLabel: "Go Direct to Student web",
                 activateButtonText: "Activate",
-                infoModalContent: "First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect, refresh the page."
+                infoModalContent: "First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect, refresh the page.",
+                tutorialStep1: "Click the menu buttons to open the respective websites.",
+                tutorialStep2: "Before enabling auto log in, input your credentials in settings.",
+                tutorialStep3: "Enable auto log in using the toggles.",
+                tutorialStep4: "For full TOTP login, log into Neptun, select 'New TOTP pairing', copy the secret, then paste it in EFOS OTP settings and add it to your authenticator.",
+                tutorialStep5: "Auto log in only works when websites are opened from the extension."
             },
             hu: {
                 title: "EFOS",
@@ -45,12 +50,18 @@ export default class TranslationManager {
                 passwordPlaceholder: "Írd be a jelszót",
                 goDirectLabel: "Ugrás a Hallgatói webre",
                 activateButtonText: "Aktiválás",
-                infoModalContent: "Először nyisd meg a TMS-t a böngésződben, majd a feladatodat, végül kattints az Aktiválásra. A hatás visszavonásához frissítsd az oldalt."
+                infoModalContent: "Először nyisd meg a TMS-t a böngésződben, majd a feladatodat, végül kattints az Aktiválásra. A hatás visszavonásához frissítsd az oldalt.",
+                tutorialStep1: "Kattints a menü gombokra, hogy megnyisd a megfelelő weboldalakat.",
+                tutorialStep2: "Mielőtt bekapcsolod az automatikus bejelentkezést, add meg a hitelesítő adataid a beállításokban.",
+                tutorialStep3: "Kapcsold be az automatikus bejelentkezést a kapcsolókkal.",
+                tutorialStep4: "A teljes TOTP bejelentkezéshez: jelentkezz be Neptunba, válaszd az 'Új TOTP párosítás'-t, másold ki a titkot, majd illeszd be az EFOS OTP beállításaiba, és add hozzá az authenticatorhoz.",
+                tutorialStep5: "Az automatikus bejelentkezés csak az extensionből megnyitott oldalakon működik."
             }
         };
     }
 
     apply(lang) {
+        this.currentLang = lang;
         const texts = this.translations[lang] || this.translations.en;
         const selectors = [
             { selector: "#mainView h1", text: texts.title },
