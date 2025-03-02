@@ -16,7 +16,7 @@
     white-space: nowrap;
     overflow: hidden;
     width: 0;
-    background: linear-gradient(45deg, #ff4081, #7c4dff);
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     background-size: 200% 200%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -89,7 +89,7 @@
 }
 
 .main-toggle:checked + .toggle-label {
-    background: linear-gradient(45deg, #ff4081, #7c4dff);
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     background-size: 200% 200%;
     animation: gradientAnimation 3s ease infinite;
 }
