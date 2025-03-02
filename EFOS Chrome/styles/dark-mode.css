@@ -28,12 +28,12 @@
 }
 
 .dark-mode .focus-sub-button {
-    background-color: #8e24aa !important;
+    background-color: var(--primary-dark) !important;
     color: white !important;
 }
 
 .dark-mode .focus-sub-button:hover {
-    background-color: #6a1b9a !important;
+    background-color: var(--primary-dark-hover) !important;
 }
 
 .dark-mode .modal-content {

@@ -4,6 +4,10 @@
   "version": "2.0",
   "description": "ELTE Felhasználóbarát Open-Source Segéd",
   "default_locale": "en",
+  "icons": {
+    "16": "images/icon16.png",
+    "128": "images/icon128.png"
+  },
   "action": {
     "default_icon": {
       "16": "images/icon16.png",

@@ -98,7 +98,7 @@
     background: linear-gradient(
             90deg,
             transparent 40%,
-            rgba(124, 77, 255, 0.4) 50%,
+            var(--energy-surge) 50%,
             transparent 60%
     );
     animation: energy-surge 1s forwards;
@@ -131,7 +131,7 @@
     border: none;
     border-radius: 7px;
     cursor: pointer;
-    background-color: #d1a3e8;
+    background-color: var(--primary-light);
     color: white;
     transition: background-color 0.2s, transform 0.1s;
 }
@@ -139,5 +139,5 @@
     transform: scale(0.95);
 }
 .focus-sub-button:hover {
-    background-color: #c18ee8;
+    background-color: var(--primary-light-hover);
 }
