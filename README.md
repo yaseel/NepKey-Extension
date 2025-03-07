@@ -12,7 +12,7 @@ EFOS is a **browser extension** designed to streamline access to ELTE-related we
 
 ### Installation
 
-1. **Install from the Chrome Web Store** (coming soon to the App Store). EFOS is compatible with browsers that support the Chrome Web Store, including **Chrome, Brave, and others**.
+1. **<a href="https://chromewebstore.google.com/detail/mdhkgneadmdcggghabhelllpkodboiii?utm_source=item-share-cb" target="_blank">Install from the Chrome Web Store</a>** (coming soon to the App Store). EFOS is compatible with browsers that support the Chrome Web Store, including **Chrome, Brave, and others**.
 2. **Pin EFOS** to your browser toolbar for quick access.
 
 ### First Setup: Getting the OTP Secret for Auto-Login
@@ -56,7 +56,7 @@ Az EFOS egy **böngészőbővítmény**, amely egyszerűbbé teszi az ELTE-vel k
 
 ### Telepítés
 
-1. **Telepítsd a Chrome Web Store-ból** (hamarosan elérhető az App Store-ban). Az EFOS kompatibilis más böngészőkkel is, amelyek támogatják a Chrome Web Store-t, például **Chrome, Brave és más böngészők**.
+1. **<a href="https://chromewebstore.google.com/detail/mdhkgneadmdcggghabhelllpkodboiii?utm_source=item-share-cb" target="_blank">Telepítsd a Chrome Web Store-ból</a>** (hamarosan elérhető az App Store-ban). Az EFOS kompatibilis más böngészőkkel is, amelyek támogatják a Chrome Web Store-t, például **Chrome, Brave és más böngészők**.
 2. **Rögzítsd az EFOS-t** a böngésző eszköztárán a gyors elérés érdekében.
 
 ### Első lépések: OTP titkos kulcs beszerzése az automatikus bejelentkezéshez
