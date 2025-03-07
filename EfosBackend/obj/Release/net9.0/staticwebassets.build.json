@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "W2DDK/3H3EXwlsJcAsmt2rJ7wCLLDgtGU0K4IeaEhgM=",
+  "Source": "EfosBackend",
+  "BasePath": "_content/EfosBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
