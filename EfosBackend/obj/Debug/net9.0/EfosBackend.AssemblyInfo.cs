@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EfosBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1677d9349facb198557680c46bd03c3aa0967d21")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5be1a4e2ac8a0f99538298b0e4b525637e6d4ec")]
 [assembly: System.Reflection.AssemblyProductAttribute("EfosBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EfosBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
