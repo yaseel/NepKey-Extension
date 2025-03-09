@@ -1,4 +1,4 @@
-# EFOS (ELTE Friendly Open-Source Support)
+# EFOS (ELTE Felhasználóbarát Open-Source Segéd)
 
 [English Version](#english-version) | [Magyar Verzió](#magyar-verzió)
 
@@ -6,7 +6,7 @@
 
 ## English Version
 
-### EFOS (ELTE Felhasználóbarát Open-Source Segéd)
+### EFOS (ELTE Friendly Open-Source Support)
 
 EFOS is a **browser extension** designed to streamline access to ELTE-related websites and services. It provides quick login automation, website shortcuts, and other useful university-related utilities. All login data is stored locally on your computer, ensuring security.
 
