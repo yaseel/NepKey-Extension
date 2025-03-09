@@ -2,12 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSExtension</key>
-	<dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.Safari.web-extension</string>
-		<key>NSExtensionPrincipalClass</key>
-		<string>$(PRODUCT_MODULE_NAME).SafariWebExtensionHandler</string>
-	</dict>
+    <key>NSExtension</key>
+    <dict>
+        <key>NSExtensionPointIdentifier</key>
+        <string>com.apple.Safari.web-extension</string>
+        <key>NSExtensionPrincipalClass</key>
+        <string>$(PRODUCT_MODULE_NAME).SafariWebExtensionHandler</string>
+        <key>SFSafariWebExtensionInjectedScript</key>
+        <array>
+            <string>content.js</string>
+        </array>
+        <key>SFSafariWebExtensionStorage</key>
+        <string>YES</string>
+        <key>SFSafariWebExtensionAllowedHosts</key>
+        <array>
+            <string>https://neptun.elte.hu/</string>
+            <string>https://canvas.elte.hu/</string>
+            <string>https://tms.inf.elte.hu/</string>
+            <string>https://idp.elte.hu/</string>
+        </array>
+        <key>SFSafariWebExtensionContextualMenu</key>
+        <string>YES</string>
+    </dict>
 </dict>
 </plist>

@@ -1,0 +1,50 @@
+.dark-mode {
+    background-color: #1E1E1E !important;
+    color: white !important;
+}
+.dark-mode .container {
+    background-color: #1E1E1E !important;
+    color: white !important;
+}
+
+.dark-mode #prevButton img {
+    content: url('../images/prev_dark.png') !important;
+}
+.dark-mode #nextButton img {
+    content: url('../images/next_dark.png') !important;
+}
+
+.dark-mode h1 {
+    color: white !important;
+}
+.dark-mode .menu-button {
+    color: white !important;
+}
+.dark-mode .menu-button:hover {
+    background-color: #333 !important;
+}
+.dark-mode .focus-mode-row {
+    color: white !important;
+}
+
+.dark-mode .focus-sub-button {
+    background-color: var(--primary-dark) !important;
+    color: white !important;
+}
+
+.dark-mode .focus-sub-button:hover {
+    background-color: var(--primary-dark-hover) !important;
+}
+
+.dark-mode .modal-content {
+    background-color: #2C2C2C !important;
+    color: white !important;
+    border: 1px solid #555 !important;
+}
+
+.dark-mode .close {
+    color: #AAA !important;
+}
+.dark-mode .close:hover {
+    color: white !important;
+}

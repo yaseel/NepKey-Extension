@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E02744B22D56A66100171F86 /* EFOS Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E02744B12D56A66100171F86 /* EFOS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E0B702772D772CA7009E2737 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = E0B702762D772CA6009E2737 /* styles */; };
+		E0B702792D772CDD009E2737 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = E0B702782D772CDD009E2737 /* popup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		E027449B2D56A66100171F86 /* EFOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EFOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E02744A52D56A66100171F86 /* EFOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EFOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E02744B12D56A66100171F86 /* EFOS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "EFOS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0B702762D772CA6009E2737 /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = "EFOS Extension/Resources/styles"; sourceTree = "<group>"; };
+		E0B702782D772CDD009E2737 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = "EFOS Extension/Resources/popup"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -130,6 +134,8 @@
 		E02744762D56A65F00171F86 = {
 			isa = PBXGroup;
 			children = (
+				E0B702782D772CDD009E2737 /* popup */,
+				E0B702762D772CA6009E2737 /* styles */,
 				E02744812D56A65F00171F86 /* EFOS */,
 				E027449E2D56A66100171F86 /* EFOSTests */,
 				E02744A82D56A66100171F86 /* EFOSUITests */,
@@ -318,6 +324,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0B702792D772CDD009E2737 /* popup in Resources */,
+				E0B702772D772CA7009E2737 /* styles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +400,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -424,7 +432,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -582,7 +590,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -622,7 +630,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,

@@ -1,0 +1,27 @@
+.language-buttons {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.lang-btn img {
+    display: block;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.lang-btn:hover img {
+    transform: scale(1.1);
+}
+
+#languageSelectorView.visible ~ #settingsButton {
+    display: none;
+}
