@@ -1,4 +1,4 @@
-# EFOS (ELTE Felhasználóbarát Open-Source Segéd)
+# EFOS (ELTE Friendly Open-Source Support)
 
 [English Version](#english-version) | [Magyar Verzió](#magyar-verzió)
 
