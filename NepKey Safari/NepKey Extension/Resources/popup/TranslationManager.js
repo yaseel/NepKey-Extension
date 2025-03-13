@@ -31,7 +31,7 @@ export default class TranslationManager {
             },
             hu: {
                 title: "NepKey",
-                subtitle: "University Toolkit",
+                subtitle: "Egyetemi Eszköztár",
                 autoLogin: "Auto Log In",
                 settingsTitle: "Beállítások",
                 neptunLabel: "Neptun",
