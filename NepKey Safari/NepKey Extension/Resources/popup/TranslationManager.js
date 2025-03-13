@@ -3,7 +3,7 @@ export default class TranslationManager {
         this.translations = {
             en: {
                 title: "NepKey",
-                subtitle: "ELTE Friendly Open-Source Support",
+                subtitle: "University Toolkit",
                 autoLogin: "Auto Log In",
                 settingsTitle: "Settings",
                 neptunLabel: "Neptun",
@@ -31,7 +31,7 @@ export default class TranslationManager {
             },
             hu: {
                 title: "NepKey",
-                subtitle: "ELTE Felhasználóbarát Open-Source Segéd",
+                subtitle: "University Toolkit",
                 autoLogin: "Auto Log In",
                 settingsTitle: "Beállítások",
                 neptunLabel: "Neptun",

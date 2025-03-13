@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "NepKey",
   "version": "2.0",
-  "description": "ELTE Felhasználóbarát Open-Source Segéd",
+  "description": "University Toolkit",
   "default_locale": "en",
   "icons": {
     "16": "images/icon16.png",
