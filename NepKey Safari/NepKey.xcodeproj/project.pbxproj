@@ -1,0 +1,771 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E02744B22D56A66100171F86 /* NepKey Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E02744B12D56A66100171F86 /* NepKey Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E0B702772D772CA7009E2737 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = E0B702762D772CA6009E2737 /* styles */; };
+		E0B702792D772CDD009E2737 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = E0B702782D772CDD009E2737 /* popup */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E027449C2D56A66100171F86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E02744772D56A65F00171F86 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E027447E2D56A65F00171F86;
+			remoteInfo = "E-FOS";
+		};
+		E02744A62D56A66100171F86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E02744772D56A65F00171F86 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E027447E2D56A65F00171F86;
+			remoteInfo = "E-FOS";
+		};
+		E02744B32D56A66100171F86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E02744772D56A65F00171F86 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E02744B02D56A66100171F86;
+			remoteInfo = "E-FOS Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E02744D12D56A66100171F86 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E02744B22D56A66100171F86 /* NepKey Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E027447F2D56A65F00171F86 /* NepKey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NepKey.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E027449B2D56A66100171F86 /* NepKeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NepKeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E02744A52D56A66100171F86 /* NepKeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NepKeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E02744B12D56A66100171F86 /* NepKey Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NepKey Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0B702762D772CA6009E2737 /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = styles; path = "NepKey Extension/Resources/styles"; sourceTree = "<group>"; };
+		E0B702782D772CDD009E2737 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = "NepKey Extension/Resources/popup"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E02744CB2D56A66100171F86 /* Exceptions for "NepKey Extension" folder in "NepKey Extension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E02744B02D56A66100171F86 /* NepKey Extension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		E02744812D56A65F00171F86 /* NepKey */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NepKey;
+			sourceTree = "<group>";
+		};
+		E027449E2D56A66100171F86 /* NepKeyTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NepKeyTests;
+			sourceTree = "<group>";
+		};
+		E02744A82D56A66100171F86 /* NepKeyUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NepKeyUITests;
+			sourceTree = "<group>";
+		};
+		E02744B52D56A66100171F86 /* NepKey Extension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E02744CB2D56A66100171F86 /* Exceptions for "NepKey Extension" folder in "NepKey Extension" target */,
+			);
+			explicitFolders = (
+				Resources/_locales,
+				Resources/images,
+			);
+			path = "NepKey Extension";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E027447C2D56A65F00171F86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744982D56A66100171F86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744A22D56A66100171F86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744AE2D56A66100171F86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E02744762D56A65F00171F86 = {
+			isa = PBXGroup;
+			children = (
+				E0B702782D772CDD009E2737 /* popup */,
+				E0B702762D772CA6009E2737 /* styles */,
+				E02744812D56A65F00171F86 /* NepKey */,
+				E027449E2D56A66100171F86 /* NepKeyTests */,
+				E02744A82D56A66100171F86 /* NepKeyUITests */,
+				E02744B52D56A66100171F86 /* NepKey Extension */,
+				E02744802D56A65F00171F86 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E02744802D56A65F00171F86 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E027447F2D56A65F00171F86 /* NepKey.app */,
+				E027449B2D56A66100171F86 /* NepKeyTests.xctest */,
+				E02744A52D56A66100171F86 /* NepKeyUITests.xctest */,
+				E02744B12D56A66100171F86 /* NepKey Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E027447E2D56A65F00171F86 /* NepKey */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E02744D22D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKey" */;
+			buildPhases = (
+				E027447B2D56A65F00171F86 /* Sources */,
+				E027447C2D56A65F00171F86 /* Frameworks */,
+				E027447D2D56A65F00171F86 /* Resources */,
+				E02744D12D56A66100171F86 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E02744B42D56A66100171F86 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E02744812D56A65F00171F86 /* NepKey */,
+			);
+			name = NepKey;
+			packageProductDependencies = (
+			);
+			productName = "E-FOS";
+			productReference = E027447F2D56A65F00171F86 /* NepKey.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E027449A2D56A66100171F86 /* NepKeyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E02744D52D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKeyTests" */;
+			buildPhases = (
+				E02744972D56A66100171F86 /* Sources */,
+				E02744982D56A66100171F86 /* Frameworks */,
+				E02744992D56A66100171F86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E027449D2D56A66100171F86 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E027449E2D56A66100171F86 /* NepKeyTests */,
+			);
+			name = NepKeyTests;
+			packageProductDependencies = (
+			);
+			productName = "E-FOSTests";
+			productReference = E027449B2D56A66100171F86 /* NepKeyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E02744A42D56A66100171F86 /* NepKeyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E02744D82D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKeyUITests" */;
+			buildPhases = (
+				E02744A12D56A66100171F86 /* Sources */,
+				E02744A22D56A66100171F86 /* Frameworks */,
+				E02744A32D56A66100171F86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E02744A72D56A66100171F86 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E02744A82D56A66100171F86 /* NepKeyUITests */,
+			);
+			name = NepKeyUITests;
+			packageProductDependencies = (
+			);
+			productName = "E-FOSUITests";
+			productReference = E02744A52D56A66100171F86 /* NepKeyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		E02744B02D56A66100171F86 /* NepKey Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E02744CC2D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKey Extension" */;
+			buildPhases = (
+				E02744AD2D56A66100171F86 /* Sources */,
+				E02744AE2D56A66100171F86 /* Frameworks */,
+				E02744AF2D56A66100171F86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E02744B52D56A66100171F86 /* NepKey Extension */,
+			);
+			name = "NepKey Extension";
+			packageProductDependencies = (
+			);
+			productName = "E-FOS Extension";
+			productReference = E02744B12D56A66100171F86 /* NepKey Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E02744772D56A65F00171F86 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					E027447E2D56A65F00171F86 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					E027449A2D56A66100171F86 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = E027447E2D56A65F00171F86;
+					};
+					E02744A42D56A66100171F86 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = E027447E2D56A65F00171F86;
+					};
+					E02744B02D56A66100171F86 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = E027447A2D56A65F00171F86 /* Build configuration list for PBXProject "NepKey" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E02744762D56A65F00171F86;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E02744802D56A65F00171F86 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E027447E2D56A65F00171F86 /* NepKey */,
+				E027449A2D56A66100171F86 /* NepKeyTests */,
+				E02744A42D56A66100171F86 /* NepKeyUITests */,
+				E02744B02D56A66100171F86 /* NepKey Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E027447D2D56A65F00171F86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744992D56A66100171F86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744A32D56A66100171F86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744AF2D56A66100171F86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0B702792D772CDD009E2737 /* popup in Resources */,
+				E0B702772D772CA7009E2737 /* styles in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E027447B2D56A65F00171F86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744972D56A66100171F86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744A12D56A66100171F86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E02744AD2D56A66100171F86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E027449D2D56A66100171F86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E027447E2D56A65F00171F86 /* NepKey */;
+			targetProxy = E027449C2D56A66100171F86 /* PBXContainerItemProxy */;
+		};
+		E02744A72D56A66100171F86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E027447E2D56A65F00171F86 /* NepKey */;
+			targetProxy = E02744A62D56A66100171F86 /* PBXContainerItemProxy */;
+		};
+		E02744B42D56A66100171F86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E02744B02D56A66100171F86 /* NepKey Extension */;
+			targetProxy = E02744B32D56A66100171F86 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E02744CD2D56A66100171F86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "NepKey Extension/NepKey_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "NepKey Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "E-FOS Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKey.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E02744CE2D56A66100171F86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "NepKey Extension/NepKey_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "NepKey Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "E-FOS Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKey.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E02744CF2D56A66100171F86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E02744D02D56A66100171F86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		E02744D32D56A66100171F86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = NepKey/NepKey.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NepKey;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKey;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E02744D42D56A66100171F86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = NepKey/NepKey.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NepKey;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKey;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E02744D62D56A66100171F86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKeyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NepKey.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NepKey";
+			};
+			name = Debug;
+		};
+		E02744D72D56A66100171F86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKeyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NepKey.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NepKey";
+			};
+			name = Release;
+		};
+		E02744D92D56A66100171F86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKeyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "E-FOS";
+			};
+			name = Debug;
+		};
+		E02744DA2D56A66100171F86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = UM9K9Y7MSY;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yaseel.NepKeyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "E-FOS";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E027447A2D56A65F00171F86 /* Build configuration list for PBXProject "NepKey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E02744CF2D56A66100171F86 /* Debug */,
+				E02744D02D56A66100171F86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E02744CC2D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKey Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E02744CD2D56A66100171F86 /* Debug */,
+				E02744CE2D56A66100171F86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E02744D22D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E02744D32D56A66100171F86 /* Debug */,
+				E02744D42D56A66100171F86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E02744D52D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKeyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E02744D62D56A66100171F86 /* Debug */,
+				E02744D72D56A66100171F86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E02744D82D56A66100171F86 /* Build configuration list for PBXNativeTarget "NepKeyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E02744D92D56A66100171F86 /* Debug */,
+				E02744DA2D56A66100171F86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E02744772D56A65F00171F86 /* Project object */;
+}

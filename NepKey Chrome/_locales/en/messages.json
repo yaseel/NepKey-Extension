@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "NepKey Extension",
+        "description": "NepKey"
+    },
+    "extension_description": {
+        "message": "NepKey is a user-friendly open-source assistant for ELTE students, enabling quick access to Neptun, Canvas, and TMS with auto-login features.",
+        "description": "Brief description of NepKey and its functionality."
+    }
+}

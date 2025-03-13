@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NepKey</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/dark-mode.css">
+  <link rel="stylesheet" href="styles/footer.css">
+  <link rel="stylesheet" href="styles/language-selector.css">
+  <link rel="stylesheet" href="styles/menu-buttons.css">
+  <link rel="stylesheet" href="styles/modal.css">
+  <link rel="stylesheet" href="styles/otp-secret.css">
+  <link rel="stylesheet" href="styles/settings.css">
+  <link rel="stylesheet" href="styles/toggles.css">
+  <link rel="stylesheet" href="styles/tutorial.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- Language Selector View -->
+  <div id="languageSelectorView" class="view hidden">
+    <h1>Select Your Language</h1>
+    <div class="language-buttons">
+      <button class="lang-btn" data-lang="en">
+        <img src="images/flag_en.png" alt="English" width="48">
+      </button>
+      <button class="lang-btn" data-lang="hu">
+        <img src="images/flag_hu.png" alt="Magyar" width="48">
+      </button>
+    </div>
+  </div>
+
+  <!-- Settings Button -->
+  <button id="settingsButton" class="settings-button">
+    <img src="images/gear_light.png" alt="Settings">
+  </button>
+
+  <!-- Main View -->
+  <div id="mainView" class="view visible">
+    <button id="tutorialButton" class="tutorial-button">
+      <img src="images/question_light.png" alt="Tutorial">
+    </button>
+
+    <h1>NepKey</h1>
+    <p class="subtitle">ELTE Felhasználóbarát Open-Source Segéd</p>
+    <p class="auto-login-label" data-text="Auto Log In">Auto Log In</p>
+    <div class="menu-buttons">
+      <button id="neptunButton" class="menu-button">
+        <div class="btn-label-group">
+          <img src="images/neptun_icon.png" alt="Neptun Icon">
+          <span class="button-text">Neptun</span>
+        </div>
+        <div class="toggle-container main-toggle-container">
+          <input type="checkbox" id="neptunToggle" class="toggle-input main-toggle">
+          <label for="neptunToggle" class="toggle-label"></label>
+        </div>
+      </button>
+
+      <button id="canvasButton" class="menu-button">
+        <div class="btn-label-group">
+          <img src="images/canvas_icon.png" alt="Canvas Icon">
+          <span class="button-text">Canvas</span>
+        </div>
+        <div class="toggle-container main-toggle-container">
+          <input type="checkbox" id="canvasToggle" class="toggle-input main-toggle">
+          <label for="canvasToggle" class="toggle-label"></label>
+        </div>
+      </button>
+
+      <button id="tmsButton" class="menu-button">
+        <div class="btn-label-group">
+          <img src="images/tms_icon.png" alt="TMS Icon">
+          <span class="button-text">TMS</span>
+        </div>
+        <div class="toggle-container main-toggle-container">
+          <input type="checkbox" id="tmsToggle" class="toggle-input main-toggle">
+          <label for="tmsToggle" class="toggle-label"></label>
+        </div>
+      </button>
+
+      <div id="tmsFocusRow" class="menu-button focus-mode-row">
+        <div class="btn-label-group">
+          <img src="images/tms_focus_icon.png" alt="TMS Focus Icon">
+          <span class="button-text">TMS Focus Mode</span>
+        </div>
+        <div class="focus-mode-buttons">
+          <button id="activateFocusButton" class="focus-sub-button">Activate</button>
+          <button id="infoFocusButton" class="focus-sub-button info-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+              <path fill="none" d="M0 0h24v24H0z"/>
+              <path fill="#FFFFFF" d="M11 9h2V7h-2v2zm0 8h2v-6h-2v6zm1-16C6.48 1 2 5.48 2 11s4.48 10 10 10
+              10-4.48 10-10S17.52 1 12 1zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings View -->
+  <div id="settingsView" class="view hidden">
+    <h2>Settings</h2>
+    <div class="setting-item">
+      <span class="setting-label">Go Direct to Student web</span>
+      <div class="toggle-container settings-toggle-container">
+        <input type="checkbox" id="directStudentWebToggle" class="toggle-input settings-toggle">
+        <label for="directStudentWebToggle" class="toggle-label"></label>
+      </div>
+    </div>
+
+    <div class="credentials">
+      <label for="neptunCode">Neptun Code:</label>
+      <input type="text" id="neptunCode">
+      <label for="neptunPassword">Password:</label>
+      <input type="password" id="neptunPassword">
+      <label for="TMSPassword">TMS Password:</label>
+      <input type="password" id="TMSPassword">
+
+      <div class="otp-secret-container">
+        <label for="otpSecret">OTP Secret:</label>
+        <div class="input-wrapper">
+          <input type="password" id="otpSecret" placeholder="Enter OTP secret">
+          <span id="toggleOtpSecret" class="toggle-otp-secret">
+                <img src="images/hidden_light.png" alt="Toggle Visibility">
+              </span>
+        </div>
+      </div>
+    </div>
+
+    <div id="settingsLanguageSelector" class="language-selector">
+      <button class="lang-btn" data-lang="en">
+        <img src="images/flag_en.png" alt="English" width="32">
+      </button>
+      <button class="lang-btn" data-lang="hu">
+        <img src="images/flag_hu.png" alt="Magyar" width="32">
+      </button>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <p class="guide-text">First, open TMS in your browser, then open your task, and finally click Activate. To undo the effect refresh the page.</p>
+    </div>
+  </div>
+
+  <div id="tutorialView" class="view hidden">
+    <h2>Tutorial</h2>
+    <button id="tutorialBack" class="tutorial-back">
+      <img src="images/back_light.png" alt="Back">
+    </button>
+    <div id="gifContainer">
+      <img id="tutorialGif" src="images/tutorial1.gif" alt="Tutorial Step"/>
+    </div>
+    <p id="tutorialText"></p>
+    <div class="tutorial-nav">
+      <button id="prevButton" class="nav-btn">
+        <img src="images/prev_light.png" alt="Previous">
+      </button>
+      <div id="tutorialDots" class="tutorial-dots"></div>
+      <button id="nextButton" class="nav-btn">
+        <img src="images/next_light.png" alt="Next">
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer id="footer">
+    <a href="https://github.com/yaseel/NepKey" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="github-logo">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
+            1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+            0 0 .67-.21 2.2.82a7.66 7.66 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82
+            2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013
+            8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      yaseel
+    </a>
+  </footer>
+
+</div>
+<script type="module" src="popup/index.js"></script>
+</body>
+</html>
