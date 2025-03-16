@@ -4,7 +4,7 @@ Effective Date: 2025.02.12.
 
 Overview
 
-NepKey (ELTE Felhasználóbarát Open‑Source Segéd) is a browser extension designed to simplify the login process to essential ELTE portals. This Privacy Policy explains what data is stored by NepKey, how that data is used, and how it is kept secure.
+NepKey is a browser extension designed to simplify the login process to essential ELTE portals. This Privacy Policy explains what data is stored by NepKey, how that data is used, and how it is kept secure.
 
 Information We Collect
 
