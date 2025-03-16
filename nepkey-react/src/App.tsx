@@ -6,12 +6,12 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { pageVariants, pageTransition } from "./animations/pageVariants.ts";
+import { AnimatePresence } from "framer-motion";
 import HomePage from "./pages/HomePage.tsx";
 import Settings from "./pages/Settings.tsx";
+import AnimatedPage from "./components/AnimatedPage.tsx";
 
-const AnimatedRoutes: React.FC = () => {
+const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
@@ -20,29 +20,17 @@ const AnimatedRoutes: React.FC = () => {
         <Route
           path="/"
           element={
-            <motion.div
-              variants={pageVariants}
-              initial="inital"
-              animate="animate"
-              exit="exit"
-              transition={pageTransition}
-            >
+            <AnimatedPage>
               <HomePage />
-            </motion.div>
+            </AnimatedPage>
           }
         ></Route>
         <Route
           path="/settings"
           element={
-            <motion.div
-              variants={pageVariants}
-              initial="inital"
-              animate="animate"
-              exit="exit"
-              transition={pageTransition}
-            >
+            <AnimatedPage>
               <Settings />
-            </motion.div>
+            </AnimatedPage>
           }
         ></Route>
       </Routes>
@@ -53,7 +41,7 @@ const AnimatedRoutes: React.FC = () => {
 function App() {
   return (
     <Router>
-      <AnimatedRoutes/>
+      <AnimatedRoutes />
     </Router>
   );
 }
