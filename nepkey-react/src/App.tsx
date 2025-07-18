@@ -6,7 +6,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence } from "framer-motion";
 import HomePage from "./pages/HomePage.tsx";
 import Settings from "./pages/Settings.tsx";
 import AnimatedPage from "./components/AnimatedPage.tsx";

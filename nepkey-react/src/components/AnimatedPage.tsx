@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { pageTransition, pageVariants } from "../animations/pageVariants.ts";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 interface AnimatedPageProps {
   children: ReactNode;
