@@ -4,7 +4,7 @@ import styles from "./Button.module.css";
 
 const Button: React.FC<ButtonProps> = (props) => {
 
-    const content = props.text ? props.text : <img src={props.icon} alt={props.icon}/>
+    const content = props.text ? props.text : <img src={props.icon} alt={props.alt}/>
 
     const style = props.text ? [styles.text] : [styles.icon];
     const extraStyle = props.extra ? [styles.extra] : [];

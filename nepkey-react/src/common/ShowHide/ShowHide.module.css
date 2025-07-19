@@ -1,0 +1,10 @@
+.container {
+    position: absolute;
+    right: 3%;
+    top: 50%;
+}
+
+.container button img {
+    width: 18px;
+    height: 18px;
+}
