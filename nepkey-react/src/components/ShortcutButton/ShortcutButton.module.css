@@ -1,0 +1,23 @@
+.button img {
+    width: 30px;
+    height: 30px;
+}
+
+.button {
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+    background-color: var(--frosted-gray-30);
+    padding: 13px 33px;
+    width: 170px;
+    border-radius: 40px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.relative {
+    position: relative;
+}

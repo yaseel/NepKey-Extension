@@ -1,16 +1,30 @@
 :root {
     --dark-gray: #1B1A17;
     --text-color: #ffffff;
+    --frosted-gray-30: rgba(57, 65, 66, 0.3);
 }
 
 * {
     box-sizing: border-box;
     color: var(--text-color);
     font-family: "Instrument Sans", sans-serif;
+    letter-spacing: 0.5px;
+}
+
+html {
+    font-size: 13px;
 }
 
 body {
-    width: 850px;
-    height: 900px;
+    width: 330px;
+    height: 340px;
     background-color: var(--dark-gray);
+    margin: 15px 20px;
+}
+
+hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid white;
+    background: white;
 }

@@ -8,3 +8,18 @@
     height: 20px;
     width: 20px;
 }
+
+.text {
+    font-weight: 500;
+    font-size: 0.9rem;
+    background-color: var(--frosted-gray-30);
+    padding: 10px 12px;
+    border-radius: 20px;
+}
+
+.extra {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 105%;
+}

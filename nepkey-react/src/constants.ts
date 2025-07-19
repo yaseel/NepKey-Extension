@@ -1,0 +1,9 @@
+export const NEPKEY = "NepKey";
+export const NEPTUN = "Neptun";
+export const CANVAS = "Canvas";
+export const TMS = "TMS";
+export const FOCUS = "FOCUS";
+export const ASEEL = "Aseel";
+export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
+export const GITHUB_LINK = "https://github.com/NepKeyUni/NepKey-Extension";
+export const GITHUB = "GitHub";
