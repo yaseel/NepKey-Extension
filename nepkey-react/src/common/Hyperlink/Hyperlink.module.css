@@ -8,3 +8,7 @@
 .container img {
     width: 20px;
 }
+
+.container span {
+    font-size: 1rem;
+}

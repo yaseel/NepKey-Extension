@@ -2,12 +2,15 @@ import {
     Route,
     Routes
 } from "react-router-dom";
-import HomePage from "./pages/HomePage.tsx";
+import Home from "./pages/Home/Home.tsx";
+import Settings from "./pages/Settings/Settings.tsx";
+import {SETTINGS_PATH} from "./constants.ts";
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<HomePage/>}/>
+            <Route path="/" element={<Home/>}/>
+            <Route path={SETTINGS_PATH} element={<Settings/>}/>
         </Routes>
     );
 }
