@@ -5,18 +5,19 @@ import {
 import Home from "./pages/Home/Home.tsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.tsx";
 import {SETTINGS_PATH} from "./constants.ts";
-import {useEffect} from "react";
+import { useEffect, useState } from "react";
 import { useSettings } from "./hooks/useSettings";
 import i18n from "./i18n";
 
 function App() {
-    const { settings, loading } = useSettings();
+    const { settings } = useSettings();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!loading) {
-            i18n.changeLanguage(settings.language);
+        if (settings && settings.language) {
+            i18n.changeLanguage(settings.language).finally(() => setLoading(false));
         }
-    }, [loading, settings.language]);
+    }, [settings.language]);
 
     if (loading) {
         return <div>Loading...</div>; // or your spinner

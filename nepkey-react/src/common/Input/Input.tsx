@@ -9,7 +9,7 @@ const Input: React.FC<InputProps> = (props) => {
     return (
         <div className={styles.container}>
             <label className={styles.label} htmlFor={props.id}>{props.labelText}</label>
-            <input className={styles.input} type={type} id={props.id} name={props.id} placeholder={props.placeholder}/>
+            <input className={styles.input} value={props.value} onChange={props.onChange} onBlur={props.onBlur} type={type} id={props.id} name={props.id} placeholder={props.placeholder}/>
             {props.type === "password"
                 ? <ShowHide type={type} setType={setType}/>
                 : <></>
