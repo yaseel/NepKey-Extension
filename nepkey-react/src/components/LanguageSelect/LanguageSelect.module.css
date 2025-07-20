@@ -17,6 +17,7 @@
     cursor: pointer;
     position: relative;
     transition: background 120ms cubic-bezier(.4,.2,.2,1), border-color 120ms cubic-bezier(.4,.2,.2,1);
+    font-size: 1rem;
 }
 
 .trigger:hover {
@@ -56,6 +57,7 @@
     animation: pop .14s ease;
     overflow: hidden;
     margin-top: 6px;
+    font-size: 1rem;
 }
 
 @keyframes pop {
