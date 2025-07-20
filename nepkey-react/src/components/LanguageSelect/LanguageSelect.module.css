@@ -1,18 +1,3 @@
-:root {
-    --glass-bg: rgba(255,255,255,0.05);
-    --glass-border: rgba(255,255,255,0.08);
-    --panel-bg: rgba(0,0,10,0.55);
-    --panel-border: rgba(255,255,255,0.10);
-    --text: #e9edf0;
-    --placeholder: rgba(255,255,255,0.55);
-    --highlight: rgba(0,90,255,0.55);
-    --focus-ring: #2a72e3;
-    --transition: 120ms cubic-bezier(.4,.2,.2,1);
-    --blur-trigger: 12px;
-    --blur-panel: 18px;
-    --font: 14px/1.2 "Instrument Sans", sans-serif;
-}
-
 .customSelect {
     position: relative;
     width: 300px;
@@ -21,12 +6,9 @@
 .trigger {
     all: unset;
     box-sizing: border-box;
-    font: 14px/1.2 "Instrument Sans", sans-serif;
-    color: #e9edf0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
     width: 100%;
     padding: 12px 20px;
     background: var(--frosted-gray-30);
@@ -38,11 +20,11 @@
 }
 
 .trigger:hover {
-    background: rgba(255,255,255,0.08);
+    background: var(--hover-background);
 }
 
 .trigger:focus-visible {
-    outline: 2px solid #2a72e3;
+    outline: 1px solid;
     outline-offset: 2px;
 }
 
@@ -64,7 +46,7 @@
     left: 0;
     right: 0;
     z-index: 80;
-    background: rgba(0,0,10,0.55);
+    background: var(--overlay-background);
     backdrop-filter: blur(18px) saturate(140%);
     border-radius: 14px;
     padding: 4px;
@@ -90,7 +72,6 @@
 
 .item {
     all: unset;
-    font: 14px/1.2 "Instrument Sans", sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -99,7 +80,6 @@
     border-radius: 10px;
     cursor: pointer;
     user-select: none;
-    color: #e9edf0;
     outline: none;
     transition: background 90ms, color 90ms;
     width: 100%;
@@ -107,8 +87,7 @@
 }
 
 .item:hover {
-    background: rgba(0,90,255,0.55);
-    color: #fff;
+    background: var(--primary-blue-55);
 }
 
 .itemSelected {
@@ -118,9 +97,4 @@
 .indicator {
     font-size: 12px;
     opacity: .9;
-}
-
-/* Placeholder style inside trigger */
-.trigger [data-placeholder] {
-    color: var(--placeholder);
 }

@@ -4,8 +4,8 @@ import {
     i18n_KEYS
 } from "../../constants.ts";
 import Input from "../../common/Input/Input.tsx";
-import Header from "../../common/Header/Header.tsx";
-import Footer from "../../common/Footer/Footer.tsx";
+import Header from "../../components/Header/Header.tsx";
+import Footer from "../../components/Footer/Footer.tsx";
 import Toggle from "../../common/Toggle/Toggle.tsx";
 import LanguageSelect from "../../components/LanguageSelect/LanguageSelect.tsx";
 import {useTranslation} from "react-i18next";

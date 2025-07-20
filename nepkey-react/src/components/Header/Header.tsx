@@ -1,6 +1,6 @@
 import styles from "./Header.module.css";
 import {i18n_KEYS, SETTINGS_PATH} from "../../constants.ts";
-import Button from "../Button/Button.tsx";
+import Button from "../../common/Button/Button.tsx";
 import back from "../../../public/images/back.png";
 import React from "react";
 import {useLocation, useNavigate} from "react-router-dom";

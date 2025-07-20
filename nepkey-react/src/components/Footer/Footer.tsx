@@ -1,4 +1,4 @@
-import Hyperlink from "../Hyperlink/Hyperlink.tsx";
+import Hyperlink from "../../common/Hyperlink/Hyperlink.tsx";
 import {GITHUB_LINK, LINKEDIN_LINK, i18n_KEYS} from "../../constants.ts";
 import github from "../../../public/images/github.svg";
 import linkedin from "../../../public/images/linkedin.svg";
