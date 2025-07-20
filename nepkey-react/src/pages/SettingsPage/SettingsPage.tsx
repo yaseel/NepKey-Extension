@@ -1,29 +1,28 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "./Settings.module.css";
-import {
-    i18n_KEYS
-} from "../../constants.ts";
+import { i18n_KEYS } from "../../constants.ts";
 import Input from "../../common/Input/Input.tsx";
 import Header from "../../components/Header/Header.tsx";
 import Footer from "../../components/Footer/Footer.tsx";
 import Toggle from "../../common/Toggle/Toggle.tsx";
 import LanguageSelect from "../../components/LanguageSelect/LanguageSelect.tsx";
-import {useTranslation} from "react-i18next";
-
-import {Language} from "../../types.ts";
-import {useSettings} from "../../hooks/useSettings.ts";
-import {settingsStore} from "../../settings.ts";
+import { useTranslation } from "react-i18next";
+import { Language } from "../../types.ts";
+import { useSettings } from "../../hooks/useSettings.ts";
+import { settingsStore } from "../../settings.ts";
+import Tooltip from "../../common/Tooltip/Tooltip";
+import { useInputTooltip, getInputTooltipHtml } from "../../helpers/inputTooltip";
 
 const SettingsPage = () => {
-    const {i18n, t} = useTranslation();
-    const {settings} = useSettings();
+    const { i18n, t } = useTranslation();
+    const { settings } = useSettings();
     const [formData, setFormData] = useState({ ...settings });
     const [isDirty, setIsDirty] = useState(false);
 
+    const otpTooltip = useInputTooltip({ tooltipWidth: 220 });
+
     useEffect(() => {
-        if (!isDirty) {
-            setFormData({ ...settings });
-        }
+        if (!isDirty) setFormData({ ...settings });
     }, [settings]);
 
     const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -39,73 +38,107 @@ const SettingsPage = () => {
         await i18n.changeLanguage(lang);
         await settingsStore.update({ language: lang });
         window.scrollTo({ top: 0, behavior: 'auto' });
-    }
+    };
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setIsDirty(true);
-        setFormData(prev => ({
-            ...prev,
-            [e.target.id]: e.target.value
-        }));
-    }
+        setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
+    };
 
     const handleToggleChange = (checked: boolean) => {
         setIsDirty(true);
-        setFormData(prev => ({
-            ...prev,
-            autoStudentWeb: checked
-        }));
-    }
+        setFormData(prev => ({ ...prev, autoStudentWeb: checked }));
+    };
 
     return (
         <div className={styles.container}>
-            <Header/>
-
+            <Header />
             <main className={styles.main}>
                 <Input id="neptunCode"
-                       value={formData.neptunCode}
-                       onChange={handleInputChange}
-                       onBlur={handleInputBlur}
-                       type="text" labelText={t(i18n_KEYS.NEPTUN_CODE)}
-                       placeholder={t(i18n_KEYS.NEPTUN_CODE_PLACEHOLDER)}/>
-
+                    value={formData.neptunCode}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    type="text" labelText={t(i18n_KEYS.NEPTUN_CODE)}
+                    placeholder={t(i18n_KEYS.NEPTUN_CODE_PLACEHOLDER)}
+                />
                 <Input id="password"
-                       value={formData.password}
-                       onChange={handleInputChange}
-                       onBlur={handleInputBlur}
-                       type="password"
-                       labelText={t(i18n_KEYS.PASSWORD)}
-                       placeholder={t(i18n_KEYS.PASSWORD_PLACEHOLDER)}/>
-
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    type="password"
+                    labelText={t(i18n_KEYS.PASSWORD)}
+                    placeholder={t(i18n_KEYS.PASSWORD_PLACEHOLDER)}
+                />
                 <Input id="tmsPassword"
-                       value={formData.tmsPassword}
-                       onChange={handleInputChange}
-                       onBlur={handleInputBlur}
-                       type="password"
-                       labelText={t(i18n_KEYS.TMS_PASSWORD)}
-                       placeholder={t(i18n_KEYS.TMS_PASSWORD_PLACEHOLDER)}/>
-
-                <Input id="otpSecret"
-                       value={formData.otpSecret}
-                       onChange={handleInputChange}
-                       onBlur={handleInputBlur}
-                       type="password"
-                       labelText={t(i18n_KEYS.OTP_SECRET)}
-                       placeholder={t(i18n_KEYS.OTP_SECRET_PLACEHOLDER)}/>
-
-                <hr className={styles.hr}/>
-
-                <Toggle text={t(i18n_KEYS.AUTO_STUDENT_WEB)}
-                        checked={formData.autoStudentWeb}
-                        onChange={e => handleToggleChange(e.target.checked)}
-                        onBlur={() => handleToggleBlur()}/>
-
-                <hr className={styles.hr}/>
-
-                <LanguageSelect value={i18n.language} onChange={handleChangeLanguage}/>
+                    value={formData.tmsPassword}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    type="password"
+                    labelText={t(i18n_KEYS.TMS_PASSWORD)}
+                    placeholder={t(i18n_KEYS.TMS_PASSWORD_PLACEHOLDER)}
+                />
+                <div
+                    ref={otpTooltip.wrapperRef}
+                    style={{ position: "relative", display: "inline-block" }}
+                    onMouseEnter={otpTooltip.handleMouseEnter}
+                    onMouseLeave={otpTooltip.handleWrapperMouseLeave}
+                >
+                    <Input id="otpSecret"
+                        value={formData.otpSecret}
+                        onChange={handleInputChange}
+                        onBlur={e => otpTooltip.handleBlur(e, handleInputBlur)}
+                        onFocus={otpTooltip.handleFocus}
+                        type="password"
+                        labelText={t(i18n_KEYS.OTP_SECRET)}
+                        placeholder={t(i18n_KEYS.OTP_SECRET_PLACEHOLDER)}
+                    />
+                    {otpTooltip.tooltipVisible && (
+                        <>
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    top: "100%",
+                                    left: "50%",
+                                    transform: "translateX(-50%)",
+                                    width: `${otpTooltip.tooltipWidth}px`,
+                                    height: "20px",
+                                    zIndex: 99,
+                                    pointerEvents: "auto"
+                                }}
+                                onMouseEnter={() => otpTooltip.setTooltipAreaHovered(true)}
+                                onMouseLeave={() => otpTooltip.setTooltipAreaHovered(false)}
+                            />
+                            <Tooltip
+                                exit={otpTooltip.tooltipExiting}
+                                onMouseEnter={() => otpTooltip.setTooltipAreaHovered(true)}
+                                onMouseLeave={() => otpTooltip.setTooltipAreaHovered(false)}
+                                style={{ width: `${otpTooltip.tooltipWidth}px` }}
+                            >
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: getInputTooltipHtml({
+                                            i18n,
+                                            t,
+                                            i18n_KEYS,
+                                            tooltipKey: 'OTP_SECRET_TOOLTIP',
+                                        })
+                                    }}
+                                />
+                            </Tooltip>
+                        </>
+                    )}
+                </div>
+                <hr className={styles.hr} />
+                <Toggle
+                    text={t(i18n_KEYS.AUTO_STUDENT_WEB)}
+                    checked={formData.autoStudentWeb}
+                    onChange={e => handleToggleChange(e.target.checked)}
+                    onBlur={handleToggleBlur}
+                />
+                <hr className={styles.hr} />
+                <LanguageSelect value={i18n.language} onChange={handleChangeLanguage} />
             </main>
-
-            <Footer/>
+            <Footer />
         </div>
     );
 };

@@ -14,6 +14,7 @@ export const i18n_KEYS = {
     TMS_PASSWORD_PLACEHOLDER: "tms_password_placeholder",
     OTP_SECRET: "otp_secret",
     OTP_SECRET_PLACEHOLDER: "otp_secret_placeholder",
+    OTP_SECRET_TOOLTIP: "otp_secret_tooltip",
     AUTO_STUDENT_WEB: "auto_student_web",
     SHOW: "show",
     HIDE: "hide",
@@ -29,6 +30,7 @@ export const STORAGE_KEYS = {
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
 export const GITHUB_LINK = "https://github.com/NepKeyUni/NepKey-Extension";
+export const GITHUB_README_LINK = "https://github.com/NepKeyUni/NepKey-Extension/blob/main/README.md";
 export const SETTINGS_PATH = "/settings";
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
