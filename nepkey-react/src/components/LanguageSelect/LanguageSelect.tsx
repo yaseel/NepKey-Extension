@@ -36,7 +36,7 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({value, onChange}) => {
             <button 
                 className={styles.trigger} 
                 onClick={() => setIsOpen(!isOpen)}
-                aria-label="Language"
+                aria-label={t(i18nKeys.LANGUAGE)}
             >
                 <span>{selectedOption?.label || value}</span>
                 <img 

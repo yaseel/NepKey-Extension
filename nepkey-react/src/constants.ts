@@ -20,8 +20,7 @@ export const i18nKeys = {
     HELP: "help",
     BACK: "back",
     DROPDOWN: "dropdown",
-    LANGUAGE_EN: "language_en",
-    LANGUAGE_HU: "language_hu"
+    LANGUAGE: "language",
 }
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
@@ -29,6 +28,6 @@ export const GITHUB_LINK = "https://github.com/NepKeyUni/NepKey-Extension";
 export const SETTINGS_PATH = "/settings";
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
-    { value: 'en', label: 'English' },
-    { value: 'hu', label: 'Magyar' }
+    { value: 'en', label: "English" },
+    { value: 'hu', label: "Magyar" }
 ];
