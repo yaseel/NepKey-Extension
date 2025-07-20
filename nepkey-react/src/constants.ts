@@ -1,6 +1,6 @@
 import {Language} from "./types.ts";
 
-export const i18nKeys = {
+export const i18n_KEYS = {
     NEPKEY: "nepkey",
     SETTINGS: "settings",
     FOCUS: "focus",
@@ -21,6 +21,10 @@ export const i18nKeys = {
     BACK: "back",
     DROPDOWN: "dropdown",
     LANGUAGE: "language",
+}
+
+export const STORAGE_KEYS = {
+    LANGUAGE: "language"
 }
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";

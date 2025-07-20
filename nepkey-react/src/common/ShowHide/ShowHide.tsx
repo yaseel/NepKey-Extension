@@ -1,6 +1,6 @@
 import shown from "../../../public/images/shown.png";
 import hidden from "../../../public/images/hidden.png";
-import {i18nKeys} from "../../constants.ts";
+import {i18n_KEYS} from "../../constants.ts";
 import Button from "../Button/Button.tsx";
 import {ShowHideProps} from "./ShowHide.types.ts";
 import styles from "./ShowHide.module.css";
@@ -13,9 +13,9 @@ const ShowHide: React.FC<ShowHideProps> = ({type, setType}) => {
             {
                 type === "password"
                     ? (
-                        <Button icon={hidden} alt={t(i18nKeys.SHOW)} onClick={() => setType("text")}/>
+                        <Button icon={hidden} alt={t(i18n_KEYS.SHOW)} onClick={() => setType("text")}/>
                     ) : (
-                        <Button icon={shown} alt={t(i18nKeys.HIDE)} onClick={() => setType("password")}/>
+                        <Button icon={shown} alt={t(i18n_KEYS.HIDE)} onClick={() => setType("password")}/>
                     )
             }
         </div>

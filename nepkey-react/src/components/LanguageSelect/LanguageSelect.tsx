@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import {LanguageSelectProps} from "./LanguageSelect.types.ts";
 import dropdown from "../../../public/images/dropdown.png";
-import {i18nKeys, LANGUAGE_OPTIONS} from "../../constants.ts";
+import {i18n_KEYS, LANGUAGE_OPTIONS} from "../../constants.ts";
 import styles from "./LanguageSelect.module.css";
 import {Language} from "../../types.ts";
 import {useTranslation} from "react-i18next";
@@ -36,12 +36,12 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({value, onChange}) => {
             <button 
                 className={styles.trigger} 
                 onClick={() => setIsOpen(!isOpen)}
-                aria-label={t(i18nKeys.LANGUAGE)}
+                aria-label={t(i18n_KEYS.LANGUAGE)}
             >
                 <span>{selectedOption?.label || value}</span>
                 <img 
                     src={dropdown} 
-                    alt={t(i18nKeys.DROPDOWN)}
+                    alt={t(i18n_KEYS.DROPDOWN)}
                     className={`${styles.icon} ${isOpen ? styles.iconRotated : ''}`}
                 />
             </button>

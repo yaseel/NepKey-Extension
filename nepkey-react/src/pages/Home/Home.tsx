@@ -1,6 +1,6 @@
 import React, { createRef } from "react";
 import styles from "./Home.module.css";
-import {i18nKeys} from "../../constants.ts";
+import {i18n_KEYS} from "../../constants.ts";
 import ShortcutButton from "../../components/ShortcutButton/ShortcutButton.tsx";
 import Footer from "../../common/Footer/Footer.tsx";
 import { useBodyGlow } from "../../hooks/useBodyGlow";
@@ -21,7 +21,7 @@ const Home = () => {
             <main className={styles.main}>
                 <ShortcutButton refEl={neptunRef} shortcut="Neptun"/>
                 <ShortcutButton refEl={canvasRef} shortcut="Canvas"/>
-                <ShortcutButton refEl={tmsRef} shortcut="TMS" extraButton={t(i18nKeys.FOCUS)}/>
+                <ShortcutButton refEl={tmsRef} shortcut="TMS" extraButton={t(i18n_KEYS.FOCUS)}/>
             </main>
             <Footer/>
         </div>
