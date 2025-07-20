@@ -9,17 +9,44 @@
     width: 20px;
 }
 
+.icon {
+    transition: transform 160ms cubic-bezier(.33,.04,.16,1), 120ms ease;
+}
+
+.icon:hover {
+    transform: translateY(-2px);
+}
+
+.icon:active {
+    transform: translateY(0) scale(0.94);
+    transition-duration: 90ms;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+
 .text {
     font-weight: 500;
     font-size: 0.9rem;
     background-color: var(--frosted-gray-30);
     padding: 10px 12px;
     border-radius: 20px;
+    transition: background 120ms cubic-bezier(.4,.2,.2,1), border-color 120ms cubic-bezier(.4,.2,.2,1), transform 120ms cubic-bezier(.4,.2,.2,1);
+}
+
+.text:hover {
+    background: var(--hover-background);
+    transform: translateY(-52%);
+}
+
+.text:active {
+    transform: translateY(-50%);
+    transition-duration: 90ms;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
 }
 
 .extra {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     left: 105%;
+    transform: translateY(-50%);
 }
+
