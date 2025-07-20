@@ -7,4 +7,10 @@
 .container button img {
     width: 18px;
     height: 18px;
+    opacity: .3;
+    transition: opacity 120ms;
+}
+
+.container button img:hover {
+    opacity: .9;
 }
