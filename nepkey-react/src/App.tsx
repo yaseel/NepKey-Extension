@@ -8,6 +8,7 @@ import {SETTINGS_PATH} from "./constants.ts";
 import { useEffect, useState } from "react";
 import { useSettings } from "./hooks/useSettings";
 import i18n from "./i18n";
+import Spinner from "./common/Spinner/Spinner";
 
 function App() {
     const { settings } = useSettings();
@@ -20,7 +21,7 @@ function App() {
     }, [settings.language]);
 
     if (loading) {
-        return <div>Loading...</div>; // or your spinner
+        return <Spinner />;
     }
 
     return (
