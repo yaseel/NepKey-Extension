@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Settings.module.css";
 import {
-    i18n_KEYS, STORAGE_KEYS
+    i18n_KEYS
 } from "../../constants.ts";
 import Input from "../../common/Input/Input.tsx";
 import Header from "../../common/Header/Header.tsx";
@@ -11,21 +11,16 @@ import LanguageSelect from "../../components/LanguageSelect/LanguageSelect.tsx";
 import {useTranslation} from "react-i18next";
 
 import {Language} from "../../types.ts";
-import {getStorage} from "../../helpers/getStorage.ts";
+import {useSettings} from "../../hooks/useSettings.ts";
 
-const Settings = () => {
+const SettingsPage = () => {
     const {i18n, t} = useTranslation();
+    const {settings, setLanguage} = useSettings();
 
     const handleChangeLanguage = async (lang: Language) => {
         await i18n.changeLanguage(lang);
-
-        try {
-            const storage = getStorage();
-            await storage.set({ [STORAGE_KEYS.LANGUAGE]: lang });
-
-        } catch (e) {
-            console.error("Failed to save language preference", e);
-        }
+        await setLanguage(lang);
+        window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     return (
@@ -52,4 +47,4 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+export default SettingsPage;

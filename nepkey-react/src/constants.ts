@@ -24,7 +24,7 @@ export const i18n_KEYS = {
 }
 
 export const STORAGE_KEYS = {
-    LANGUAGE: "language"
+    SETTINGS: "settings"
 }
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";

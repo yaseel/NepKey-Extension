@@ -26,5 +26,8 @@
     "https://canvas.elte.hu/*",
     "https://tms.inf.elte.hu/*",
     "https://idp.elte.hu/*"
-  ]
+  ],
+  "background": {
+    "service_worker": "dist/background.js"
+  }
 }
