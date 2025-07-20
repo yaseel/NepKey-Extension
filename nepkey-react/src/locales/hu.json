@@ -1,0 +1,23 @@
+{
+  "nepkey": "NepKey",
+  "settings": "Beállítások",
+  "focus": "FOCUS",
+  "aseel": "Aseel",
+  "github": "GitHub",
+  "neptun_code": "Neptun kód",
+  "neptun_code_placeholder": "pl. ABC123",
+  "password": "Jelszó",
+  "password_placeholder": "Neptun jelszó",
+  "tms_password": "TMS jelszó",
+  "tms_password_placeholder": "Ha ugyanaz, opcionális",
+  "otp_secret": "OTP titok",
+  "otp_secret_placeholder": "Titok az authentikátorból",
+  "auto_student_web": "Hallgatói Web automatikus megnyitása",
+  "show": "Mutat",
+  "hide": "Elrejt",
+  "help": "Súgó",
+  "back": "Vissza",
+  "dropdown": "Lenyíló",
+  "language_en": "English",
+  "language_hu": "Magyar"
+} 

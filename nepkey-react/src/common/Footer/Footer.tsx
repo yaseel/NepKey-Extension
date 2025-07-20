@@ -1,19 +1,21 @@
 import Hyperlink from "../Hyperlink/Hyperlink.tsx";
-import {TEXT_ASEEL, TEXT_GITHUB, GITHUB_LINK, LINKEDIN_LINK} from "../../constants.ts";
+import {GITHUB_LINK, LINKEDIN_LINK, i18nKeys} from "../../constants.ts";
 import github from "../../../public/images/github.svg";
 import linkedin from "../../../public/images/linkedin.svg";
 import styles from "./Footer.module.css";
+import {useTranslation} from "react-i18next";
 
 
 const Footer: React.FC = () => {
+    const {t} = useTranslation();
     return (
         <footer className={styles.footer}>
 
             <hr/>
 
             <div className={styles.div}>
-                <Hyperlink text={TEXT_ASEEL} icon={linkedin} link={LINKEDIN_LINK}/>
-                <Hyperlink text={TEXT_GITHUB} icon={github} link={GITHUB_LINK}/>
+                <Hyperlink text={t(i18nKeys.ASEEL)} icon={linkedin} link={LINKEDIN_LINK}/>
+                <Hyperlink text={t(i18nKeys.GITHUB)} icon={github} link={GITHUB_LINK}/>
             </div>
         </footer>
     );}

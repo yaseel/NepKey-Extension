@@ -1,0 +1,23 @@
+{
+  "nepkey": "NepKey",
+  "settings": "Settings",
+  "focus": "FOCUS",
+  "aseel": "Aseel",
+  "github": "GitHub",
+  "neptun_code": "Neptun Code",
+  "neptun_code_placeholder": "e.g. ABC123",
+  "password": "Password",
+  "password_placeholder": "Neptun password",
+  "tms_password": "TMS Password",
+  "tms_password_placeholder": "Optional if same",
+  "otp_secret": "OTP Secret",
+  "otp_secret_placeholder": "Secret from authenticator",
+  "auto_student_web": "Auto-open Student Web",
+  "show": "Show",
+  "hide": "Hide",
+  "help": "Help",
+  "back": "Back",
+  "dropdown": "Dropdown",
+  "language_en": "English",
+  "language_hu": "Magyar"
+} 

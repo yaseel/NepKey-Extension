@@ -2,13 +2,18 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-
+    align-items: center;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     gap: 30px;
+}
+
+.hr {
+    border-color: var(--frosted-gray-30);
+    background: var(--frosted-gray-30);
 }

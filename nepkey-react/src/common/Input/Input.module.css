@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 5px;
     position: relative;
+    width: 300px;
 }
 
 .label {
@@ -13,6 +14,5 @@
     background-color: var(--frosted-gray-30);
     border: none;
     border-radius: 30px;
-    padding: 12px 20px;
-    width: 300px;
+    padding: 12px 45px 12px 20px;
 }

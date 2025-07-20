@@ -1,24 +1,34 @@
-export const TEXT_NEPKEY = "NepKey";
-export const TEXT_SETTINGS = "Settings";
-export const TEXT_FOCUS = "FOCUS";
-export const TEXT_ASEEL = "Aseel";
-export const TEXT_GITHUB = "GitHub";
-export const TEXT_NEPTUN_CODE = "Neptun Code";
-export const TEXT_NEPTUN_CODE_PLACEHOLDER = "e.g. ABC123";
-export const TEXT_PASSWORD = "Password";
-export const TEXT_PASSWORD_PLACEHOLDER = "Neptun password";
-export const TEXT_TMS_PASSWORD = "TMS Password";
-export const TEXT_TMS_PASSWORD_PLACEHOLDER = "Optional if same";
-export const TEXT_OTP_SECRET = "OTP Secret";
-export const TEXT_OTP_SECRET_PLACEHOLDER = "Secret from authenticator";
-export const TEXT_AUTO_STUDENT_WEB = "Auto-open Student Web";
-export const TEXT_ENGLISH = "English";
-export const TEXT_MAGYAR = "Magyar";
-export const TEXT_SHOW = "Show";
-export const TEXT_HIDE = "Hide";
-export const TEXT_HELP = "Help";
-export const TEXT_BACK = "Back";
+import {Language} from "./types.ts";
+
+export const i18nKeys = {
+    NEPKEY: "nepkey",
+    SETTINGS: "settings",
+    FOCUS: "focus",
+    ASEEL: "aseel",
+    GITHUB: "github",
+    NEPTUN_CODE: "neptun_code",
+    NEPTUN_CODE_PLACEHOLDER: "neptun_code_placeholder",
+    PASSWORD: "password",
+    PASSWORD_PLACEHOLDER: "password_placeholder",
+    TMS_PASSWORD: "tms_password",
+    TMS_PASSWORD_PLACEHOLDER: "tms_password_placeholder",
+    OTP_SECRET: "otp_secret",
+    OTP_SECRET_PLACEHOLDER: "otp_secret_placeholder",
+    AUTO_STUDENT_WEB: "auto_student_web",
+    SHOW: "show",
+    HIDE: "hide",
+    HELP: "help",
+    BACK: "back",
+    DROPDOWN: "dropdown",
+    LANGUAGE_EN: "language_en",
+    LANGUAGE_HU: "language_hu"
+}
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
 export const GITHUB_LINK = "https://github.com/NepKeyUni/NepKey-Extension";
 export const SETTINGS_PATH = "/settings";
+
+export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
+    { value: 'en', label: 'English' },
+    { value: 'hu', label: 'Magyar' }
+];

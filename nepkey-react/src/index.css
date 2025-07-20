@@ -7,6 +7,7 @@
             rgba(0,104,229,0.1),
             rgba(0,104,229,0) 70%
     );
+    --primary-blue: rgb(0,104,229);
     --glow-color-canvas: 226,62,41;
     --glow-color-neptun: 0,125,198;
     --glow-color-tms: 255,255,255;
@@ -28,7 +29,6 @@ html {
 
 body {
     width: 330px;
-    height: 350px;
     background-color: var(--dark-gray);
     margin: 15px 20px;
 }
@@ -77,4 +77,8 @@ hr {
 h1 {
     margin: 0;
     font-size: 2rem;
+}
+
+label {
+    font-size: 1rem;
 }
