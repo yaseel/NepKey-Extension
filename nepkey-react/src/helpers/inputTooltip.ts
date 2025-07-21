@@ -61,7 +61,7 @@ export function useInputTooltip({ tooltipWidth = 220 }: UseInputTooltipParams = 
     };
     const handleWrapperMouseLeave = () => {
         if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
-        if (!focused) hideTooltip();
+        if (!focused && !tooltipAreaHovered) hideTooltip();
     };
 
     return {
@@ -107,4 +107,4 @@ export function getInputTooltipHtml({ i18n, t, i18n_KEYS, tooltipKey, linkText, 
             `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`
         );
     }
-} 
+}
