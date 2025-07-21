@@ -52,7 +52,7 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = (props) => {
 
     return (
         <div className={styles.relative}>
-            <button ref={props.refEl} className={styles.button}>
+            <button ref={props.refEl} className={styles.button} onClick={props.onClick}>
                 <img src={imgSrc} alt={props.shortcut}/>
                 {props.shortcut}
             </button>

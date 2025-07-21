@@ -8,3 +8,10 @@ export interface Settings {
     autoStudentWeb: boolean;
     language: Language;
 }
+
+export type Action = "open";
+
+export interface Message<T> {
+    action: Action;
+    payload: T;
+}
