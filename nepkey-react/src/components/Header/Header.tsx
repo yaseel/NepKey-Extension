@@ -1,5 +1,5 @@
 import styles from "./Header.module.css";
-import {i18n_KEYS, SETTINGS_PATH} from "../../constants.ts";
+import {GITHUB_README_LINK, i18n_KEYS, SETTINGS_PATH} from "../../constants.ts";
 import Button from "../../common/Button/Button.tsx";
 import back from "../../../public/images/back.png";
 import React from "react";
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
                 { isHome
                     ? (
                         <>
-                            <Button icon={questionMark} alt={t(i18n_KEYS.HELP)}/>
+                            <Button icon={questionMark} alt={t(i18n_KEYS.HELP)} link={GITHUB_README_LINK}/>
                             <Button icon={settings} alt={t(i18n_KEYS.SETTINGS)} onClick={() => navigate(SETTINGS_PATH)}/>
                         </>
                     ) : (
