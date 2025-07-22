@@ -29,8 +29,8 @@ export const STORAGE_KEYS = {
 }
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
-export const GITHUB_LINK = "https://github.com/NepKeyUni/NepKey-Extension";
-export const GITHUB_README_LINK = "https://github.com/NepKeyUni/NepKey-Extension/blob/main/README.md";
+export const GITHUB_LINK = "https://github.com/yaseel/NepKey-Extension";
+export const GITHUB_README_LINK = "https://github.com/yaseel/NepKey-Extension/blob/main/README.md";
 export const SETTINGS_PATH = "/settings";
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
