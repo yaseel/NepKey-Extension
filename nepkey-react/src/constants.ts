@@ -37,3 +37,11 @@ export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
     { value: 'en', label: "English" },
     { value: 'hu', label: "Magyar" }
 ];
+
+export const QUERY_SELECTORS = {
+    NEPTUN_CODE_INPUT: "LoginName",
+    NEPTUN_PASSWORD_INPUT: "Password",
+    NEPTUN_LOGIN_SUBMIT: "input[type=submit]",
+    TOTP_CODE_INPUT: "input[name=TOTPCode]",
+    TOTP_LOGIN_SUBMIT: 'button[type="submit"].btn.btn-primary'
+}

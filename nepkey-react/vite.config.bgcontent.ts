@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => {
   // mode should be 'background' or 'content'
-  const entry = mode === 'content' ? 'content.ts' : 'background.ts';
+  const entry = mode === 'content' ? 'src/content.ts' : 'src/background.ts';
   return {
     build: {
       rollupOptions: {

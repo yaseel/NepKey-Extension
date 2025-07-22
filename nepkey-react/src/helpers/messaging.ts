@@ -1,5 +1,5 @@
 
-import {Action, Message} from "../types.ts";
+import {Action, Message, MessageResponse} from "../types.ts";
 
 // Use self for service worker, window for others
 const _global = typeof self !== "undefined" ? self : window;
@@ -13,16 +13,16 @@ export async function sendBackgroundMessage<T>(message: Message<T>) {
     }
 }
 
-export async function sendContentMessage<T>(tabId: number, message: Message<T>) {
+export async function sendContentMessage<T>(tabId: number, message: Message<T>): Promise<MessageResponse | void> {
     try {
-        await browserApi.tabs.sendMessage(tabId, {action: message.action, payload: message.payload});
+        return await browserApi.tabs.sendMessage(tabId, {action: message.action, payload: message.payload});
     } catch (e) {
         console.error("Error sending message to content: ", e);
     }
 }
 
-export function onMessage<T, R = void>(action: Action, doThis: (msg: Message<T>, sendResponse: (response: R) => void) => void | Promise<void>) {
-    const listener = (msg: unknown, sender: unknown, sendResponse: (response: R) => void) => {
+export function onMessage<T>(action: Action, doThis: (msg: Message<T>, sendResponse: (response: MessageResponse) => void) => void | Promise<void>) {
+    const listener = (msg: unknown, sender: unknown, sendResponse: (response: MessageResponse) => void) => {
         if (
             typeof msg === "object" &&
             msg !== null &&

@@ -13,5 +13,10 @@ export type Action = "neptunLogin" | "neptunTOTP" | "studentWebClick" | "canvasL
 
 export interface Message<T> {
     action: Action;
-    payload?: T;
+    payload: T;
+}
+
+export interface MessageResponse {
+    ok: boolean;
+    message?: string;
 }
