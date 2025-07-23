@@ -4,6 +4,8 @@
     --frosted-gray-30: rgba(57, 65, 66, 0.3);
     --hover-background: rgba(255,255,255,0.08);
     --overlay-background: rgba(0,0,10,0.55);
+    --overlay-border-radius: 14px;
+    --overlay-backdrop-filter: blur(18px) saturate(140%);
     --blue-glow: radial-gradient(
             circle at 65% 70%,
             rgba(0,104,229,0.1),

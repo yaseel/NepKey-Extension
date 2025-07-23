@@ -48,8 +48,8 @@
     right: 0;
     z-index: 80;
     background: var(--overlay-background);
-    backdrop-filter: blur(18px) saturate(140%);
-    border-radius: 14px;
+    backdrop-filter: var(--overlay-backdrop-filter);
+    border-radius: var(--overlay-border-radius);
     padding: 4px;
     box-shadow:
             0 8px 24px -6px rgba(0,0,0,0.6),
@@ -89,7 +89,7 @@
 }
 
 .item:hover {
-    background: var(--primary-blue-55);
+    background: var(--primary-blue);
 }
 
 .itemSelected {

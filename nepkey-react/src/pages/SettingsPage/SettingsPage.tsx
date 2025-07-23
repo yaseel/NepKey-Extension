@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "./Settings.module.css";
-import { i18n_KEYS } from "../../constants.ts";
+import {GITHUB_README_LINK, i18n_KEYS} from "../../constants.ts";
 import Input from "../../common/Input/Input.tsx";
 import Header from "../../components/Header/Header.tsx";
 import Footer from "../../components/Footer/Footer.tsx";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Language } from "../../types.ts";
 import { useSettings } from "../../hooks/useSettings.ts";
 import { settingsStore } from "../../settings.ts";
+import TooltipWrapper from "../../common/TooltipWrapper/TooltipWrapper.tsx";
 
 const SettingsPage = () => {
     const { i18n, t } = useTranslation();
@@ -46,6 +47,13 @@ const SettingsPage = () => {
         setFormData(prev => ({ ...prev, autoStudentWeb: checked }));
     };
 
+    const otpTooltipTitle = (
+        <span>
+            {t(i18n_KEYS.OTP_SECRET_TOOLTIP_TEXT)}
+            <a href={GITHUB_README_LINK} target="_blank">{t(i18n_KEYS.OTP_SECRET_TOOLTIP_ANCHOR)}</a>
+        </span>
+    );
+
     return (
         <div className={styles.container}>
             <Header />
@@ -73,14 +81,18 @@ const SettingsPage = () => {
                     labelText={t(i18n_KEYS.TMS_PASSWORD)}
                     placeholder={t(i18n_KEYS.TMS_PASSWORD_PLACEHOLDER)}
                 />
-                <Input id="otpSecret"
-                    value={formData.otpSecret}
-                    onChange={handleInputChange}
-                    onBlur={handleInputBlur}
-                    type="password"
-                    labelText={t(i18n_KEYS.OTP_SECRET)}
-                    placeholder={t(i18n_KEYS.OTP_SECRET_PLACEHOLDER)}
-                />
+                <TooltipWrapper title={otpTooltipTitle}>
+                    <Input id="otpSecret"
+                           value={formData.otpSecret}
+                           onChange={handleInputChange}
+                           onBlur={handleInputBlur}
+                           type="password"
+                           labelText={t(i18n_KEYS.OTP_SECRET)}
+                           placeholder={t(i18n_KEYS.OTP_SECRET_PLACEHOLDER)}
+                    />
+
+                </TooltipWrapper>
+
                 <hr className={styles.hr} />
                 <Toggle
                     text={t(i18n_KEYS.AUTO_STUDENT_WEB)}

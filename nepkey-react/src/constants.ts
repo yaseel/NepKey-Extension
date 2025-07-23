@@ -14,7 +14,8 @@ export const i18n_KEYS = {
     TMS_PASSWORD_PLACEHOLDER: "tms_password_placeholder",
     OTP_SECRET: "otp_secret",
     OTP_SECRET_PLACEHOLDER: "otp_secret_placeholder",
-    OTP_SECRET_TOOLTIP: "otp_secret_tooltip",
+    OTP_SECRET_TOOLTIP_TEXT: "otp_secret_tooltip_text",
+    OTP_SECRET_TOOLTIP_ANCHOR: "otp_secret_tooltip_anchor",
     AUTO_STUDENT_WEB: "auto_student_web",
     SHOW: "show",
     HIDE: "hide",
@@ -55,4 +56,4 @@ export const QUERY_SELECTORS = {
     TMS_CODE_INPUT: 'input[name="username"]',
     TMS_PASSWORD_INPUT: 'input[name="password"]',
     TMS_LOGIN_BUTTON: 'button[type="submit"]'
-}
+};
