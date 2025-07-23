@@ -1,4 +1,4 @@
-import {browserApi} from "./messaging";
+import {browserApi} from "./message.ts";
 
 // Helper function to wait for specific elements in the page with retry logic
 async function waitForElements(tabId: number, selectors: string[], maxRetries = 30, interval = 100): Promise<boolean> {

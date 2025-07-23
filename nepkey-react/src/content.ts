@@ -1,4 +1,4 @@
-import {onMessage} from "./helpers/messaging.ts";
+import {onMessage} from "./helpers/message.ts";
 import {Settings} from "./types.ts";
 import {generateTOTP} from "./helpers/generateTOTP.ts";
 import {QUERY_SELECTORS} from "./constants.ts";

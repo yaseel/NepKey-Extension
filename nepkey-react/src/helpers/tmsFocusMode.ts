@@ -1,4 +1,4 @@
-import {browserApi} from "./messaging.ts";
+import {browserApi} from "./message.ts";
 
 export async function applyTmsFocusMode(tabId: number) {
     const [res] = await browserApi.scripting.executeScript({

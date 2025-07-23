@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import {useSettings} from "../../hooks/useSettings.ts";
 import {executeLogin} from "../../helpers/executeLogin.ts";
 import {Platform} from "../../types.ts";
-import {sendBackgroundMessage} from "../../helpers/messaging.ts";
+import {sendBackgroundMessage} from "../../helpers/message.ts";
 
 const Home = () => {
     const neptunRef = createRef<HTMLButtonElement | null>();

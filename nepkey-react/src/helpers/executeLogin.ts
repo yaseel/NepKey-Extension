@@ -1,4 +1,4 @@
-import {sendBackgroundMessage} from "./messaging.ts";
+import {sendBackgroundMessage} from "./message.ts";
 import {Platform, Settings} from "../types.ts";
 
 export async function executeLogin(settings: Partial<Settings>, platform: Platform) {
