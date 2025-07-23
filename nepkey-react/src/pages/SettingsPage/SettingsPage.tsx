@@ -10,8 +10,6 @@ import { useTranslation } from "react-i18next";
 import { Language } from "../../types.ts";
 import { useSettings } from "../../hooks/useSettings.ts";
 import { settingsStore } from "../../settings.ts";
-import Tooltip from "../../common/Tooltip/Tooltip";
-import { useInputTooltip, getInputTooltipHtml } from "../../helpers/inputTooltip";
 
 const SettingsPage = () => {
     const { i18n, t } = useTranslation();
@@ -19,11 +17,9 @@ const SettingsPage = () => {
     const [formData, setFormData] = useState({ ...settings });
     const [isDirty, setIsDirty] = useState(false);
 
-    const otpTooltip = useInputTooltip({ tooltipWidth: 220 });
-
     useEffect(() => {
         if (!isDirty) setFormData({ ...settings });
-    }, [settings]);
+    }, [isDirty, settings]);
 
     const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -77,57 +73,14 @@ const SettingsPage = () => {
                     labelText={t(i18n_KEYS.TMS_PASSWORD)}
                     placeholder={t(i18n_KEYS.TMS_PASSWORD_PLACEHOLDER)}
                 />
-                <div
-                    ref={otpTooltip.wrapperRef}
-                    style={{ position: "relative", display: "inline-block" }}
-                    onMouseEnter={otpTooltip.handleMouseEnter}
-                    onMouseLeave={otpTooltip.handleWrapperMouseLeave}
-                >
-                    <Input id="otpSecret"
-                        value={formData.otpSecret}
-                        onChange={handleInputChange}
-                        onBlur={e => otpTooltip.handleBlur(e, handleInputBlur)}
-                        onFocus={otpTooltip.handleFocus}
-                        type="password"
-                        labelText={t(i18n_KEYS.OTP_SECRET)}
-                        placeholder={t(i18n_KEYS.OTP_SECRET_PLACEHOLDER)}
-                    />
-                    {otpTooltip.tooltipVisible && (
-                        <>
-                            <div
-                                style={{
-                                    position: "absolute",
-                                    top: "100%",
-                                    left: "50%",
-                                    transform: "translateX(-50%)",
-                                    width: `${otpTooltip.tooltipWidth}px`,
-                                    height: "20px",
-                                    zIndex: 99,
-                                    pointerEvents: "auto"
-                                }}
-                                onMouseEnter={() => otpTooltip.setTooltipAreaHovered(true)}
-                                onMouseLeave={() => otpTooltip.setTooltipAreaHovered(false)}
-                            />
-                            <Tooltip
-                                exit={otpTooltip.tooltipExiting}
-                                onMouseEnter={() => otpTooltip.setTooltipAreaHovered(true)}
-                                onMouseLeave={() => otpTooltip.setTooltipAreaHovered(false)}
-                                style={{ width: `${otpTooltip.tooltipWidth}px` }}
-                            >
-                                <span
-                                    dangerouslySetInnerHTML={{
-                                        __html: getInputTooltipHtml({
-                                            i18n,
-                                            t,
-                                            i18n_KEYS,
-                                            tooltipKey: 'OTP_SECRET_TOOLTIP',
-                                        })
-                                    }}
-                                />
-                            </Tooltip>
-                        </>
-                    )}
-                </div>
+                <Input id="otpSecret"
+                    value={formData.otpSecret}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    type="password"
+                    labelText={t(i18n_KEYS.OTP_SECRET)}
+                    placeholder={t(i18n_KEYS.OTP_SECRET_PLACEHOLDER)}
+                />
                 <hr className={styles.hr} />
                 <Toggle
                     text={t(i18n_KEYS.AUTO_STUDENT_WEB)}
