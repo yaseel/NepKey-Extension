@@ -9,7 +9,9 @@ export interface Settings {
     language: Language;
 }
 
-export type Action = "neptunLogin" | "neptunTOTP" | "studentWebClick" | "canvasLogin" | "tmsLogin";
+export type Platform = "Neptun" | "Canvas" | "TMS";
+
+export type Action = "neptunLogin" | "neptunTOTP" | "studentWebClick" | "canvasLogin" | "loginWithNeptun" | "idpLogin" | "tmsLogin";
 
 export interface Message<T> {
     action: Action;

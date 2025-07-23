@@ -32,6 +32,7 @@ export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
 export const GITHUB_LINK = "https://github.com/yaseel/NepKey-Extension";
 export const GITHUB_README_LINK = "https://github.com/yaseel/NepKey-Extension/blob/main/README.md";
 export const NEPTUN_LOGIN_LINK = "https://neptun.elte.hu/Account/Login";
+export const CANVAS_LOGIN_LINK = "https://canvas.elte.hu";
 export const SETTINGS_PATH = "/settings";
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
@@ -40,10 +41,14 @@ export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
 ];
 
 export const QUERY_SELECTORS = {
-    NEPTUN_CODE_INPUT: 'LoginName',
-    NEPTUN_PASSWORD_INPUT: 'Password',
+    NEPTUN_CODE_INPUT: '#LoginName',
+    NEPTUN_PASSWORD_INPUT: '#Password',
     NEPTUN_LOGIN_SUBMIT: 'input[type=submit]',
     TOTP_CODE_INPUT: 'input[name=TOTPCode]',
     TOTP_LOGIN_SUBMIT: 'button[type="submit"].btn.btn-primary',
-    NEPTUN_SWEB_LINK: 'a[href="/ToNeptunWeb/ToNeptunHWeb"]'
+    NEPTUN_SWEB_LINK: 'a[href="/ToNeptunWeb/ToNeptunHWeb"]',
+    LOGIN_WITH_NEPTUN_LINK: 'a[href="/login/saml"]',
+    IDP_CODE_INPUT: '#username_neptun',
+    IDP_PASSWORD_INPUT: '#password_neptun',
+    IDP_LOGIN_SUBMIT: 'input[type=submit]'
 }

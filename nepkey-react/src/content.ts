@@ -5,8 +5,8 @@ import {QUERY_SELECTORS} from "./constants.ts";
 
 onMessage<Settings>("neptunLogin", (msg, sendResponse) => {
 
-    const userInput = document.getElementById(QUERY_SELECTORS.NEPTUN_CODE_INPUT) as HTMLInputElement;
-    const passInput = document.getElementById(QUERY_SELECTORS.NEPTUN_PASSWORD_INPUT) as HTMLInputElement;
+    const userInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.NEPTUN_CODE_INPUT);
+    const passInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.NEPTUN_PASSWORD_INPUT);
     const loginButton = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.NEPTUN_LOGIN_SUBMIT);
 
     if (!userInput || !passInput || !loginButton) {
@@ -56,3 +56,37 @@ onMessage("studentWebClick", (_, sendResponse) => {
     swebLink.click();
     sendResponse({ok: true});
 });
+
+onMessage("loginWithNeptun", (_, sendResponse) => {
+    const loginWithNeptunLink = document.querySelector<HTMLAnchorElement>(QUERY_SELECTORS.LOGIN_WITH_NEPTUN_LINK);
+
+    if (!loginWithNeptunLink) {
+        sendResponse({ok: false, message: "Login with Neptun link not found."});
+        return;
+    }
+
+    loginWithNeptunLink.click();
+    sendResponse({ok: true});
+});
+
+onMessage<Settings>("idpLogin", (msg, sendResponse) => {
+    const userInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.IDP_CODE_INPUT);
+    const passInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.IDP_PASSWORD_INPUT);
+    const loginButton = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.IDP_LOGIN_SUBMIT);
+
+    if (!userInput || !passInput || !loginButton) {
+        sendResponse({ok: false, message: "Login fields not found."});
+        return;
+    }
+
+    userInput.value = msg.payload.neptunCode;
+    passInput.value = msg.payload.password;
+
+    userInput.dispatchEvent(new Event("input", {bubbles: true}));
+    passInput.dispatchEvent(new Event("input", {bubbles: true}));
+
+    loginButton.click();
+
+    sendResponse({ok: true});
+});
+

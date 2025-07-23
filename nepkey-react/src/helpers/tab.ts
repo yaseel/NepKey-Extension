@@ -38,37 +38,6 @@ async function waitForElements(tabId: number, selectors: string[], maxRetries = 
     });
 }
 
-export async function isUserLoggedIn(tabId: number): Promise<boolean> {
-    try {
-        // Wait for tab to be fully loaded first
-        const tab = await browserApi.tabs.get(tabId);
-        if (tab.status !== 'complete') {
-            await new Promise(resolve => {
-                const listener = (updatedId: number, info: chrome.tabs.OnUpdatedInfo) => {
-                    if (updatedId === tabId && info.status === 'complete') {
-                        browserApi.tabs.onUpdated.removeListener(listener);
-                        resolve(true);
-                    }
-                };
-                browserApi.tabs.onUpdated.addListener(listener);
-            });
-        }
-
-        // Check for the account dropdown element by ID
-        const results = await browserApi.scripting.executeScript({
-            target: { tabId },
-            func: () => {
-                return document.getElementById('layoutNavbarDropdownAccount') !== null;
-            }
-        });
-        
-        return results[0]?.result === true;
-    } catch (error) {
-        console.warn("Error checking login status:", error);
-        return false;
-    }
-}
-
 export async function waitForTabLoad(tabId: number, waitForRedirect = false, requiredElements?: string[]): Promise<chrome.tabs.Tab> {
     // First check if tab is already loaded
     const tab = await browserApi.tabs.get(tabId);

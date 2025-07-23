@@ -1,26 +1,24 @@
 import {onMessage, sendContentMessage} from "./helpers/messaging.ts";
-import {isUserLoggedIn, openTabAndWait, waitForTabLoad} from "./helpers/tab.ts";
-import { Settings } from "./types.ts";
-import {NEPTUN_LOGIN_LINK, QUERY_SELECTORS} from "./constants.ts";
+import {openTabAndWait, waitForTabLoad} from "./helpers/tab.ts";
+import {MessageResponse, Settings} from "./types.ts";
+import {CANVAS_LOGIN_LINK, NEPTUN_LOGIN_LINK, QUERY_SELECTORS} from "./constants.ts";
+import {loggedInCanvas, loggedInNeptun} from "./helpers/loggedIn.ts";
 
 onMessage<Settings>("neptunLogin", async (msg) => {
     try {
         const tab = await openTabAndWait(NEPTUN_LOGIN_LINK);
 
-        const loggedIn = await isUserLoggedIn(tab.id!);
+        const loggedIn = await loggedInNeptun(tab.id!);
 
         if (!loggedIn) {
-            await waitForTabLoad(tab.id!, false, [`#${QUERY_SELECTORS.NEPTUN_CODE_INPUT}`, `#${QUERY_SELECTORS.NEPTUN_PASSWORD_INPUT}`, QUERY_SELECTORS.NEPTUN_LOGIN_SUBMIT]);
+            await waitForTabLoad(tab.id!, false, [QUERY_SELECTORS.NEPTUN_CODE_INPUT, QUERY_SELECTORS.NEPTUN_PASSWORD_INPUT, QUERY_SELECTORS.NEPTUN_LOGIN_SUBMIT]);
 
             const loginRes = await sendContentMessage(tab.id!, {
                 action: "neptunLogin",
                 payload: msg.payload
             });
 
-            if (loginRes && !loginRes.ok) {
-                console.error("Login failed:", loginRes.message);
-                return;
-            }
+            ensureOk(loginRes);
 
             await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.TOTP_CODE_INPUT, QUERY_SELECTORS.TOTP_LOGIN_SUBMIT]);
 
@@ -29,10 +27,7 @@ onMessage<Settings>("neptunLogin", async (msg) => {
                 payload: msg.payload
             });
 
-            if (totpRes && !totpRes.ok) {
-                console.error("TOTP submission failed:", totpRes.message);
-                return;
-            }
+            ensureOk(totpRes);
         }
 
         if (msg.payload.autoStudentWeb) {
@@ -43,13 +38,47 @@ onMessage<Settings>("neptunLogin", async (msg) => {
                 payload: null
             });
 
-            if (swebRes && !swebRes.ok) {
-                console.error("Student Web click failed: ", swebRes.message);
-                return;
-            }
+            ensureOk(swebRes);
         }
 
-    } catch (error) {
-        console.error("Error in neptunLogin handler:", error);
+    } catch (e) {
+        console.error("Error in neptunLogin handler:", e);
     }
 });
+
+onMessage<Settings>("canvasLogin", async (msg) => {
+    try {
+        const tab = await openTabAndWait(CANVAS_LOGIN_LINK);
+
+        const loggedIn = await loggedInCanvas(tab.id!);
+
+        if (!loggedIn) {
+            await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.LOGIN_WITH_NEPTUN_LINK]);
+
+            const loginWithNeptunRes = await sendContentMessage(tab.id!, {
+                action: "loginWithNeptun",
+                payload: null
+            });
+
+            ensureOk(loginWithNeptunRes);
+
+            await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.IDP_CODE_INPUT, QUERY_SELECTORS.IDP_PASSWORD_INPUT, QUERY_SELECTORS.IDP_LOGIN_SUBMIT]);
+
+            const idpLoginRes = await sendContentMessage(tab.id!, {
+                action: "idpLogin",
+                payload: msg.payload
+            });
+
+            ensureOk(idpLoginRes);
+
+        }
+
+
+    } catch (e) {
+        console.error("Error in canvasLogin handler: ", e);
+    }
+});
+
+function ensureOk(res: MessageResponse | void) {
+    if (res && !res.ok) throw new Error(res.message);
+}

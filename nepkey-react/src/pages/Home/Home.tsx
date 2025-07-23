@@ -7,7 +7,8 @@ import { useBodyGlow } from "../../hooks/useBodyGlow";
 import Header from "../../components/Header/Header.tsx";
 import {useTranslation} from "react-i18next";
 import {useSettings} from "../../hooks/useSettings.ts";
-import {executeNeptunLogin} from "../../helpers/executeNeptunLogin.ts";
+import {executeLogin} from "../../helpers/executeLogin.ts";
+import {Platform} from "../../types.ts";
 
 const Home = () => {
     const neptunRef = createRef<HTMLButtonElement | null>();
@@ -17,10 +18,8 @@ const Home = () => {
     const {t} = useTranslation();
     const {settings} = useSettings();
 
-    const handleShortcut = async (platform: "Neptun" | "Canvas" | "TMS") => {
-        if (platform === "Neptun") await executeNeptunLogin(settings);
-        else if (platform === "Canvas") await executeNeptunLogin(settings);
-        else await executeNeptunLogin(settings);
+    const handleShortcut = async (platform: Platform) => {
+        await executeLogin(settings, platform);
     };
 
     return (
@@ -29,8 +28,8 @@ const Home = () => {
 
             <main className={styles.main}>
                 <ShortcutButton refEl={neptunRef} shortcut="Neptun" onClick={() => handleShortcut("Neptun")}/>
-                <ShortcutButton refEl={canvasRef} shortcut="Canvas" onClick={() => handleShortcut("Neptun")}/>
-                <ShortcutButton refEl={tmsRef} shortcut="TMS" onClick={() => handleShortcut("Neptun")} extraButton={t(i18n_KEYS.FOCUS)}/>
+                <ShortcutButton refEl={canvasRef} shortcut="Canvas" onClick={() => handleShortcut("Canvas")}/>
+                <ShortcutButton refEl={tmsRef} shortcut="TMS" onClick={() => handleShortcut("TMS")} extraButton={t(i18n_KEYS.FOCUS)}/>
             </main>
             <Footer/>
         </div>
