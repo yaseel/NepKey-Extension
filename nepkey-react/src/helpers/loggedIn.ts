@@ -31,3 +31,19 @@ export async function loggedInCanvas(tabId: number): Promise<boolean> {
         return false;
     }
 }
+
+export async function loggedInTms(tabId: number): Promise<boolean> {
+    try {
+        const results = await browserApi.scripting.executeScript({
+            target: {tabId},
+            func: () => {
+                return document.getElementById('a[href="/settings"]') !== null;
+            }
+        });
+
+        return results[0]?.result === true;
+    } catch (error) {
+        console.warn("Error checking login status:", error);
+        return false;
+    }
+}

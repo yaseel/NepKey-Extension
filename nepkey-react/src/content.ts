@@ -90,3 +90,24 @@ onMessage<Settings>("idpLogin", (msg, sendResponse) => {
     sendResponse({ok: true});
 });
 
+onMessage<Settings>("tmsLogin", (msg, sendResponse) => {
+    const userInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.TMS_CODE_INPUT);
+    const passInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.TMS_PASSWORD_INPUT);
+    const loginButton = document.querySelector<HTMLButtonElement>(QUERY_SELECTORS.TMS_LOGIN_BUTTON);
+
+    if (!userInput || !passInput || !loginButton) {
+        sendResponse({ok: false, message: "Login fields not found."});
+        return;
+    }
+
+    userInput.value = msg.payload.neptunCode;
+    passInput.value = msg.payload.tmsPassword || msg.payload.password;
+
+    userInput.dispatchEvent(new Event("input", {bubbles: true}));
+    passInput.dispatchEvent(new Event("input", {bubbles: true}));
+
+    loginButton.click();
+
+    sendResponse({ok: true});
+});
+

@@ -33,6 +33,7 @@ export const GITHUB_LINK = "https://github.com/yaseel/NepKey-Extension";
 export const GITHUB_README_LINK = "https://github.com/yaseel/NepKey-Extension/blob/main/README.md";
 export const NEPTUN_LOGIN_LINK = "https://neptun.elte.hu/Account/Login";
 export const CANVAS_LOGIN_LINK = "https://canvas.elte.hu";
+export const TMS_LOGIN_LINK = "https://tms.inf.elte.hu";
 export const SETTINGS_PATH = "/settings";
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string }[] = [
@@ -50,5 +51,8 @@ export const QUERY_SELECTORS = {
     LOGIN_WITH_NEPTUN_LINK: 'a[href="/login/saml"]',
     IDP_CODE_INPUT: '#username_neptun',
     IDP_PASSWORD_INPUT: '#password_neptun',
-    IDP_LOGIN_SUBMIT: 'input[type=submit]'
+    IDP_LOGIN_SUBMIT: 'input[type=submit]',
+    TMS_CODE_INPUT: 'input[name="username"]',
+    TMS_PASSWORD_INPUT: 'input[name="password"]',
+    TMS_LOGIN_BUTTON: 'button[type="submit"]'
 }

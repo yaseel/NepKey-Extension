@@ -1,8 +1,12 @@
 import {onMessage, sendContentMessage} from "./helpers/messaging.ts";
 import {openTabAndWait, waitForTabLoad} from "./helpers/tab.ts";
 import {MessageResponse, Settings} from "./types.ts";
-import {CANVAS_LOGIN_LINK, NEPTUN_LOGIN_LINK, QUERY_SELECTORS} from "./constants.ts";
-import {loggedInCanvas, loggedInNeptun} from "./helpers/loggedIn.ts";
+import {CANVAS_LOGIN_LINK, NEPTUN_LOGIN_LINK, QUERY_SELECTORS, TMS_LOGIN_LINK} from "./constants.ts";
+import {loggedInCanvas, loggedInNeptun, loggedInTms} from "./helpers/loggedIn.ts";
+
+function ensureOk(res: MessageResponse | void) {
+    if (res && !res.ok) throw new Error(res.message);
+}
 
 onMessage<Settings>("neptunLogin", async (msg) => {
     try {
@@ -79,6 +83,24 @@ onMessage<Settings>("canvasLogin", async (msg) => {
     }
 });
 
-function ensureOk(res: MessageResponse | void) {
-    if (res && !res.ok) throw new Error(res.message);
-}
+onMessage("tmsLogin", async (msg) => {
+    try {
+        const tab = await openTabAndWait(TMS_LOGIN_LINK);
+
+        const loggedIn = await loggedInTms(tab.id!);
+
+        if (!loggedIn) {
+            await waitForTabLoad(tab.id!, false, [QUERY_SELECTORS.TMS_CODE_INPUT, QUERY_SELECTORS.TMS_PASSWORD_INPUT, QUERY_SELECTORS.TMS_LOGIN_BUTTON]);
+
+            const tmsLoginRes = await sendContentMessage(tab.id!, {
+                action: "tmsLogin",
+                payload: msg.payload
+            });
+
+            ensureOk(tmsLoginRes);
+        }
+
+    } catch (e) {
+        console.error("Error in tmsLogin handler: ", e);
+    }
+});
