@@ -1,10 +1,11 @@
 import {browserApi} from "./messaging";
 
-// Helper function to wait for specific elements in the page
-async function waitForElements(tabId: number, selectors: string[], timeout = 10000): Promise<boolean> {
+// Helper function to wait for specific elements in the page with retry logic
+async function waitForElements(tabId: number, selectors: string[], maxRetries = 30, interval = 100): Promise<boolean> {
     return new Promise((resolve) => {
-        const startTime = Date.now();
-        const checkElements = async () => {
+        let retryCount = 0;
+        
+        const check = async () => {
             try {
                 const results = await browserApi.scripting.executeScript({
                     target: { tabId },
@@ -16,19 +17,56 @@ async function waitForElements(tabId: number, selectors: string[], timeout = 100
 
                 if (results[0]?.result) {
                     resolve(true);
-                } else if (Date.now() - startTime >= timeout) {
-                    console.warn(`Timeout waiting for elements: ${selectors.join(', ')}`);
-                    resolve(false);
+                } else if (retryCount < maxRetries) {
+                    retryCount++;
+                    setTimeout(check, interval);
                 } else {
-                    setTimeout(checkElements, 100);
+                    resolve(false);
                 }
             } catch (error) {
-                console.error("Error checking elements:", error);
-                resolve(false);
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    setTimeout(check, interval);
+                } else {
+                    console.warn("Error checking elements:", error);
+                    resolve(false);
+                }
             }
         };
-        checkElements();
+
+        check();
     });
+}
+
+export async function isUserLoggedIn(tabId: number): Promise<boolean> {
+    try {
+        // Wait for tab to be fully loaded first
+        const tab = await browserApi.tabs.get(tabId);
+        if (tab.status !== 'complete') {
+            await new Promise(resolve => {
+                const listener = (updatedId: number, info: chrome.tabs.OnUpdatedInfo) => {
+                    if (updatedId === tabId && info.status === 'complete') {
+                        browserApi.tabs.onUpdated.removeListener(listener);
+                        resolve(true);
+                    }
+                };
+                browserApi.tabs.onUpdated.addListener(listener);
+            });
+        }
+
+        // Check for the account dropdown element by ID
+        const results = await browserApi.scripting.executeScript({
+            target: { tabId },
+            func: () => {
+                return document.getElementById('layoutNavbarDropdownAccount') !== null;
+            }
+        });
+        
+        return results[0]?.result === true;
+    } catch (error) {
+        console.warn("Error checking login status:", error);
+        return false;
+    }
 }
 
 export async function waitForTabLoad(tabId: number, waitForRedirect = false, requiredElements?: string[]): Promise<chrome.tabs.Tab> {

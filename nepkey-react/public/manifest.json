@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "NepKey",
-  "version": "2.5",
+  "version": "3.0",
   "description": "University Toolkit",
   "default_locale": "en",
   "icons": {
@@ -29,12 +29,17 @@
     "https://idp.elte.hu/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "src/background.js"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "matches": [
+        "https://neptun.elte.hu/*",
+        "https://canvas.elte.hu/*",
+        "https://tms.inf.elte.hu/*",
+        "https://idp.elte.hu/*"
+      ],
+      "js": ["src/content.js"]
     }
   ]
 }

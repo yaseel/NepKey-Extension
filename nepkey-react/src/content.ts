@@ -3,7 +3,7 @@ import {Settings} from "./types.ts";
 import {generateTOTP} from "./helpers/generateTOTP.ts";
 import {QUERY_SELECTORS} from "./constants.ts";
 
-const unsubscribeNeptunLogin = onMessage<Settings>("neptunLogin", (msg, sendResponse) => {
+onMessage<Settings>("neptunLogin", (msg, sendResponse) => {
 
     const userInput = document.getElementById(QUERY_SELECTORS.NEPTUN_CODE_INPUT) as HTMLInputElement;
     const passInput = document.getElementById(QUERY_SELECTORS.NEPTUN_PASSWORD_INPUT) as HTMLInputElement;
@@ -25,12 +25,11 @@ const unsubscribeNeptunLogin = onMessage<Settings>("neptunLogin", (msg, sendResp
     sendResponse({ok: true});
 });
 
-const unsubscribeNeptunTOTP = onMessage<Settings>("neptunTOTP", async (msg, sendResponse) => {
+onMessage<Settings>("neptunTOTP", async (msg, sendResponse) => {
 
     const totpInput = document.querySelector<HTMLInputElement>(QUERY_SELECTORS.TOTP_CODE_INPUT);
     const loginButton = document.querySelector<HTMLButtonElement>(QUERY_SELECTORS.TOTP_LOGIN_SUBMIT);
 
-    console.log(loginButton)
 
     if (!totpInput || !loginButton) {
         sendResponse({ok: false, message: "TOTP field not found."});
@@ -42,5 +41,18 @@ const unsubscribeNeptunTOTP = onMessage<Settings>("neptunTOTP", async (msg, send
 
     loginButton.click();
 
+    sendResponse({ok: true});
+});
+
+onMessage("studentWebClick", (_, sendResponse) => {
+
+    const swebLink = document.querySelector<HTMLAnchorElement>(QUERY_SELECTORS.NEPTUN_SWEB_LINK);
+
+    if (!swebLink) {
+        sendResponse({ok: false, message: "Student Web link not found."});
+        return;
+    }
+
+    swebLink.click();
     sendResponse({ok: true});
 });
