@@ -11,7 +11,7 @@ export interface Settings {
 
 export type Platform = "Neptun" | "Canvas" | "TMS";
 
-export type Action = "neptunLogin" | "neptunTOTP" | "studentWebClick" | "canvasLogin" | "loginWithNeptun" | "idpLogin" | "tmsLogin";
+export type Action = "neptunLogin" | "neptunTOTP" | "studentWebClick" | "canvasLogin" | "loginWithNeptun" | "idpLogin" | "tmsLogin" | "tmsFocus";
 
 export interface Message<T> {
     action: Action;

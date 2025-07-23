@@ -61,7 +61,7 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = (props) => {
 
             {props.extraButton
                 ? (
-                    <Button text={props.extraButton} extra={true}/>
+                    <Button text={props.extraButton} onClick={props.extraButtonOnClick} extra={true}/>
                 ) : (
                     <></>
                 )}

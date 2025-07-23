@@ -9,6 +9,7 @@ import {useTranslation} from "react-i18next";
 import {useSettings} from "../../hooks/useSettings.ts";
 import {executeLogin} from "../../helpers/executeLogin.ts";
 import {Platform} from "../../types.ts";
+import {sendBackgroundMessage} from "../../helpers/messaging.ts";
 
 const Home = () => {
     const neptunRef = createRef<HTMLButtonElement | null>();
@@ -22,6 +23,14 @@ const Home = () => {
         await executeLogin(settings, platform);
     };
 
+    const handleTmsFocus = async () => {
+        const tmsFocusRes = await sendBackgroundMessage({action: "tmsFocus", payload: null});
+
+        if (tmsFocusRes && !tmsFocusRes.ok) {
+            alert("You have to be on the TMS page to enable focus mode.");
+        }
+    };
+
     return (
         <div className={styles.container}>
             <Header/>
@@ -29,7 +38,7 @@ const Home = () => {
             <main className={styles.main}>
                 <ShortcutButton refEl={neptunRef} shortcut="Neptun" onClick={() => handleShortcut("Neptun")}/>
                 <ShortcutButton refEl={canvasRef} shortcut="Canvas" onClick={() => handleShortcut("Canvas")}/>
-                <ShortcutButton refEl={tmsRef} shortcut="TMS" onClick={() => handleShortcut("TMS")} extraButton={t(i18n_KEYS.FOCUS)}/>
+                <ShortcutButton refEl={tmsRef} shortcut="TMS" onClick={() => handleShortcut("TMS")} extraButton={t(i18n_KEYS.FOCUS)} extraButtonOnClick={handleTmsFocus}/>
             </main>
             <Footer/>
         </div>

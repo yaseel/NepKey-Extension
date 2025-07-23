@@ -3,6 +3,8 @@ import {openTabAndWait, waitForTabLoad} from "./helpers/tab.ts";
 import {MessageResponse, Settings} from "./types.ts";
 import {CANVAS_LOGIN_LINK, NEPTUN_LOGIN_LINK, QUERY_SELECTORS, TMS_LOGIN_LINK} from "./constants.ts";
 import {loggedInCanvas, loggedInNeptun, loggedInTms} from "./helpers/loggedIn.ts";
+import {getActiveTab} from "./helpers/getActiveTab.ts";
+import {applyTmsFocusMode} from "./helpers/tmsFocusMode.ts";
 
 function ensureOk(res: MessageResponse | void) {
     if (res && !res.ok) throw new Error(res.message);
@@ -104,3 +106,19 @@ onMessage("tmsLogin", async (msg) => {
         console.error("Error in tmsLogin handler: ", e);
     }
 });
+
+onMessage("tmsFocus", async (msg, sendResponse) => {
+    try {
+        const tab = await getActiveTab();
+
+        if (tab.url && tab.url.startsWith(TMS_LOGIN_LINK)) {
+            await applyTmsFocusMode(tab.id!);
+            sendResponse({ok: true});
+        } else {
+            sendResponse({ok: false});
+        }
+
+    } catch (e) {
+        console.error("Error in tmsFocus handler: ", e);
+    }
+})

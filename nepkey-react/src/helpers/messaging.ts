@@ -5,9 +5,9 @@ import {Action, Message, MessageResponse} from "../types.ts";
 const _global = typeof self !== "undefined" ? self : window;
 export const browserApi = (_global.browser ?? _global.chrome) as unknown as typeof chrome;
 
-export async function sendBackgroundMessage<T>(message: Message<T>) {
+export async function sendBackgroundMessage<T>(message: Message<T>): Promise<MessageResponse | void> {
     try {
-        await browserApi.runtime.sendMessage({action: message.action, payload: message.payload});
+        return await browserApi.runtime.sendMessage({action: message.action, payload: message.payload});
     } catch (e) {
         console.error("Error sending message to background: ", e);
     }
