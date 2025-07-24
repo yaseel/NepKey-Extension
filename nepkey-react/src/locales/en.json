@@ -10,6 +10,7 @@
   "password_placeholder": "Neptun password",
   "tms_password": "TMS Password",
   "tms_password_placeholder": "Optional if same",
+  "tms_focus_tooltip": "Open the TMS page to enable Focus Mode.",
   "otp_secret": "OTP Secret",
   "otp_secret_placeholder": "Secret from authenticator",
   "otp_secret_tooltip_text": "Need help? Check the ",

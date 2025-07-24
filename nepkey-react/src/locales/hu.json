@@ -10,6 +10,7 @@
   "password_placeholder": "Neptun jelszó",
   "tms_password": "TMS jelszó",
   "tms_password_placeholder": "Ha ugyanaz, opcionális",
+  "tms_focus_tooltip": "A fókusz mód bekapcsolásához a TMS-oldalon kell lenned.",
   "otp_secret": "OTP titok",
   "otp_secret_placeholder": "Titok az authentikátorból",
   "otp_secret_tooltip_text": "Segítség kell? Nézd meg a ",

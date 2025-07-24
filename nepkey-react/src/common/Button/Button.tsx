@@ -1,24 +1,29 @@
-import {ButtonProps} from "./Button.types.ts";
+import React, { forwardRef } from "react";
+import { ButtonProps } from "./Button.types.ts";
 import styles from "./Button.module.css";
 
 
-const Button: React.FC<ButtonProps> = (props) => {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+    const { text, icon, alt, link, onClick, extra, className: _, style: __, ...rest } = props;
 
-    const content = props.text ? props.text : <img src={props.icon} alt={props.alt}/>
+    const content = text ? text : <img src={icon} alt={alt}/> 
 
-    const style = props.text ? [styles.text] : [styles.icon];
-    const extraStyle = props.extra ? [styles.extra] : [];
+    const style = text ? [styles.text] : [styles.icon];
+    const extraStyle = extra ? [styles.extra] : [];
 
     const openLink = () => {
-        window.open(props.link, "_blank")
+        if (link) window.open(link, "_blank");
     };
 
     return (
-        <>
-            <button className={[...style, ...extraStyle, styles.button].join(" ")} onClick={props.link ? openLink : props.onClick}>
-                {content}
-            </button>
-        </>
-    );}
+        <button
+            ref={ref}
+            className={[...style, ...extraStyle, styles.button].join(" ")}
+            onClick={link ? openLink : onClick}
+            {...rest}
+        >
+            {content}
+        </button>
+    );});
 
 export default Button;

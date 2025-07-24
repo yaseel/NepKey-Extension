@@ -12,6 +12,7 @@ export const i18n_KEYS = {
     PASSWORD_PLACEHOLDER: "password_placeholder",
     TMS_PASSWORD: "tms_password",
     TMS_PASSWORD_PLACEHOLDER: "tms_password_placeholder",
+    TMS_FOCUS_TOOLTIP: "tms_focus_tooltip",
     OTP_SECRET: "otp_secret",
     OTP_SECRET_PLACEHOLDER: "otp_secret_placeholder",
     OTP_SECRET_TOOLTIP_TEXT: "otp_secret_tooltip_text",

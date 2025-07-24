@@ -6,11 +6,13 @@ import Button from "../../common/Button/Button.tsx";
 import neptun from "../../../public/images/neptun.png";
 import canvas from "../../../public/images/canvas.png";
 import tms from "../../../public/images/tms.png";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import GlowEffect from "../GlowEffect/GlowEffect.tsx";
 import {getGlowColor} from "../../helpers/getGlowColor.ts";
+import TooltipWrapper from "../../common/TooltipWrapper/TooltipWrapper.tsx";
 
 const ShortcutButton: React.FC<ShortcutButtonProps> = (props) => {
+    const [tooltipOpen, setTooltipOpen] = useState(false);
     let imgSrc;
     if (props.shortcut === "Neptun") imgSrc = neptun;
     else if (props.shortcut === "Canvas") imgSrc = canvas;
@@ -50,6 +52,27 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = (props) => {
         };
     }, [props.refEl, props.shortcut]);
 
+    const handleExtraClick = async () => {
+        if (props.extraButtonOnClick) await props.extraButtonOnClick();
+        if (props.extraButtonTooltip) setTooltipOpen(true);
+    };
+
+    const handleMouseEnter = () => {
+        if (props.extraButtonTooltip) setTooltipOpen(true);
+    };
+
+    const handleMouseLeave = () => setTooltipOpen(false);
+
+    const extraButton = (
+        <Button
+            text={props.extraButton}
+            onClick={handleExtraClick}
+            extra={true}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        />
+    );
+
     return (
         <div className={styles.relative}>
             <button ref={props.refEl} className={styles.button} onClick={props.onClick}>
@@ -60,10 +83,18 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = (props) => {
             <GlowEffect ref={props.refEl} shortcut={props.shortcut} />
 
             {props.extraButton
-                ? (
-                    <Button text={props.extraButton} onClick={props.extraButtonOnClick} extra={true}/>
-                ) : (
-                    <></>
+                && (
+                    props.extraButtonTooltip
+                        ? (
+                            <TooltipWrapper title={props.extraButtonTooltip} open={tooltipOpen}>
+                                {extraButton}
+                            </TooltipWrapper>
+                        ) : (
+                            <>
+                                {extraButton}
+                            </>
+                        )
+
                 )}
         </div>
     );}

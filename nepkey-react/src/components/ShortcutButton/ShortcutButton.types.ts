@@ -4,5 +4,6 @@ export interface ShortcutButtonProps {
     onClick: () => void;
     extraButton?: string;
     extraButtonOnClick?: () => void;
+    extraButtonTooltip?: React.ReactNode;
     refEl: React.RefObject<HTMLButtonElement | null>;
 }

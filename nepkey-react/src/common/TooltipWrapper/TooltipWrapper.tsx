@@ -8,12 +8,13 @@ const TooltipWrapper = styled(
         <Tooltip {...props} arrow classes={{ popper: className! }} />
     )
 )(
-    ({ theme }) => ({
+    () => ({
         [`& .${tooltipClasses.tooltip}`]: {
             backgroundColor: "var(--overlay-background)",
             color: "var(--text-color)",
             maxWidth: 220,
             fontSize: "1rem",
+            fontFamily: "'Instrument Sans', sans-serif",
             border: "none",
             backdropFilter: "var(--overlay-backdrop-filter)",
             borderRadius: "var(--overlay-border-radius)",

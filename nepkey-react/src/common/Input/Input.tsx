@@ -27,10 +27,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 {...rest}
             />
 
-            {originalType === "password"
-                ? <ShowHide type={type} setType={setType}/>
-                : <></>
-            }
+            {originalType === "password" && <ShowHide type={type} setType={setType}/>}
         </div>
     );
 });
