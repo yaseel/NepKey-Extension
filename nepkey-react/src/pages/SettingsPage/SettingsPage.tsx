@@ -11,10 +11,11 @@ import { Language } from "../../types.ts";
 import { useSettings } from "../../hooks/useSettings.ts";
 import { settingsStore } from "../../settings.ts";
 import TooltipWrapper from "../../common/TooltipWrapper/TooltipWrapper.tsx";
+import Spinner from "../../common/Spinner/Spinner.tsx";
 
 const SettingsPage = () => {
     const { i18n, t } = useTranslation();
-    const { settings } = useSettings();
+    const { settings, loaded } = useSettings();
     const [formData, setFormData] = useState({ ...settings });
     const [isDirty, setIsDirty] = useState(false);
 
@@ -53,6 +54,18 @@ const SettingsPage = () => {
             <a href={GITHUB_README_LINK} target="_blank">{t(i18n_KEYS.OTP_SECRET_TOOLTIP_ANCHOR)}</a>
         </span>
     );
+
+    if (!loaded) {
+        return (
+            <div className={styles.container}>
+                <Header />
+                <main className={[styles.main, styles.spinnerContainer].join(" ")}>
+                    <Spinner />
+                </main>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>

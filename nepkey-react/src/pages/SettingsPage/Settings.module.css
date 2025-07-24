@@ -17,3 +17,10 @@
     border-color: var(--frosted-gray-30);
     background: var(--frosted-gray-30);
 }
+
+.spinnerContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
