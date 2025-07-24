@@ -17,7 +17,7 @@ NepKey is a **browser extension** designed to streamline access to ELTE-related 
 
 ### First Setup: Getting the OTP Secret for Auto-Login
 
-![](https://github.com/yaseel/NepKey-Extension/blob/main/otp-tutorial.gif)
+<img src="https://raw.githubusercontent.com/yaseel/NepKey-Extension/main/otp-tutorial.gif" />
 
 NepKey uses TOTP (Time-based One-Time Password) authentication to log into Neptun automatically. To set it up:
 
@@ -61,7 +61,7 @@ Az NepKey egy **böngészőbővítmény**, amely egyszerűbbé teszi az ELTE-vel
 
 ### Első lépések: OTP titkos kulcs beszerzése az automatikus bejelentkezéshez
 
-![](https://github.com/yaseel/NepKey-Extension/blob/main/otp-tutorial.gif)
+<img src="https://raw.githubusercontent.com/yaseel/NepKey-Extension/main/otp-tutorial.gif" />
 
 A NepKey TOTP (időalapú egyszer használatos jelszó) hitelesítést használ a Neptun automatikus bejelentkezéséhez. Beállításához:
 
