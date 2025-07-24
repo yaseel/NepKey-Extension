@@ -1,0 +1,10 @@
+.div {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.footer {
+    align-self: stretch;
+}

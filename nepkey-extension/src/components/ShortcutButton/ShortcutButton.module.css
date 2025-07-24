@@ -1,0 +1,78 @@
+.button img {
+    width: 30px;
+    height: 30px;
+}
+
+.button {
+    position: relative;
+    cursor: pointer;
+    border: 1.5px solid rgba(0,180,255, 0); /* fully transparent by default */
+    font-weight: 500;
+    font-size: 1.2rem;
+    background-color: var(--frosted-gray-30);
+    padding: 13px 33px;
+    width: 170px;
+    border-radius: 40px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    overflow: hidden; /* clip glow */
+    isolation: isolate; /* contain blending */
+    transition: background .35s ease, border-color .25s cubic-bezier(.4,1.6,.6,1);
+    --mx: 0.5;
+    --my: 0.5;
+    --intensity: 0;
+    --edgeBoost: 0;
+}
+
+.button:hover {
+    background: #272d30;
+}
+
+/* Magical Aura Layer */
+.button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Magical aura: pointer-localized, strong at edge, smooth */
+    background:
+        radial-gradient(
+            circle at calc(var(--mx,0.5)*100%) calc(var(--my,0.5)*100%),
+            rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.7)) 0%,
+            rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.35)) 30%,
+            rgba(var(--glow-color, 0,180,255),0) 70%
+        ),
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(var(--glow-color, 0,180,255),0) 70%,
+            rgba(var(--glow-color, 0,180,255), calc(var(--edgeBoost,0)*0.45)) 90%,
+            rgba(var(--glow-color, 0,180,255),0) 100%
+        );
+    mix-blend-mode: screen;
+    opacity: calc(var(--intensity, 0) + var(--edgeBoost, 0) * 0.7);
+    transition: opacity .35s cubic-bezier(.4,1.6,.6,1), background .35s cubic-bezier(.4,1.6,.6,1);
+    filter: blur(18px) saturate(1.5);
+    z-index: 1;
+}
+
+.button.is-hovering::before {
+    transition: opacity .15s cubic-bezier(.4,1.6,.6,1), background .15s cubic-bezier(.4,1.6,.6,1);
+}
+
+.button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1.5px solid rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.6 + var(--edgeBoost,0)*0.7));
+    pointer-events: none;
+    transition: border-color .25s cubic-bezier(.4,1.6,.6,1);
+    z-index: 2;
+}
+
+.relative {
+    position: relative;
+}
