@@ -1,4 +1,4 @@
-import {onMessage, sendContentMessage} from "./helpers/message.ts";
+import {browserApi, onMessage, sendContentMessage} from "./helpers/message.ts";
 import {openTabAndWait, waitForTabLoad} from "./helpers/tab.ts";
 import {MessageResponse, Settings} from "./types.ts";
 import {CANVAS_LOGIN_LINK, NEPTUN_LOGIN_LINK, QUERY_SELECTORS, TMS_LOGIN_LINK} from "./constants.ts";
@@ -7,7 +7,7 @@ import {getActiveTab} from "./helpers/getActiveTab.ts";
 import {applyTmsFocusMode} from "./helpers/tmsFocusMode.ts";
 import {migrateSettings} from "./helpers/migrateSettings.ts";
 
-chrome.runtime.onInstalled.addListener(async (details) => {
+browserApi.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === "update") {
         try {
             await migrateSettings();
