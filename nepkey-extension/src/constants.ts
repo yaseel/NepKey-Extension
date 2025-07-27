@@ -1,4 +1,4 @@
-import {Language} from "./types.ts";
+import {Language, Settings} from "./types.ts";
 
 export const i18n_KEYS = {
     NEPKEY: "nepkey",
@@ -29,6 +29,15 @@ export const i18n_KEYS = {
 export const STORAGE_KEYS = {
     SETTINGS: "settings"
 }
+
+export const EMPTY_SETTINGS: Settings = {
+    neptunCode: "",
+    password: "",
+    tmsPassword: "",
+    otpSecret: "",
+    autoStudentWeb: true,
+    language: "en"
+};
 
 export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
 export const GITHUB_LINK = "https://github.com/yaseel/NepKey-Extension";

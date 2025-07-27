@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Settings } from "../types";
-import { DEFAULT_SETTINGS, settingsStore } from "../settings";
+import { settingsStore } from "../settings";
+import {EMPTY_SETTINGS} from "../constants.ts";
 
 export function useSettings() {
-    const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+    const [settings, setSettings] = useState<Settings>(EMPTY_SETTINGS);
     const [loaded, setLoaded] = useState<boolean>(false);
 
     const reloadSettings = () => {
