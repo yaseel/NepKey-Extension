@@ -5,22 +5,24 @@ import {
 import Home from "./pages/Home/Home.tsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.tsx";
 import {SETTINGS_PATH} from "./constants.ts";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSettings } from "./hooks/useSettings";
-import i18n from "./i18n";
 import Spinner from "./common/Spinner/Spinner";
+import {applyLanguage} from "./helpers/applyLanguage.ts";
 
 function App() {
-    const { settings } = useSettings();
-    const [loading, setLoading] = useState(true);
+    const { settings, loaded } = useSettings();
 
     useEffect(() => {
-        if (settings && settings.language) {
-            i18n.changeLanguage(settings.language).finally(() => setLoading(false));
+        if (loaded && settings.language) {
+            (async () => {
+                await applyLanguage(settings.language);
+            })();
         }
-    }, [settings.language]);
 
-    if (loading) {
+    }, [loaded, settings.language]);
+
+    if (!loaded) {
         return <Spinner />;
     }
 

@@ -1,10 +1,21 @@
-import {onMessage, sendContentMessage} from "./helpers/message.ts";
+import {browserApi, onMessage, sendContentMessage} from "./helpers/message.ts";
 import {openTabAndWait, waitForTabLoad} from "./helpers/tab.ts";
 import {MessageResponse, Settings} from "./types.ts";
 import {CANVAS_LOGIN_LINK, NEPTUN_LOGIN_LINK, QUERY_SELECTORS, TMS_LOGIN_LINK} from "./constants.ts";
 import {loggedInCanvas, loggedInNeptun, loggedInTms} from "./helpers/loggedIn.ts";
 import {getActiveTab} from "./helpers/getActiveTab.ts";
 import {applyTmsFocusMode} from "./helpers/tmsFocusMode.ts";
+import {migrateSettings} from "./helpers/migrateSettings.ts";
+
+browserApi.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason === "update") {
+        try {
+            await migrateSettings();
+        } catch (e) {
+            console.warn("Settings migration failed:", e);
+        }
+    }
+});
 
 function ensureOk(res: MessageResponse | void) {
     if (res && !res.ok) throw new Error(res.message);
