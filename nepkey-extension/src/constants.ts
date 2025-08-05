@@ -4,7 +4,6 @@ export const i18n_KEYS = {
     NEPKEY: "nepkey",
     SETTINGS: "settings",
     FOCUS: "focus",
-    ASEEL: "aseel",
     GITHUB: "github",
     NEPTUN_CODE: "neptun_code",
     NEPTUN_CODE_PLACEHOLDER: "neptun_code_placeholder",
@@ -39,7 +38,6 @@ export const EMPTY_SETTINGS: Settings = {
     language: "en"
 };
 
-export const LINKEDIN_LINK = "https://www.linkedin.com/in/yaseel";
 export const GITHUB_LINK = "https://github.com/yaseel/NepKey-Extension";
 export const GITHUB_README_LINK = "https://github.com/yaseel/NepKey-Extension/blob/main/README.md";
 export const NEPTUN_LOGIN_LINK = "https://neptun.elte.hu/Account/Login";
