@@ -31,11 +31,6 @@ Once set up, NepKey will generate the correct TOTP code automatically during log
 
 ### Using NepKey
 
-#### Auto-Login Toggles
-
-- NepKey provides toggles for enabling or disabling auto-login for specific ELTE services.
-- When enabled, NepKey will handle login whenever you open the respective site using the buttons available.
-
 #### Website Shortcuts
 
 - Click on any website in the NepKey menu to open it instantly.
@@ -74,11 +69,6 @@ A NepKey TOTP (időalapú egyszer használatos jelszó) hitelesítést használ 
 A beállítás után az NepKey automatikusan generálja a megfelelő TOTP kódot bejelentkezéskor.
 
 ### Az NepKey használata
-
-#### Automatikus bejelentkezés kapcsolók
-
-- Az NepKey lehetőséget biztosít az automatikus bejelentkezés engedélyezésére vagy letiltására az egyes ELTE-szolgáltatásokhoz.
-- Ha engedélyezve van, az NepKey automatikusan bejelentkezik, amikor a megfelelő oldalt megnyitod az elérhető gombok segítségével.
 
 #### Weboldal gyorsgombok
 
