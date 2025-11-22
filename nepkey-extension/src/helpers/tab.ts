@@ -1,42 +1,40 @@
 import {browserApi} from "./message.ts";
 
-function waitForTabComplete(tabId: number): Promise<chrome.tabs.Tab> {
-    return new Promise((resolve) => {
-        const listener = (
-            updatedId: number,
-            changeInfo: chrome.tabs.OnUpdatedInfo,
-            tab: chrome.tabs.Tab
-        ) => {
-            if (updatedId === tabId && changeInfo.status === "complete") {
-                browserApi.tabs.onUpdated.removeListener(listener);
-                resolve(tab);
-            }
-        };
-        browserApi.tabs.onUpdated.addListener(listener);
-    });
+async function waitForElements(tabId: number, selectors: string[]): Promise<void> {
+    for (let i = 0; i < 50; i++) {
+        try {
+            const results = await browserApi.scripting.executeScript({
+                target: { tabId },
+                func: (sel: string[]) => sel.every(s => document.querySelector(s) !== null),
+                args: [selectors]
+            });
+            if (results[0]?.result) return;
+        } catch {}
+        await new Promise(r => setTimeout(r, 100));
+    }
+    throw new Error("Elements not found");
 }
 
-export async function waitForTabLoad(tabId: number): Promise<chrome.tabs.Tab> {
-    return waitForTabComplete(tabId);
+export async function waitForTabLoad(tabId: number, requiredElements?: string[]): Promise<void> {
+    // If we have elements to wait for, just wait for elements (page already loaded)
+    // Otherwise wait for navigation complete
+    if (requiredElements) {
+        await waitForElements(tabId, requiredElements);
+    } else {
+        await new Promise<void>((resolve) => {
+            const listener = (details: chrome.webNavigation.WebNavigationFramedCallbackDetails) => {
+                if (details.tabId === tabId && details.frameId === 0) {
+                    browserApi.webNavigation.onCompleted.removeListener(listener);
+                    resolve();
+                }
+            };
+            browserApi.webNavigation.onCompleted.addListener(listener);
+        });
+    }
 }
 
 export async function openTabAndWait(url: string): Promise<chrome.tabs.Tab> {
-    return new Promise(async (resolve) => {
-        let tabId: number | undefined;
-
-        const listener = (
-            updatedId: number,
-            changeInfo: chrome.tabs.OnUpdatedInfo,
-            tab: chrome.tabs.Tab
-        ) => {
-            if (updatedId === tabId && changeInfo.status === "complete") {
-                browserApi.tabs.onUpdated.removeListener(listener);
-                resolve(tab);
-            }
-        };
-
-        browserApi.tabs.onUpdated.addListener(listener);
-        const tab = await browserApi.tabs.create({ url });
-        tabId = tab.id!;
-    });
+    const tab = await browserApi.tabs.create({ url });
+    await waitForTabLoad(tab.id!);
+    return tab;
 }

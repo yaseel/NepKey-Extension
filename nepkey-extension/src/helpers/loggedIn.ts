@@ -37,7 +37,7 @@ export async function loggedInTms(tabId: number): Promise<boolean> {
         const results = await browserApi.scripting.executeScript({
             target: {tabId},
             func: () => {
-                return document.getElementById('a[href="/settings"]') !== null;
+                return document.querySelector('a[href="/settings"]') !== null;
             }
         });
 

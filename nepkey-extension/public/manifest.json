@@ -20,7 +20,8 @@
     "activeTab",
     "storage",
     "scripting",
-    "tabs"
+    "tabs",
+    "webNavigation"
   ],
   "host_permissions": [
     "https://neptun.elte.hu/*",
@@ -39,7 +40,8 @@
         "https://tms.inf.elte.hu/*",
         "https://idp.elte.hu/*"
       ],
-      "js": ["src/content.js"]
+      "js": ["src/content.js"],
+      "run_at": "document_end"
     }
   ]
 }

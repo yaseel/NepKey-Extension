@@ -18,7 +18,8 @@ browserApi.runtime.onInstalled.addListener(async (details) => {
 });
 
 function ensureOk(res: MessageResponse | void) {
-    if (res && !res.ok) throw new Error(res.message);
+    if (!res) throw new Error("No response from content script");
+    if (!res.ok) throw new Error(res.message);
 }
 
 onMessage<Settings>("neptunLogin", async (msg) => {
@@ -97,13 +98,19 @@ onMessage<Settings>("canvasLogin", async (msg) => {
     }
 });
 
-onMessage("tmsLogin", async (msg) => {
+onMessage<Settings>("tmsLogin", async (msg) => {
     try {
         const tab = await openTabAndWait(TMS_LOGIN_LINK);
 
         const loggedIn = await loggedInTms(tab.id!);
 
         if (!loggedIn) {
+            await waitForTabLoad(tab.id!, [
+                QUERY_SELECTORS.TMS_CODE_INPUT,
+                QUERY_SELECTORS.TMS_PASSWORD_INPUT,
+                QUERY_SELECTORS.TMS_LOGIN_BUTTON
+            ]);
+
             const tmsLoginRes = await sendContentMessage(tab.id!, {
                 action: "tmsLogin",
                 payload: msg.payload
