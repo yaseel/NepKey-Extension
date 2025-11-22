@@ -28,7 +28,7 @@
 }
 
 .button:hover {
-    background: #272d30;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* Magical Aura Layer */

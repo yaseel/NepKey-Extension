@@ -1,86 +1,79 @@
 import {browserApi} from "./message.ts";
 
-// Helper function to wait for specific elements in the page with retry logic
-async function waitForElements(tabId: number, selectors: string[], maxRetries = 30, interval = 100): Promise<boolean> {
-    return new Promise((resolve) => {
-        let retryCount = 0;
-        
-        const check = async () => {
-            try {
-                const results = await browserApi.scripting.executeScript({
-                    target: { tabId },
-                    func: (sel: string[]) => {
-                        return sel.every(selector => document.querySelector(selector) !== null);
-                    },
-                    args: [selectors]
-                });
-
-                if (results[0]?.result) {
-                    resolve(true);
-                } else if (retryCount < maxRetries) {
-                    retryCount++;
-                    setTimeout(check, interval);
-                } else {
-                    resolve(false);
-                }
-            } catch (error) {
-                if (retryCount < maxRetries) {
-                    retryCount++;
-                    setTimeout(check, interval);
-                } else {
-                    console.warn("Error checking elements:", error);
-                    resolve(false);
-                }
-            }
-        };
-
-        check();
-    });
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => globalThis.setTimeout(resolve, ms));
 }
 
-export async function waitForTabLoad(tabId: number, waitForRedirect = false, requiredElements?: string[]): Promise<chrome.tabs.Tab> {
-    // First check if tab is already loaded
-    const tab = await browserApi.tabs.get(tabId);
-    if (tab && tab.status === 'complete' && (!waitForRedirect || tab.url)) {
-        if (requiredElements) {
-            const elementsReady = await waitForElements(tabId, requiredElements);
-            if (elementsReady) {
-                return tab;
+async function waitForElements(tabId: number, selectors: string[]): Promise<void> {
+    const maxAttempts = 100;
+    const interval = 100;
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        try {
+            const results = await browserApi.scripting.executeScript({
+                target: { tabId },
+                func: (sel: string[]) => sel.every(s => document.querySelector(s) !== null),
+                args: [selectors]
+            });
+
+            if (results[0]?.result) {
+                return;
             }
-        } else {
-            return tab;
+        } catch {
+            // Script execution failed, page might still be loading
         }
+
+        await delay(interval);
     }
 
-    return new Promise<chrome.tabs.Tab>((resolve) => {
-        const listener = async (
+    throw new Error(`Elements not found after ${maxAttempts} attempts: ${selectors.join(', ')}`);
+}
+
+function waitForTabComplete(tabId: number): Promise<chrome.tabs.Tab> {
+    return new Promise((resolve) => {
+        const listener = (
             updatedId: number,
             changeInfo: chrome.tabs.OnUpdatedInfo,
-            updatedTab: chrome.tabs.Tab
+            tab: chrome.tabs.Tab
         ) => {
-            if (updatedId !== tabId) return;
-
-            if (changeInfo.status === "complete") {
-                if (!waitForRedirect || (waitForRedirect && updatedTab.url && updatedTab.url !== tab?.url)) {
-                    if (requiredElements) {
-                        const elementsReady = await waitForElements(tabId, requiredElements);
-                        if (elementsReady) {
-                            browserApi.tabs.onUpdated.removeListener(listener);
-                            resolve(updatedTab);
-                        }
-                    } else {
-                        browserApi.tabs.onUpdated.removeListener(listener);
-                        resolve(updatedTab);
-                    }
-                }
+            if (updatedId === tabId && changeInfo.status === "complete") {
+                browserApi.tabs.onUpdated.removeListener(listener);
+                resolve(tab);
             }
         };
-
         browserApi.tabs.onUpdated.addListener(listener);
     });
 }
 
+export async function waitForTabLoad(tabId: number, waitForRedirect = false, requiredElements?: string[]): Promise<chrome.tabs.Tab> {
+    if (waitForRedirect) {
+        await waitForTabComplete(tabId);
+    }
+
+    if (requiredElements) {
+        await waitForElements(tabId, requiredElements);
+    }
+
+    return browserApi.tabs.get(tabId);
+}
+
 export async function openTabAndWait(url: string): Promise<chrome.tabs.Tab> {
-    const tab = await browserApi.tabs.create({ url });
-    return waitForTabLoad(tab.id!, false);
+    return new Promise(async (resolve) => {
+        let tabId: number | undefined;
+
+        const listener = (
+            updatedId: number,
+            changeInfo: chrome.tabs.OnUpdatedInfo,
+            tab: chrome.tabs.Tab
+        ) => {
+            if (updatedId === tabId && changeInfo.status === "complete") {
+                browserApi.tabs.onUpdated.removeListener(listener);
+                resolve(tab);
+            }
+        };
+
+        browserApi.tabs.onUpdated.addListener(listener);
+        const tab = await browserApi.tabs.create({ url });
+        tabId = tab.id!;
+    });
 }
