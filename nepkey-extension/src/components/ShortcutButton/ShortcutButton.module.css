@@ -35,27 +35,20 @@
 .button::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -20px;
+    border-radius: 60px;
     pointer-events: none;
     /* Magical aura: pointer-localized, strong at edge, smooth */
     background:
         radial-gradient(
             circle at calc(var(--mx,0.5)*100%) calc(var(--my,0.5)*100%),
-            rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.7)) 0%,
-            rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.35)) 30%,
+            rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.5)) 0%,
+            rgba(var(--glow-color, 0,180,255), calc(var(--intensity,0)*0.2)) 40%,
             rgba(var(--glow-color, 0,180,255),0) 70%
-        ),
-        radial-gradient(
-            circle at 50% 50%,
-            rgba(var(--glow-color, 0,180,255),0) 70%,
-            rgba(var(--glow-color, 0,180,255), calc(var(--edgeBoost,0)*0.45)) 90%,
-            rgba(var(--glow-color, 0,180,255),0) 100%
         );
     mix-blend-mode: screen;
-    opacity: calc(var(--intensity, 0) + var(--edgeBoost, 0) * 0.7);
-    transition: opacity .35s cubic-bezier(.4,1.6,.6,1), background .35s cubic-bezier(.4,1.6,.6,1);
-    filter: blur(18px) saturate(1.5);
-    z-index: 1;
+    opacity: var(--intensity, 0);
+    z-index: -1;
 }
 
 .button.is-hovering::before {

@@ -1,4 +1,5 @@
 :root {
+    color-scheme: dark;
     --dark-gray: #1B1A17;
     --text-color: #ffffff;
     --frosted-gray-30: rgba(57, 65, 66, 0.3);
@@ -34,19 +35,10 @@ html {
 
 body {
     width: 330px;
-    background-color: var(--dark-gray);
+    background-color: transparent;
     margin: 15px 20px;
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--blue-glow);
-    transform: scaleX(1.8) scaleY(.7) translateY(40%);
-    filter: blur(40px);
-    pointer-events: none;
-}
 
 #root {
     position: relative;
@@ -63,13 +55,11 @@ body::before {
   background:
     radial-gradient(
       circle at var(--body-glow-x, 50%) var(--body-glow-y, 50%),
-      rgba(var(--body-glow-color, 0,180,255), calc(var(--body-glow-intensity,0)*0.18)) 0%,
-      rgba(var(--body-glow-color, 0,180,255), calc(var(--body-glow-intensity,0)*0.08)) 18%,
-      rgba(var(--body-glow-color, 0,180,255),0) 40%
+      rgba(var(--body-glow-color, 0,180,255), calc(var(--body-glow-intensity,0)*0.25)) 0%,
+      rgba(var(--body-glow-color, 0,180,255), calc(var(--body-glow-intensity,0)*0.1)) 25%,
+      rgba(var(--body-glow-color, 0,180,255),0) 50%
     );
   opacity: var(--body-glow-intensity,0);
-  filter: blur(30px) saturate(1.1);
-  transition: opacity 0.4s cubic-bezier(.4,1.6,.6,1), background 0.4s cubic-bezier(.4,1.6,.6,1);
 }
 
 hr {
