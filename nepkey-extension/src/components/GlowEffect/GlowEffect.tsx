@@ -43,11 +43,9 @@ const GlowEffect: React.FC<GlowEffectProps & { shortcut: string }> = ({ ref, sca
         }
 
         function setBodyGlow(xPercent: number, yPercent: number, intensity: number) {
-            const root = document.getElementById('root');
-            if (!root) return;
-            root.style.setProperty("--body-glow-x", `${xPercent}%`);
-            root.style.setProperty("--body-glow-y", `${yPercent}%`);
-            root.style.setProperty("--body-glow-intensity", intensity.toFixed(3));
+            document.body.style.setProperty("--body-glow-x", `${xPercent}%`);
+            document.body.style.setProperty("--body-glow-y", `${yPercent}%`);
+            document.body.style.setProperty("--body-glow-intensity", intensity.toFixed(3));
         }
 
         function handleMove(e: MouseEvent) {
@@ -59,9 +57,8 @@ const GlowEffect: React.FC<GlowEffectProps & { shortcut: string }> = ({ ref, sca
                 if (!btn) return;
                 const root = document.getElementById('root');
                 if (!root) return;
-                const rootRect = root.getBoundingClientRect();
-                const xPercent = ((e.clientX - rootRect.left) / rootRect.width) * 100;
-                const yPercent = ((e.clientY - rootRect.top) / rootRect.height) * 100;
+                const xPercent = (e.clientX / window.innerWidth) * 100;
+                const yPercent = (e.clientY / window.innerHeight) * 100;
 
                 const rect = btn.getBoundingClientRect();
                 const cx = rect.left + rect.width / 2;

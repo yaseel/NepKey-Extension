@@ -13,18 +13,15 @@ function parseRGB(str: string): number[] {
  */
 export function useBodyGlow(buttonRefs: RefObject<HTMLButtonElement | null>[]) {
     useEffect(() => {
-        const root = document.getElementById('root');
-        if (!root) return;
         // Set default glow position and color
-        root.style.setProperty('--body-glow-x', '50%');
-        root.style.setProperty('--body-glow-y', '50%');
-        root.style.setProperty('--body-glow-intensity', '0');
+        document.body.style.setProperty('--body-glow-x', '50%');
+        document.body.style.setProperty('--body-glow-y', '50%');
+        document.body.style.setProperty('--body-glow-intensity', '0');
         /**
          * Get the current button glow colors from CSS variables.
          */
         function getGlowColors() {
-            if (!root) return [[0,180,255],[255,140,0],[255,255,255]];
-            const styles = getComputedStyle(root as Element);
+            const styles = getComputedStyle(document.documentElement);
             return [
                 parseRGB(styles.getPropertyValue('--glow-color-neptun') || '0,125,198'),
                 parseRGB(styles.getPropertyValue('--glow-color-canvas') || '226,62,41'),
@@ -42,7 +39,6 @@ export function useBodyGlow(buttonRefs: RefObject<HTMLButtonElement | null>[]) {
             ];
         }
         function handleMove(e: MouseEvent) {
-            if (!root) return;
             const buttonColors = getGlowColors();
             // Get all button centers
             const centers = buttonRefs.map(ref => {
@@ -70,13 +66,12 @@ export function useBodyGlow(buttonRefs: RefObject<HTMLButtonElement | null>[]) {
             let ratio = d1 + d2 === 0 ? 0 : d2 / (d1 + d2);
             if (d1 === 0) ratio = 0; // exactly on a button: use its color
             const blended = blendColors(buttonColors[i1], buttonColors[i2], ratio);
-            root.style.setProperty('--body-glow-color', blended.join(","));
-            // Set glow position as percentage of root
-            const rootRect = root.getBoundingClientRect();
-            const xPercent = ((px - rootRect.left) / rootRect.width) * 100;
-            const yPercent = ((py - rootRect.top) / rootRect.height) * 100;
-            root.style.setProperty('--body-glow-x', `${xPercent}%`);
-            root.style.setProperty('--body-glow-y', `${yPercent}%`);
+            document.body.style.setProperty('--body-glow-color', blended.join(","));
+            // Set glow position as percentage of window
+            const xPercent = (px / window.innerWidth) * 100;
+            const yPercent = (py / window.innerHeight) * 100;
+            document.body.style.setProperty('--body-glow-x', `${xPercent}%`);
+            document.body.style.setProperty('--body-glow-y', `${yPercent}%`);
         }
         window.addEventListener('mousemove', handleMove);
         return () => window.removeEventListener('mousemove', handleMove);

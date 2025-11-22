@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Home.module.css";
 import {i18n_KEYS} from "../../constants.ts";
 import ShortcutButton from "../../components/ShortcutButton/ShortcutButton.tsx";
@@ -12,9 +12,9 @@ import {Platform} from "../../types.ts";
 import {sendBackgroundMessage} from "../../helpers/message.ts";
 
 const Home = () => {
-    const neptunRef = createRef<HTMLButtonElement | null>();
-    const canvasRef = createRef<HTMLButtonElement | null>();
-    const tmsRef = createRef<HTMLButtonElement | null>();
+    const neptunRef = useRef<HTMLButtonElement | null>(null);
+    const canvasRef = useRef<HTMLButtonElement | null>(null);
+    const tmsRef = useRef<HTMLButtonElement | null>(null);
     const [focusTooltip, setFocusTooltip] = useState("");
     useBodyGlow([neptunRef, canvasRef, tmsRef]);
     const {t} = useTranslation();

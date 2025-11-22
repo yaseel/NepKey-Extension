@@ -46,10 +46,10 @@ body {
     height: 100%;
 }
 
-#root::after {
+body::after {
   content: "";
-  position: absolute;
-  left: 0; top: 0; width: 100%; height: 100%;
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
   pointer-events: none;
   z-index: 9999;
   background:
