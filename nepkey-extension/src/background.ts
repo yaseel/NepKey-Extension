@@ -28,8 +28,6 @@ onMessage<Settings>("neptunLogin", async (msg) => {
         const loggedIn = await loggedInNeptun(tab.id!);
 
         if (!loggedIn) {
-            await waitForTabLoad(tab.id!, false, [QUERY_SELECTORS.NEPTUN_CODE_INPUT, QUERY_SELECTORS.NEPTUN_PASSWORD_INPUT, QUERY_SELECTORS.NEPTUN_LOGIN_SUBMIT]);
-
             const loginRes = await sendContentMessage(tab.id!, {
                 action: "neptunLogin",
                 payload: msg.payload
@@ -37,7 +35,7 @@ onMessage<Settings>("neptunLogin", async (msg) => {
 
             ensureOk(loginRes);
 
-            await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.TOTP_CODE_INPUT, QUERY_SELECTORS.TOTP_LOGIN_SUBMIT]);
+            await waitForTabLoad(tab.id!);
 
             const totpRes = await sendContentMessage(tab.id!, {
                 action: "neptunTOTP",
@@ -45,11 +43,18 @@ onMessage<Settings>("neptunLogin", async (msg) => {
             });
 
             ensureOk(totpRes);
-        }
 
-        if (msg.payload.autoStudentWeb) {
-            await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.NEPTUN_SWEB_LINK]);
+            if (msg.payload.autoStudentWeb) {
+                await waitForTabLoad(tab.id!);
 
+                const swebRes = await sendContentMessage(tab.id!, {
+                    action: "studentWebClick",
+                    payload: null
+                });
+
+                ensureOk(swebRes);
+            }
+        } else if (msg.payload.autoStudentWeb) {
             const swebRes = await sendContentMessage(tab.id!, {
                 action: "studentWebClick",
                 payload: null
@@ -70,8 +75,6 @@ onMessage<Settings>("canvasLogin", async (msg) => {
         const loggedIn = await loggedInCanvas(tab.id!);
 
         if (!loggedIn) {
-            await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.LOGIN_WITH_NEPTUN_LINK]);
-
             const loginWithNeptunRes = await sendContentMessage(tab.id!, {
                 action: "loginWithNeptun",
                 payload: null
@@ -79,7 +82,7 @@ onMessage<Settings>("canvasLogin", async (msg) => {
 
             ensureOk(loginWithNeptunRes);
 
-            await waitForTabLoad(tab.id!, true, [QUERY_SELECTORS.IDP_CODE_INPUT, QUERY_SELECTORS.IDP_PASSWORD_INPUT, QUERY_SELECTORS.IDP_LOGIN_SUBMIT]);
+            await waitForTabLoad(tab.id!);
 
             const idpLoginRes = await sendContentMessage(tab.id!, {
                 action: "idpLogin",
@@ -87,9 +90,7 @@ onMessage<Settings>("canvasLogin", async (msg) => {
             });
 
             ensureOk(idpLoginRes);
-
         }
-
 
     } catch (e) {
         console.error("Error in canvasLogin handler: ", e);
@@ -103,8 +104,6 @@ onMessage("tmsLogin", async (msg) => {
         const loggedIn = await loggedInTms(tab.id!);
 
         if (!loggedIn) {
-            await waitForTabLoad(tab.id!, false, [QUERY_SELECTORS.TMS_CODE_INPUT, QUERY_SELECTORS.TMS_PASSWORD_INPUT, QUERY_SELECTORS.TMS_LOGIN_BUTTON]);
-
             const tmsLoginRes = await sendContentMessage(tab.id!, {
                 action: "tmsLogin",
                 payload: msg.payload
